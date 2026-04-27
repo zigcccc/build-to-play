@@ -1,129 +1,33 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
+import rocketLaunch from "./assets/rocketlaunch.gif";
 
 function App() {
-	const [count, setCount] = useState(0);
-
 	return (
-		<>
-			<section id="center">
-				<div className="hero">
-					<img alt="" className="base" height="179" src={heroImg} width="170" />
-					<img alt="React logo" className="framework" src={reactLogo} />
-					<img alt="Vite logo" className="vite" src={viteLogo} />
+		<main className="px-8 py-12 bg-zinc-800 min-h-dvh text-white">
+			<div className="max-w-2xl mx-auto">
+				<div className="bg-emerald-200/20 px-3 py-2 rounded-lg inline-flex items-center gap-1.5 mb-3">
+					<div className="w-2.5 h-2.5 bg-emerald-200 rounded-full animate-pulse" />
+					<span className="text-xs font-bold text-emerald-200">
+						Novim zmagam naproti
+					</span>
 				</div>
-				<div>
-					<h1>Get started</h1>
-					<p>
-						Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-					</p>
+				<h1 className="text-3xl font-black">Vse najboljše! 🥳</h1>
+				<p className="mt-3 leading-relaxed text-sm">
+					Naj novi izzivi prinesejo nove zmage. Nove vzpone, tudi nove padce.
+					Predvsem pa veliko zadovoljstva na poti, ki je pred tabo!
+				</p>
+				<p className="mt-3 leading-relaxed text-sm">...več pa kmalu 😉</p>
+				<div className="mt-4">
+					<img
+						alt="rocket-launch"
+						className="object-cover w-full"
+						src={rocketLaunch}
+					/>
 				</div>
-				<button
-					className="counter"
-					onClick={() => setCount((count) => count + 1)}
-					type="button"
-				>
-					Count is {count}
-				</button>
-			</section>
-
-			<div className="ticks"></div>
-
-			<section id="next-steps">
-				<div id="docs">
-					<svg aria-hidden="true" className="icon" role="presentation">
-						<use href="/icons.svg#documentation-icon"></use>
-					</svg>
-					<h2>Documentation</h2>
-					<p>Your questions, answered</p>
-					<ul>
-						<li>
-							<a href="https://vite.dev/" rel="noopener" target="_blank">
-								<img alt="" className="logo" src={viteLogo} />
-								Explore Vite
-							</a>
-						</li>
-						<li>
-							<a href="https://react.dev/" rel="noopener" target="_blank">
-								<img alt="" className="button-icon" src={reactLogo} />
-								Learn more
-							</a>
-						</li>
-					</ul>
+				<div className="mt-4 text-right">
+					<span className="text-sm">&mdash; Lan, Ajs, Sara in Žiga</span>
 				</div>
-				<div id="social">
-					<svg aria-hidden="true" className="icon" role="presentation">
-						<use href="/icons.svg#social-icon"></use>
-					</svg>
-					<h2>Connect with us</h2>
-					<p>Join the Vite community</p>
-					<ul>
-						<li>
-							<a
-								href="https://github.com/vitejs/vite"
-								rel="noopener"
-								target="_blank"
-							>
-								<svg
-									aria-hidden="true"
-									className="button-icon"
-									role="presentation"
-								>
-									<use href="/icons.svg#github-icon"></use>
-								</svg>
-								GitHub
-							</a>
-						</li>
-						<li>
-							<a href="https://chat.vite.dev/" rel="noopener" target="_blank">
-								<svg
-									aria-hidden="true"
-									className="button-icon"
-									role="presentation"
-								>
-									<use href="/icons.svg#discord-icon"></use>
-								</svg>
-								Discord
-							</a>
-						</li>
-						<li>
-							<a href="https://x.com/vite_js" rel="noopener" target="_blank">
-								<svg
-									aria-hidden="true"
-									className="button-icon"
-									role="presentation"
-								>
-									<use href="/icons.svg#x-icon"></use>
-								</svg>
-								X.com
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://bsky.app/profile/vite.dev"
-								rel="noopener"
-								target="_blank"
-							>
-								<svg
-									aria-hidden="true"
-									className="button-icon"
-									role="presentation"
-								>
-									<use href="/icons.svg#bluesky-icon"></use>
-								</svg>
-								Bluesky
-							</a>
-						</li>
-					</ul>
-				</div>
-			</section>
-
-			<div className="ticks"></div>
-			<section id="spacer"></section>
-		</>
+			</div>
+		</main>
 	);
 }
 
