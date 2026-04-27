@@ -1,0 +1,79 @@
+{
+	"language_servers": ["...", "!eslint"],
+	"lsp": {
+		"vscode-css-language-server": {
+			"settings": {
+				"css": {
+					"lint": {
+						"unknownAtRules": "ignore"
+					}
+				}
+			}
+		},
+		"tailwindcss-language-server": {
+			"settings": {
+				"experimental": {
+					"classRegex": [
+						["tv\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)"],
+						["cn\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)"],
+						["[A-Za-z]+ClassName\\s*=\\s*[\"'`]([^\"'`]*)", ""],
+						["[A-Za-z]+ClassName\\s*=\\s*\\{\\s*[\"'`]([^\"'`]*)", ""]
+					]
+				}
+			}
+		}
+	},
+	"code_actions_on_format": {
+		"source.organizeImports.biome": true,
+		"source.action.useSortedAttributes.biome": true,
+		"source.action.useSortedKeys.biome": true,
+		"source.fixAll.biome": true
+	},
+	"prettier": {
+		"allowed": false
+	},
+	"languages": {
+		"JavaScript": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"TypeScript": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"TSX": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"JSON": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"CSS": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"YAML": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		}
+	}
+}
