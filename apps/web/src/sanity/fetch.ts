@@ -28,7 +28,7 @@ async function cachedQuery(query: string, params: QueryParams, tags: CacheTag[],
   return client.fetch(query, params, {
     token: serverEnv.SANITY_API_READ_TOKEN,
     perspective: isDraft ? 'drafts' : 'published',
-    stega: isDraft && stega,
+    stega,
   });
 }
 
@@ -58,7 +58,11 @@ export async function sanityFetch<Model extends z.ZodType>({
   model,
   stega = true,
 }: FetchOptions<Model>): Promise<z.infer<Model>> {
-  const data = await cachedQuery(query, params, [...new Set(tags)], stega);
+  // Stega is part of the cache key, so only ask for it in draft mode: published reads then share one entry
+  // whether the caller is a page body or its metadata. Callers without stega (metadata, generateStaticParams,
+  // which has no request) never need to look.
+  const withStega = stega && (await draftMode()).isEnabled;
+  const data = await cachedQuery(query, params, [...new Set(tags)], withStega);
   const parsed = model.safeParse(data);
   if (!parsed.success) {
     throw new Error(`Sanity response failed validation [${tags.join(', ')}]:\n${parsed.error.message}`);
