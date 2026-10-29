@@ -1,5 +1,5 @@
 import { CogIcon } from '@sanity/icons/Cog';
-import { defineType } from 'sanity';
+import { defineField, defineType } from 'sanity';
 import { groups, list, section, str, txt, typed } from '../fields';
 
 export const siteSettings = defineType({
@@ -17,6 +17,16 @@ export const siteSettings = defineType({
   fields: [
     str('siteName', 'Ime strani', { group: 'brand' }),
     str('tagline', 'Slogan', { group: 'brand' }),
+    defineField({
+      name: 'owner',
+      title: 'Lastnik',
+      type: 'reference',
+      to: [{ type: 'person' }],
+      group: 'brand',
+      description:
+        'Oseba za Build 2 Play. Njeno ime se uporabi povsod, kjer je v besedilu {ime}, njeni podatki pa za iskalnike in kot avtor strani O meni.',
+      validation: (r) => r.required(),
+    }),
     txt('description', 'Opis dejavnosti', {
       group: 'brand',
       description:

@@ -18,7 +18,7 @@ const GLOBAL_QUERY = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{
     siteName, tagline, description, email, phone, socials, openingHours, companyName, companyAddress,
     vatId, registrationNumber, areaServed, priceRange, responseTime, consultationDuration, notificationEmail,
-    "trainer": *[_type == "person" && owner == true][0]{ name, role, jobTitle, bio, knowsAbout, sameAs, "avatar": avatar${IMAGE} },
+    "trainer": owner->{ _id, name, role, jobTitle, bio, knowsAbout, sameAs, "avatar": avatar${IMAGE} },
     "seo": seo${SEO}
   },
   "layout": *[_id == "layout"][0]{
@@ -53,6 +53,7 @@ export const globalModel = z.object({
     consultationDuration: z.string(),
     notificationEmail: z.string(),
     trainer: z.object({
+      _id: z.string(),
       name: z.string(),
       role: z.string(),
       jobTitle: z.string(),

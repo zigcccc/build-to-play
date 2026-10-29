@@ -33,7 +33,7 @@ async function cachedQuery(query: string, params: QueryParams, tags: CacheTag[],
 }
 
 const VARIABLES_QUERY = /* groq */ `*[_id == "siteSettings"][0]{
-  "ime": *[_type == "person" && owner == true][0].name,
+  "ime": owner->name,
   "rok": responseTime,
   "trajanje": consultationDuration,
   "interval": testInterval,

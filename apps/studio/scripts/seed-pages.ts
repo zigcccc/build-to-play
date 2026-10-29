@@ -23,7 +23,6 @@ export const person = {
   _id: 'person-trainer',
   _type: 'person',
   name: '[Ime Priimek]',
-  owner: true,
   role: 'Trener · Build 2 Play',
   jobTitle: 'Osebni in športni trener',
   bio: '[Kratka predstavitev v enem stavku.]',
@@ -80,6 +79,7 @@ export const siteSettings = {
   _type: 'siteSettings',
   siteName: 'Build 2 Play',
   tagline: 'Train. Build. Perform.',
+  owner: ref('person-trainer'),
   description:
     'Build 2 Play je osebni in športni trener v kraju [Mesto]. Ponujam osebne treninge ena na ena ali v paru, kondicijsko pripravo za športnike in ekipe ter online trenerstvo z video navodili. Prvi posvet je brezplačen.',
   phone: { display: '[+386 XX XXX XXX]', e164: '+386' },
