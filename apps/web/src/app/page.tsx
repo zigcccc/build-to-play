@@ -15,7 +15,7 @@ import { Arrow } from '@/components/ui/arrow';
 import { buttonStyles } from '@/components/ui/button';
 import { SectionHeader } from '@/components/ui/section-header';
 import { graph, ids, webPage } from '@/lib/json-ld';
-import { buildMetadata } from '@/lib/metadata';
+import { buildMetadata, plain } from '@/lib/metadata';
 import { getGlobal } from '@/sanity/queries/global';
 import { getHome } from '@/sanity/queries/home';
 
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
       path: '/',
     }),
     // The home page uses the bare title, not the "%s | Build 2 Play" template.
-    title: { absolute: home.seo?.title ?? settings.seo?.title ?? settings.siteName },
+    title: { absolute: plain(home.seo?.title ?? settings.seo?.title ?? settings.siteName) },
   };
 }
 

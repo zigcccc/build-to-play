@@ -9,6 +9,7 @@ import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
 import { siteUrl } from '@/env/client';
 import { siteGraph } from '@/lib/json-ld';
+import { plain } from '@/lib/metadata';
 import { getGlobal } from '@/sanity/queries/global';
 import './globals.css';
 
@@ -27,12 +28,13 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const { settings } = await getGlobal(false);
+  const siteName = plain(settings.siteName);
   return {
     metadataBase: new URL(siteUrl),
-    title: { default: settings.seo?.title ?? settings.siteName, template: `%s | ${settings.siteName}` },
-    description: settings.seo?.description ?? settings.description,
-    applicationName: settings.siteName,
-    openGraph: { siteName: settings.siteName, locale: 'sl_SI', type: 'website' },
+    title: { default: plain(settings.seo?.title ?? siteName), template: `%s | ${siteName}` },
+    description: plain(settings.seo?.description ?? settings.description),
+    applicationName: siteName,
+    openGraph: { siteName, locale: 'sl_SI', type: 'website' },
     twitter: { card: 'summary_large_image' },
     formatDetection: { telephone: false },
   };

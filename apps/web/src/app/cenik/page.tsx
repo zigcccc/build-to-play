@@ -13,6 +13,7 @@ import { Tabs } from '@/components/ui/tabs';
 import { cn } from '@/lib/cn';
 import { absolute, breadcrumbs, faqPage, graph, ids, webPage } from '@/lib/json-ld';
 import { buildMetadata } from '@/lib/metadata';
+import { pageName } from '@/lib/nav-label';
 import { toPlainText } from '@/lib/portable-text';
 import { routes } from '@/lib/routes';
 import { getGlobal } from '@/sanity/queries/global';
@@ -25,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PricingPage() {
   const [{ page, programs }, { layout }] = await Promise.all([getPricing(), getGlobal()]);
-  const crumbs = [{ name: layout.labels.breadcrumbHome, href: routes.home }, { name: page.hero.eyebrow }];
+  const crumbs = [{ name: layout.labels.breadcrumbHome, href: routes.home }, { name: pageName(layout, 'pricing') }];
 
   const programLink = (p: (typeof programs)[number], className: string) => (
     <Link className={cn(buttonStyles({ variant: 'text' }), 'group', className)} href={routes.program(p.slug)}>

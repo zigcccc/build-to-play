@@ -14,10 +14,13 @@ type Options = {
   modifiedTime?: string;
 };
 
+/** Strips stega markers and non-breaking spaces from text destined for <head>. */
+export const plain = (text: string) => stegaClean(text).replace(/\u00a0/g, ' ');
+
 /** One place that turns CMS SEO fields into Next metadata (canonical, OG, robots). */
 export function buildMetadata({ seo, title, description, path, type = 'website', ...article }: Options): Metadata {
-  const finalTitle = stegaClean(seo?.title || title);
-  const finalDescription = stegaClean(seo?.description || description);
+  const finalTitle = plain(seo?.title || title);
+  const finalDescription = plain(seo?.description || description);
   const ogImage = seo?.ogImage ? urlFor(seo.ogImage).width(1200).height(630).fit('crop').url() : undefined;
 
   return {
