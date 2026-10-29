@@ -18,6 +18,7 @@ apps/web         Next.js 16 App Router site (RSC/SSG, Tailwind 4, Base UI, Zod 4
 apps/studio      Standalone Sanity Studio (project qhuqrj1j, dataset production, PRIVATE)
 packages/shared  @b2p/shared: content type names (= cache tags), enums, routes. Used by both apps.
 docs/handoff     Design handoff: HANDOFF.md, design-system/, design/*.dc.html. Source of truth for UI.
+                 Local only (gitignored); the seed also uploads its images from docs/handoff/assets.
 ```
 
 Commands (run from the root): `pnpm dev`, `pnpm build`, `pnpm typecheck`, `pnpm lint`. Studio-only: `pnpm --filter @b2p/studio schema:deploy | seed`.
