@@ -1,13 +1,5 @@
-import { Footer } from '@/components/layout/footer';
-import { Header } from '@/components/layout/header';
+import { SiteShell } from '@/components/layout/site-shell';
 
-/** Site chrome for every public page; the coming-soon page (app/kmalu) stands alone without it. */
 export default function SiteLayout({ children }: LayoutProps<'/'>) {
-  return (
-    <>
-      <Header />
-      {children}
-      <Footer />
-    </>
-  );
+  return <SiteShell>{children}</SiteShell>;
 }

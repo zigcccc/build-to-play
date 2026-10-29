@@ -1,6 +1,5 @@
 import { CmsLink } from '@/components/cms-link';
-import { Footer } from '@/components/layout/footer';
-import { Header } from '@/components/layout/header';
+import { SiteShell } from '@/components/layout/site-shell';
 import { Arrow } from '@/components/ui/arrow';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
@@ -9,10 +8,9 @@ import { getNotFound } from '@/sanity/queries/legal';
 export default async function NotFound() {
   const page = await getNotFound();
 
-  // The root not-found sits outside the (site) group, so it brings the site chrome itself.
+  // The root not-found sits outside the (site) group, so it brings the site shell itself.
   return (
-    <>
-      <Header />
+    <SiteShell>
       <main className="relative overflow-hidden" data-hero>
         <div
           aria-hidden
@@ -52,7 +50,6 @@ export default async function NotFound() {
           </nav>
         </div>
       </main>
-      <Footer />
-    </>
+    </SiteShell>
   );
 }

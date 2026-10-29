@@ -27,9 +27,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Open to all: the API (webhook, draft mode), Next and Vercel internals, static files, robots.txt and the privacy
-  // policy the cookie banner links to.
+  // Open to all: the API (webhook, draft mode), Next and Vercel internals, static files and robots.txt.
   matcher: [
-    '/((?!api/|_next/|_vercel/|brand/|icons/|vendor/|icon\\.svg|apple-icon\\.png|manifest\\.webmanifest|robots\\.txt|politika-zasebnosti).*)',
+    '/((?!api/|_next/|_vercel/|brand/|icons/|vendor/|icon\\.svg|apple-icon\\.png|manifest\\.webmanifest|robots\\.txt).*)',
   ],
 };

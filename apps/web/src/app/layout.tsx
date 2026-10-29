@@ -1,13 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Barlow_Condensed, Inter } from 'next/font/google';
 import { Suspense } from 'react';
-import { BookingProvider } from '@/components/booking/booking-context';
-import { JsonLd } from '@/components/json-ld';
 import { DraftTools } from '@/components/layout/draft-tools';
-import { InlineText } from '@/components/portable-text';
-import { ConsentProvider } from '@/components/preferences/preferences-context';
 import { siteUrl } from '@/env/client';
-import { siteGraph } from '@/lib/json-ld';
 import { plain } from '@/lib/metadata';
 import { getGlobal } from '@/sanity/queries/global';
 import './globals.css';
@@ -39,25 +34,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({ children }: LayoutProps<'/'>) {
-  const global = await getGlobal();
-  const { forms, cookies, programs, locations, settings } = global;
-
+// Only the document; the site itself (consent, booking, header, footer) lives in SiteShell so the coming-soon page can
+// stand without it.
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html className={`${inter.variable} ${barlow.variable}`} lang="sl">
       <body>
-        <JsonLd data={siteGraph(global)} />
-        <ConsentProvider copy={cookies}>
-          <BookingProvider
-            consent={<InlineText value={forms.labels.consent} />}
-            copy={forms}
-            locations={locations.map(({ _id, name }) => ({ _id, name }))}
-            programs={programs.map((p) => ({ key: p.slug, label: p.shortLabel }))}
-            socials={{ instagram: settings.socials.find((s) => s.platform === 'instagram')?.url }}
-          >
-            {children}
-          </BookingProvider>
-        </ConsentProvider>
+        {children}
         <Suspense>
           <DraftTools />
         </Suspense>

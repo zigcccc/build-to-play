@@ -76,4 +76,4 @@ Rules:
 - Whoever opens `/predogled?k=<key>`.
 - Presentation: the draft-mode enable route sets the cookie after a valid Studio secret.
 
-Pages need the site chrome from the `(site)` route group layout; `/kmalu` stays outside that group. To launch, remove the env var and redeploy.
+Every page gets its shell (site JSON-LD, consent, booking, header, footer) from `SiteShell`, via the `(site)` layout or the root `not-found`. `/kmalu` deliberately has none of it. While the gate is on, the privacy page is gated too. To launch, remove the env var and redeploy.

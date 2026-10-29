@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CookieSettingsTrigger } from '@/components/preferences/preferences-trigger';
-import { routes } from '@/lib/routes';
 import { gateKey } from '@/lib/site-gate';
 import { currentYear } from '@/lib/year';
 import { getGlobal } from '@/sanity/queries/global';
@@ -14,7 +11,7 @@ export const metadata: Metadata = { robots: { index: false, follow: false } };
 export default async function ComingSoonPage() {
   if (!gateKey) notFound();
 
-  const [page, { layout, settings }, year] = await Promise.all([getComingSoon(), getGlobal(), currentYear()]);
+  const [page, { settings }, year] = await Promise.all([getComingSoon(), getGlobal(), currentYear()]);
 
   return (
     <main className="relative flex min-h-dvh flex-col overflow-hidden">
@@ -43,19 +40,9 @@ export default async function ComingSoonPage() {
           <p className="lead max-w-[480px] text-muted">{page.text}</p>
         </div>
 
-        <div className="flex flex-wrap justify-between gap-x-6 gap-y-3 border-hairline border-t pt-6 text-[13px] text-muted leading-5">
-          <span>
-            © {year} {settings.siteName}
-          </span>
-          <span className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link className="text-muted underline hover:text-ink" href={routes.privacy}>
-              {layout.footer.privacyLabel}
-            </Link>
-            <CookieSettingsTrigger className="cursor-pointer text-muted underline hover:text-ink">
-              {layout.footer.cookieSettingsLabel}
-            </CookieSettingsTrigger>
-          </span>
-        </div>
+        <p className="border-hairline border-t pt-6 text-[13px] text-muted leading-5">
+          © {year} {settings.siteName}
+        </p>
       </div>
     </main>
   );
