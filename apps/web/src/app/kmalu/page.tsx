@@ -1,8 +1,6 @@
-import { Mail, Phone } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { SocialIcon, socialLabel } from '@/components/icons';
 import { CookieSettingsTrigger } from '@/components/preferences/preferences-trigger';
 import { routes } from '@/lib/routes';
 import { gateKey } from '@/lib/site-gate';
@@ -11,8 +9,6 @@ import { getGlobal } from '@/sanity/queries/global';
 import { getComingSoon } from '@/sanity/queries/legal';
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
-
-const rowClass = 'flex min-h-16 items-center gap-4 text-ink hover:text-accent';
 
 /** What the public sees in place of every page while the pre-launch gate is on (src/proxy.ts). */
 export default async function ComingSoonPage() {
@@ -41,47 +37,15 @@ export default async function ComingSoonPage() {
           width={173}
         />
 
-        <div className="flex flex-1 flex-wrap items-end gap-x-[clamp(40px,6vw,96px)] gap-y-12">
-          <div className="flex flex-[999_1_480px] flex-col gap-6">
-            <p className="eyebrow">{page.eyebrow}</p>
-            <h1 className="d1">{page.heading}</h1>
-            <p className="lead max-w-[480px] text-muted">{page.text}</p>
-          </div>
-          <ul className="rows m-0 max-w-[360px] flex-[1_1_260px] list-none p-0">
-            <li>
-              <a className={rowClass} href={`tel:${settings.phone.e164}`}>
-                <Phone aria-hidden className="text-accent" size={20} />
-                <span className="font-medium">{settings.phone.display}</span>
-              </a>
-            </li>
-            <li>
-              <a className={rowClass} href={`mailto:${settings.email}`}>
-                <Mail aria-hidden className="text-accent" size={20} />
-                <span className="font-medium">{settings.email}</span>
-              </a>
-            </li>
-            {settings.socials.map((s) => (
-              <li key={s.platform}>
-                <a
-                  aria-label={`${socialLabel[s.platform]}: ${s.handle}`}
-                  className={rowClass}
-                  href={s.url}
-                  rel="noopener"
-                  target="_blank"
-                >
-                  <span className="text-accent">
-                    <SocialIcon platform={s.platform} />
-                  </span>
-                  <span className="font-medium">{s.handle}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+        <div className="flex flex-1 flex-col justify-end gap-6">
+          <p className="eyebrow">{page.eyebrow}</p>
+          <h1 className="d1">{page.heading}</h1>
+          <p className="lead max-w-[480px] text-muted">{page.text}</p>
         </div>
 
         <div className="flex flex-wrap justify-between gap-x-6 gap-y-3 border-hairline border-t pt-6 text-[13px] text-muted leading-5">
           <span>
-            © {year} {settings.siteName} · {settings.companyName}
+            © {year} {settings.siteName}
           </span>
           <span className="flex flex-wrap gap-x-6 gap-y-2">
             <Link className="text-muted underline hover:text-ink" href={routes.privacy}>

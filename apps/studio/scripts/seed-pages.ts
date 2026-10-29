@@ -624,7 +624,7 @@ export const comingSoonPage = {
   _type: 'comingSoonPage',
   eyebrow: 'Kmalu',
   heading: 'Nova stran se še ogreva.',
-  text: 'Spletna stran bo kmalu na voljo. Do takrat me najdeš po telefonu, e-pošti ali na Instagramu.',
+  text: 'Pripravljam novo spletno stran. Kmalu bo na voljo.',
 };
 
 const privacyMark = key();
