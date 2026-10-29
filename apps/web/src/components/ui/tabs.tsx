@@ -11,10 +11,10 @@ type Props = {
   label: string;
   className?: string;
   listClassName?: string;
-  /** Rendered next to the tab list (e.g. a link that depends on the active tab). */
-  aside?: (value: string) => ReactNode;
-  /** Rendered after the panels (e.g. a mobile-only link below the packages). */
-  after?: (value: string) => ReactNode;
+  /** Per-tab node rendered next to the tab list (e.g. a link that depends on the active tab). */
+  aside?: Record<string, ReactNode>;
+  /** Per-tab node rendered after the panels (e.g. a mobile-only link below the packages). */
+  after?: Record<string, ReactNode>;
 };
 
 /** Tabs whose panels are server-rendered and kept mounted, so every panel is in the HTML. */
@@ -42,14 +42,14 @@ export function Tabs({ items, label, className, listClassName, aside, after }: P
                 </BaseTabs.Tab>
               ))}
             </BaseTabs.List>
-            {aside?.(value)}
+            {aside?.[value]}
           </div>
           {items.map((item) => (
             <BaseTabs.Panel className="outline-none" keepMounted key={item.value} value={item.value}>
               {item.panel}
             </BaseTabs.Panel>
           ))}
-          {after?.(value)}
+          {after?.[value]}
         </>
       }
     </BaseTabs.Root>
