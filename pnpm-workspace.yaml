@@ -24,3 +24,11 @@ minimumReleaseAgeExclude:
   - '@sanity/validation@6.21.0'
   - '@sanity/vision@6.21.0'
   - sanity@6.21.0
+  - botid@1.5.12
+  - lucide-react@1.64.0
+  - react-email@6.11.5
+
+allowBuilds:
+  esbuild: true
+  sharp: false
+  unrs-resolver: false

@@ -1,0 +1,41 @@
+{
+  "name": "@b2p/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "next typegen && tsc --noEmit",
+    "email": "email dev --dir src/emails --port 4444"
+  },
+  "dependencies": {
+    "@b2p/shared": "workspace:*",
+    "@base-ui/react": "^1.9.0",
+    "@sanity/image-url": "^2.1.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
+    "botid": "^1.5.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.64.0",
+    "maplibre-gl": "^6.16.0",
+    "next": "16.4.3",
+    "next-sanity": "^13.4.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-email": "^6.11.5",
+    "resend": "^6.35.0",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4.3.3",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "schema-dts": "^2.1.0",
+    "tailwindcss": "^4.3.3"
+  }
+}
