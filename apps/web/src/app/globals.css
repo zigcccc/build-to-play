@@ -113,14 +113,6 @@
   padding-inline: clamp(20px, 5vw, 64px);
 }
 
-/* The header bar's width. Wide content (the 4-up program cards) uses it to line up with the bar instead of `wrap`. */
-@utility wrap-wide {
-  width: 100%;
-  max-width: 1328px;
-  margin-inline: auto;
-  padding-inline: clamp(12px, 3vw, 40px);
-}
-
 @utility sec {
   padding-block: clamp(72px, 10vw, 136px);
 }

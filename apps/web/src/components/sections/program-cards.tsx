@@ -12,7 +12,9 @@ type Labels = { priceFrom: string; moreAboutProgram: string };
 // Fixed column counts so a row never ends in an orphan card: 1 → 2 → 4 for an even count, 1 → 3 otherwise.
 // Four in a row widen from the page column to the header bar's width to win back room for each card.
 const layout = (count: number) =>
-  count % 2 ? ['nav:grid-cols-3', ''] : ['sheet:grid-cols-2 xl:grid-cols-4', 'xl:wrap-wide'];
+  count % 2
+    ? ['nav:grid-cols-3', '']
+    : ['sheet:grid-cols-2 xl:grid-cols-4', 'xl:max-w-[1328px] xl:px-[clamp(12px,3vw,40px)]'];
 
 export function ProgramCards({ programs, labels }: { programs: ProgramCard[]; labels: Labels }) {
   const [columns, container] = layout(programs.length);
