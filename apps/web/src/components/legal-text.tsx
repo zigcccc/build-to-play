@@ -1,6 +1,6 @@
 import { PortableText, type PortableTextComponents } from 'next-sanity';
-import type { CmsLinkValue, PortableTextValue } from '@/sanity/models';
-import { CmsLink } from './cms-link';
+import type { PortableTextValue } from '@/sanity/models';
+import { marks } from './portable-text';
 
 type Table = { rows?: { _key: string; cells: string[] }[] };
 
@@ -14,17 +14,9 @@ const components: PortableTextComponents = {
     number: ({ children }) => <ol className="list-decimal pl-[22px] marker:text-accent [&>li+li]:mt-2">{children}</ol>,
   },
   marks: {
-    strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
+    ...marks,
     // Italic is used for "[placeholder]" paragraphs until the lawyer supplies the text.
     em: ({ children }) => <em className="text-muted">{children}</em>,
-    link: ({ value, children }) => (
-      <CmsLink
-        className="cursor-pointer text-accent underline underline-offset-2 hover:text-accent-hover"
-        link={value as Omit<CmsLinkValue, 'label'>}
-      >
-        {children}
-      </CmsLink>
-    ),
   },
   types: {
     table: ({ value }: { value: Table }) => {

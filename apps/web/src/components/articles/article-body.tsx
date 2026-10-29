@@ -1,9 +1,9 @@
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 import { BookingTrigger } from '@/components/booking/booking-trigger';
-import { CmsLink } from '@/components/cms-link';
+import { marks } from '@/components/portable-text';
 import { buttonStyles } from '@/components/ui/button';
 import { SanityImage } from '@/components/ui/sanity-image';
-import type { CmsLinkValue, PortableTextValue, SanityImage as SanityImageValue } from '@/sanity/models';
+import type { PortableTextValue, SanityImage as SanityImageValue } from '@/sanity/models';
 
 type Heading = { _key: string; title: string; tocLabel?: string; anchor?: { current?: string } };
 
@@ -29,18 +29,7 @@ const components: PortableTextComponents = {
       <ol className="list-decimal pl-6 marker:font-semibold marker:text-accent [&>li+li]:mt-2.5">{children}</ol>
     ),
   },
-  marks: {
-    strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
-    em: ({ children }) => <em>{children}</em>,
-    link: ({ value, children }) => (
-      <CmsLink
-        className="text-accent underline underline-offset-2 hover:text-accent-hover"
-        link={value as Omit<CmsLinkValue, 'label'>}
-      >
-        {children}
-      </CmsLink>
-    ),
-  },
+  marks,
   types: {
     sectionHeading: ({ value }: { value: Heading }) => (
       <h2

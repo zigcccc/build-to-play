@@ -4,7 +4,8 @@ import { CmsLink } from './cms-link';
 
 type LinkMark = Omit<CmsLinkValue, 'label'>;
 
-const linkMark: PortableTextComponents['marks'] = {
+/** Marks every rich text shares. A link that can't resolve (no target, Nasveti off) keeps its words as plain text. */
+export const marks = {
   link: ({ value, children }) => (
     <CmsLink
       className="cursor-pointer text-accent underline underline-offset-2 hover:text-accent-hover"
@@ -14,15 +15,14 @@ const linkMark: PortableTextComponents['marks'] = {
       {children}
     </CmsLink>
   ),
-};
+  strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
+  em: ({ children }) => <em>{children}</em>,
+} satisfies PortableTextComponents['marks'];
 
 const simple: PortableTextComponents = {
   block: { normal: ({ children }) => <p>{children}</p> },
   list: { bullet: ({ children }) => <ul className="list-disc pl-5 marker:text-accent">{children}</ul> },
-  marks: {
-    ...linkMark,
-    strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
-  },
+  marks,
 };
 
 /** Short rich text (FAQ answers, leads): paragraphs, bold, bullet lists, links. */
@@ -36,7 +36,8 @@ export function SimpleText({ value, className }: { value: PortableTextValue; cla
 
 const inline: PortableTextComponents = {
   block: { normal: ({ children }) => <>{children}</> },
-  marks: { ...linkMark, strong: ({ children }) => <strong className="font-semibold">{children}</strong> },
+  // Inline text sits inside labels and leads, so bold keeps their colour.
+  marks: { ...marks, strong: ({ children }) => <strong className="font-semibold">{children}</strong> },
 };
 
 /** A single paragraph rendered without a wrapping <p> (labels, inline leads). */
