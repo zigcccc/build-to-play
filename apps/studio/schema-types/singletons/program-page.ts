@@ -1,4 +1,4 @@
-import { RocketIcon } from '@sanity/icons';
+import { RocketIcon } from '@sanity/icons/Rocket';
 import { defineType } from 'sanity';
 import { section, str, txt, typed, VARIABLES_HINT } from '../fields';
 

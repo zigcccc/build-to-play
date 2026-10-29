@@ -1,4 +1,4 @@
-import { CreditCardIcon } from '@sanity/icons';
+import { CreditCardIcon } from '@sanity/icons/CreditCard';
 import { defineType } from 'sanity';
 import { groups, list, refs, section, seoField, str, txt, typed, VARIABLES_HINT } from '../fields';
 

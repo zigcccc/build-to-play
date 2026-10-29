@@ -1,4 +1,4 @@
-import { UserIcon } from '@sanity/icons';
+import { UserIcon } from '@sanity/icons/User';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 import { str, strList, txt, typed } from '../fields';
 

@@ -1,4 +1,6 @@
-import { BlockquoteIcon, BulbOutlineIcon, HashIcon } from '@sanity/icons';
+import { BlockquoteIcon } from '@sanity/icons/Blockquote';
+import { BulbOutlineIcon } from '@sanity/icons/BulbOutline';
+import { HashIcon } from '@sanity/icons/Hash';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
 const linkAnnotation = defineArrayMember({

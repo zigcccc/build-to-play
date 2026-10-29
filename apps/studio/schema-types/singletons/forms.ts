@@ -1,4 +1,4 @@
-import { ComposeIcon } from '@sanity/icons';
+import { ComposeIcon } from '@sanity/icons/Compose';
 import { defineType } from 'sanity';
 import { groups, section, str, strList, txt, typed, VARIABLES_HINT } from '../fields';
 

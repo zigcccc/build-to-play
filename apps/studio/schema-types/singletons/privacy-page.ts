@@ -1,4 +1,4 @@
-import { LockIcon } from '@sanity/icons';
+import { LockIcon } from '@sanity/icons/Lock';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 import { str, typed } from '../fields';
 

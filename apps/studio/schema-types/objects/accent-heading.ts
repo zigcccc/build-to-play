@@ -1,4 +1,4 @@
-import { StarIcon } from '@sanity/icons';
+import { StarIcon } from '@sanity/icons/Star';
 import { defineArrayMember, defineType } from 'sanity';
 
 /** A heading where single words can be highlighted in gold; each block is one line. */

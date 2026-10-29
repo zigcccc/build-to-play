@@ -3,10 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "node scripts/copy-maplibre-worker.mjs",
-    "dev": "next dev",
-    "prebuild": "node scripts/copy-maplibre-worker.mjs",
-    "build": "next build",
+    "dev": "node scripts/copy-maplibre-worker.mjs && next dev",
+    "build": "node scripts/copy-maplibre-worker.mjs && next build",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit",
     "email": "email dev --dir src/emails --port 4444"

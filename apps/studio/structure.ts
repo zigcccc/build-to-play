@@ -1,4 +1,4 @@
-import { EnvelopeIcon } from '@sanity/icons';
+import { EnvelopeIcon } from '@sanity/icons/Envelope';
 import type { StructureResolver } from 'sanity/structure';
 
 const pages = [

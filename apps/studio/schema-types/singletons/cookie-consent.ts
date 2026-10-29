@@ -1,4 +1,4 @@
-import { ToggleArrowRightIcon } from '@sanity/icons';
+import { ToggleArrowRightIcon } from '@sanity/icons/ToggleArrowRight';
 import { defineType } from 'sanity';
 import { section, str, txt } from '../fields';
 

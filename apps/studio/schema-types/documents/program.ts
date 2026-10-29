@@ -1,5 +1,5 @@
 import { iconName, programKey } from '@b2p/shared';
-import { RocketIcon } from '@sanity/icons';
+import { RocketIcon } from '@sanity/icons/Rocket';
 import { defineField, defineType } from 'sanity';
 import { groups, list, refs, section, seoField, str, strList, txt, typed } from '../fields';
 

@@ -1,4 +1,4 @@
-import { CommentIcon } from '@sanity/icons';
+import { CommentIcon } from '@sanity/icons/Comment';
 import { defineType } from 'sanity';
 import { str, txt } from '../fields';
 

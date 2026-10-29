@@ -1,5 +1,5 @@
 import { linkKind, pageKey } from '@b2p/shared';
-import { LinkIcon } from '@sanity/icons';
+import { LinkIcon } from '@sanity/icons/Link';
 import { defineField, defineType } from 'sanity';
 
 const kindTitles: Record<(typeof linkKind.options)[number], string> = {

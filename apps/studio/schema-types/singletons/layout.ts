@@ -1,5 +1,5 @@
 import { pageKey } from '@b2p/shared';
-import { MenuIcon } from '@sanity/icons';
+import { MenuIcon } from '@sanity/icons/Menu';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 import { groups, list, section, str, txt } from '../fields';
 

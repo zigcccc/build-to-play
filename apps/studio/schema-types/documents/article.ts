@@ -1,4 +1,4 @@
-import { DocumentTextIcon } from '@sanity/icons';
+import { DocumentTextIcon } from '@sanity/icons/DocumentText';
 import { defineField, defineType } from 'sanity';
 import { groups, refs, seoField, str, txt, typed } from '../fields';
 

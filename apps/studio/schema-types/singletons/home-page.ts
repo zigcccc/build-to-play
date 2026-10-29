@@ -1,4 +1,4 @@
-import { HomeIcon } from '@sanity/icons';
+import { HomeIcon } from '@sanity/icons/Home';
 import { defineType } from 'sanity';
 import { groups, list, refs, section, seoField, str, strList, txt, typed, VARIABLES_HINT } from '../fields';
 
