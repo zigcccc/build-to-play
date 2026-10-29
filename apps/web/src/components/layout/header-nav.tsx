@@ -1,7 +1,7 @@
 'use client';
 
 import type { IconName, PageKey, SocialPlatform } from '@b2p/shared';
-import { Collapsible } from '@base-ui/react/collapsible';
+import { Dialog } from '@base-ui/react/dialog';
 import { NavigationMenu } from '@base-ui/react/navigation-menu';
 import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react';
 import type { Route } from 'next';
@@ -30,6 +30,9 @@ type Props = {
 const linkClass =
   'inline-flex min-h-10 cursor-pointer items-center gap-1.5 bg-transparent px-3 text-[15px] lowercase tracking-[0.01em] text-ink transition-colors hover:bg-white/8 hover:text-ink data-[active]:text-accent data-[active]:underline data-[active]:decoration-accent data-[active]:underline-offset-[6px] data-popup-open:text-accent data-popup-open:underline data-popup-open:decoration-accent data-popup-open:underline-offset-[6px] aria-[current=page]:text-accent aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-[6px]';
 
+const burgerClass =
+  'inline-flex size-11 cursor-pointer items-center justify-center border border-white/22 text-ink nav:hidden';
+
 const isActive = (pathname: string, href: string) =>
   href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
@@ -44,31 +47,15 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
   // biome-ignore lint/correctness/useExhaustiveDependencies: close the mobile menu whenever the route changes
   useEffect(() => setMenuOpen(false), [pathname]);
 
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuOpen(false);
-    window.addEventListener('keydown', onKey);
-    // The page behind the open menu must not scroll.
-    const html = document.documentElement;
-    const previous = html.style.overflow;
-    html.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      html.style.overflow = previous;
-    };
-  }, [menuOpen]);
-
   return (
-    <Collapsible.Root onOpenChange={setMenuOpen} open={menuOpen}>
-      {menuOpen && (
-        <div
-          aria-hidden
-          className="fixed inset-0 bg-black/60 backdrop-blur-[6px] motion-safe:animate-fade-in nav:hidden"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
+    <Dialog.Root onOpenChange={setMenuOpen} open={menuOpen}>
       <div
-        className="glass relative flex flex-col transition-colors duration-200 data-dropdown:bg-black/92"
+        className={cn(
+          'glass relative flex flex-col transition-colors duration-200 data-dropdown:bg-black/92',
+          // The open menu draws its own copy of the bar on top; hiding this one keeps the glass from doubling up.
+          // Opacity, not visibility: the trap returns focus to the trigger here, so it must stay focusable.
+          menuOpen && 'opacity-0 nav:opacity-100'
+        )}
         data-dropdown={dropdownOpen || undefined}
         ref={barRef}
       >
@@ -164,57 +151,70 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
             <BookingTrigger className={cn(buttonStyles({ size: 'sm' }), 'hidden nav:inline-flex')}>
               {cta}
             </BookingTrigger>
-            <Collapsible.Trigger
-              aria-label={menuOpen ? 'Zapri meni' : 'Odpri meni'}
-              className="inline-flex size-11 cursor-pointer items-center justify-center border border-white/22 text-ink nav:hidden"
-            >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
-            </Collapsible.Trigger>
+            <Dialog.Trigger aria-label="Odpri meni" className={burgerClass}>
+              <Menu size={22} />
+            </Dialog.Trigger>
           </div>
         </div>
-
-        <Collapsible.Panel
-          className="max-h-[calc(100dvh-92px)] overflow-y-auto overscroll-contain border-white/12 border-t nav:hidden"
-          hiddenUntilFound
-        >
-          <nav aria-label="Mobilna navigacija" className="flex flex-col bg-black/92 px-5 pt-1 pb-5">
-            <MobileLink href={routes.home} label={mobile.homeLabel} />
-            {nav.map((item) =>
-              item.target === 'programs' ? (
-                <div key={item.target}>
-                  <span className="flex min-h-15 items-center font-bold font-display text-3xl uppercase">
-                    {item.label}
-                  </span>
-                  {programs.map((p, i) => (
-                    <Link
-                      aria-current={isActive(pathname, routes.program(p.slug)) ? 'page' : undefined}
-                      className={cn(
-                        'flex min-h-12 items-center gap-3 border-white/6 border-b pl-4 text-base text-ink aria-[current=page]:text-accent',
-                        i === programs.length - 1 && 'border-white/10'
-                      )}
-                      href={routes.program(p.slug)}
-                      key={p.slug}
-                    >
-                      <span className="font-display font-semibold text-accent">{p.num}</span>
-                      {p.name}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <MobileLink
-                  current={isActive(pathname, pageRoute(item.target))}
-                  href={pageRoute(item.target)}
-                  key={item.target}
-                  label={item.label}
-                />
-              )
-            )}
-            <BookingTrigger className={cn(buttonStyles({ size: 'md' }), 'mt-6')}>{mobile.ctaLabel}</BookingTrigger>
-            <SocialButtons className="mt-4" socials={socials} />
-          </nav>
-        </Collapsible.Panel>
       </div>
-    </Collapsible.Root>
+
+      {/* Base UI handles focus trap, Esc, scroll lock and focus return. The desktop dropdown keeps these links in the HTML. */}
+      <Dialog.Portal>
+        <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[6px] motion-safe:animate-fade-in nav:hidden" />
+        <Dialog.Popup aria-label="Meni" className="fixed inset-x-0 top-0 z-50 outline-none nav:hidden">
+          {/* Same frame as the header bar, so the menu opens out of it. */}
+          <div className="relative mx-auto max-w-[1328px] px-[clamp(12px,3vw,40px)] pt-3">
+            <div className="glass flex flex-col">
+              <div className="flex h-16 items-center justify-between gap-4 pr-2.5 pl-5">
+                {logo}
+                <Dialog.Close aria-label="Zapri meni" className={burgerClass}>
+                  <X size={22} />
+                </Dialog.Close>
+              </div>
+              <div className="max-h-[calc(100dvh-92px)] overflow-y-auto overscroll-contain border-white/12 border-t">
+                <nav aria-label="Mobilna navigacija" className="flex flex-col bg-black/92 px-5 pt-1 pb-5">
+                  <MobileLink href={routes.home} label={mobile.homeLabel} />
+                  {nav.map((item) =>
+                    item.target === 'programs' ? (
+                      <div key={item.target}>
+                        <span className="flex min-h-15 items-center font-bold font-display text-3xl uppercase">
+                          {item.label}
+                        </span>
+                        {programs.map((p, i) => (
+                          <Link
+                            aria-current={isActive(pathname, routes.program(p.slug)) ? 'page' : undefined}
+                            className={cn(
+                              'flex min-h-12 items-center gap-3 border-white/6 border-b pl-4 text-base text-ink aria-[current=page]:text-accent',
+                              i === programs.length - 1 && 'border-white/10'
+                            )}
+                            href={routes.program(p.slug)}
+                            key={p.slug}
+                          >
+                            <span className="font-display font-semibold text-accent">{p.num}</span>
+                            {p.name}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <MobileLink
+                        current={isActive(pathname, pageRoute(item.target))}
+                        href={pageRoute(item.target)}
+                        key={item.target}
+                        label={item.label}
+                      />
+                    )
+                  )}
+                  <BookingTrigger className={cn(buttonStyles({ size: 'md' }), 'mt-6')}>
+                    {mobile.ctaLabel}
+                  </BookingTrigger>
+                  <SocialButtons className="mt-4" socials={socials} />
+                </nav>
+              </div>
+            </div>
+          </div>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
