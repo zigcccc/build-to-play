@@ -1,4 +1,4 @@
-import { linkKind, pageKey } from '@b2p/shared';
+import { type LinkKind, linkKind, pageKey } from '@b2p/shared';
 import { LinkIcon } from '@sanity/icons/Link';
 import { defineField, defineType } from 'sanity';
 
@@ -21,6 +21,15 @@ const pageTitles: Record<(typeof pageKey.options)[number], string> = {
   contact: 'Kontakt',
   privacy: 'Politika zasebnosti',
 };
+
+/** The target field of the chosen kind is required: without it the button would silently not render. */
+const requiredFor =
+  (kind: LinkKind, message: string) =>
+  // biome-ignore lint/suspicious/noExplicitAny: rule builder typing differs per field type
+  (rule: any) =>
+    rule.custom((value: unknown, context: { parent?: { kind?: string } }) =>
+      context.parent?.kind !== kind || value ? true : message
+    );
 
 export const linkFields = [
   defineField({
@@ -47,6 +56,7 @@ export const linkFields = [
       })),
     },
     hidden: ({ parent }) => parent?.kind !== 'page',
+    validation: requiredFor('page', 'Izberi stran.'),
   }),
   defineField({
     name: 'program',
@@ -54,6 +64,7 @@ export const linkFields = [
     type: 'reference',
     to: [{ type: 'program' }],
     hidden: ({ parent }) => parent?.kind !== 'program',
+    validation: requiredFor('program', 'Izberi program.'),
   }),
   defineField({
     name: 'article',
@@ -61,12 +72,14 @@ export const linkFields = [
     type: 'reference',
     to: [{ type: 'article' }],
     hidden: ({ parent }) => parent?.kind !== 'article',
+    validation: requiredFor('article', 'Izberi članek.'),
   }),
   defineField({
     name: 'url',
     title: 'URL',
     type: 'url',
     hidden: ({ parent }) => parent?.kind !== 'external',
+    validation: requiredFor('external', 'Vpiši URL.'),
   }),
   defineField({
     name: 'anchor',
