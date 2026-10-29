@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { BookingTrigger } from '@/components/booking/booking-trigger';
 import { CmsLink } from '@/components/cms-link';
+import { ConsentSettingsTrigger } from '@/components/consent/consent-settings-trigger';
 import { SocialIcon, socialLabel } from '@/components/icons';
-import { CookieSettingsTrigger } from '@/components/preferences/preferences-trigger';
 import { buttonStyles } from '@/components/ui/button';
 import { routes } from '@/lib/routes';
 import { currentYear } from '@/lib/year';
@@ -85,9 +85,9 @@ export async function Footer() {
               <Link className="text-muted underline hover:text-ink" href={routes.privacy}>
                 {footer.privacyLabel}
               </Link>
-              <CookieSettingsTrigger className="cursor-pointer text-muted underline hover:text-ink">
+              <ConsentSettingsTrigger className="cursor-pointer text-muted underline hover:text-ink">
                 {footer.cookieSettingsLabel}
-              </CookieSettingsTrigger>
+              </ConsentSettingsTrigger>
             </span>
           </div>
         </div>

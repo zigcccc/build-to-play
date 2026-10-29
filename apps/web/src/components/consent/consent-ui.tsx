@@ -8,15 +8,15 @@ import { useEffect, useState } from 'react';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { routes } from '@/lib/routes';
-import type { CookieCopy } from '@/sanity/queries/global';
-import type { Consent } from './preferences-context';
+import type { ConsentCopy } from '@/sanity/queries/global';
+import type { Consent } from './consent-context';
 
 type View = 'hidden' | 'banner' | 'settings';
 
-export type CookieUiProps = {
+export type ConsentUiProps = {
   view: View;
   consent: Consent | null;
-  copy: CookieCopy;
+  copy: ConsentCopy;
   onSave: (consent: Consent) => void;
   onViewChange: (view: View) => void;
 };
@@ -48,7 +48,7 @@ function CookieSwitch({
 }
 
 /** Banner (Zavrni/Sprejmi with equal weight) and the settings dialog. */
-export function CookieUi({ view, consent, copy, onSave, onViewChange }: CookieUiProps) {
+export function ConsentUi({ view, consent, copy, onSave, onViewChange }: ConsentUiProps) {
   const [analytics, setAnalytics] = useState(consent?.analytics ?? false);
 
   // Sync switches with the stored choice whenever settings reopen.

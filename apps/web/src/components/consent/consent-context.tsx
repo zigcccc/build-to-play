@@ -4,9 +4,9 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import dynamic from 'next/dynamic';
 import { createContext, type ReactNode, use, useEffect, useState } from 'react';
-import type { CookieCopy } from '@/sanity/queries/global';
+import type { ConsentCopy } from '@/sanity/queries/global';
 
-const CookieUi = dynamic(() => import('./preferences-ui').then((m) => m.CookieUi));
+const ConsentUi = dynamic(() => import('./consent-ui').then((m) => m.ConsentUi));
 
 const COOKIE = 'b2p_consent';
 const VERSION = 1;
@@ -44,7 +44,7 @@ function readConsent(): Consent | null {
   }
 }
 
-export function ConsentProvider({ children, copy }: { children: ReactNode; copy: CookieCopy }) {
+export function ConsentProvider({ children, copy }: { children: ReactNode; copy: ConsentCopy }) {
   const [consent, setConsent] = useState<Consent | null>(null);
   const [view, setView] = useState<'hidden' | 'banner' | 'settings'>('hidden');
   // Once shown, the UI stays mounted so closing portals can finish their exit cleanly.
@@ -71,7 +71,7 @@ export function ConsentProvider({ children, copy }: { children: ReactNode; copy:
   return (
     <ConsentContext value={{ consent, save, openSettings: () => setView('settings') }}>
       {children}
-      {uiMounted && <CookieUi consent={consent} copy={copy} onSave={save} onViewChange={setView} view={view} />}
+      {uiMounted && <ConsentUi consent={consent} copy={copy} onSave={save} onViewChange={setView} view={view} />}
       {consent?.analytics && (
         <>
           <Analytics />

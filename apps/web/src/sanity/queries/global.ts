@@ -202,7 +202,7 @@ export const globalModel = z.object({
 
 export type GlobalData = z.infer<typeof globalModel>;
 export type FormsCopy = GlobalData['forms'];
-export type CookieCopy = GlobalData['cookies'];
+export type ConsentCopy = GlobalData['cookies'];
 export type LocationValue = GlobalData['locations'][number];
 
 /** Site chrome + settings used on every page. */

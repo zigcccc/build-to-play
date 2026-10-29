@@ -97,12 +97,12 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
                 name: pk.name,
                 description: [pk.note, ...pk.features].filter(Boolean).join(' · '),
                 priceCurrency: 'EUR',
-                ...(pk.price != null
+                ...(pk.amount != null
                   ? {
-                      price: pk.price,
+                      price: pk.amount,
                       priceSpecification: {
                         '@type': 'UnitPriceSpecification',
-                        price: pk.price,
+                        price: pk.amount,
                         priceCurrency: 'EUR',
                         unitText: pk.unit ?? undefined,
                       },

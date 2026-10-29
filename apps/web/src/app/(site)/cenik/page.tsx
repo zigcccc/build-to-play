@@ -54,7 +54,7 @@ export default async function PricingPage() {
                 '@type': 'Offer',
                 name: `${p.name} – ${pk.name}`,
                 priceCurrency: 'EUR',
-                ...(pk.price != null ? { price: pk.price } : {}),
+                ...(pk.amount != null ? { price: pk.amount } : {}),
                 seller: { '@id': ids.business },
               })),
             })),

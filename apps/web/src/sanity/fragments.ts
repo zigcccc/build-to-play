@@ -34,11 +34,12 @@ export const CTA_CARD_TAGS = LINK_TAGS;
 
 export const SEO = /* groq */ `{ title, description, noIndex, "ogImage": ogImage${IMAGE} }`;
 
-export const PACKAGE = /* groq */ `{ _key, name, price, priceLabel, unit, note, features, ctaLabel, "featured": coalesce(featured, false) }`;
+// Same price shape as a program's priceFrom, so formatPrice takes one shape.
+export const PACKAGE = /* groq */ `{ _key, name, "amount": price, "label": priceLabel, unit, note, features, ctaLabel, "featured": coalesce(featured, false) }`;
 
 export const PROGRAM_CARD_FIELDS = /* groq */ `
   _id, name, "slug": slug.current, shortLabel, pricingLabel, icon, tagline,
-  cardDescription, cardBullets, otherShort, priceFrom, "order": order`;
+  cardDescription, cardBullets, otherShort, priceFrom`;
 
 export const PROGRAM_CARD = `{${PROGRAM_CARD_FIELDS}}`;
 

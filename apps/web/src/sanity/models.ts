@@ -70,8 +70,8 @@ export type SeoValue = z.infer<typeof seoModel>;
 export const packageModel = z.object({
   _key: z.string(),
   name: z.string(),
-  price: z.number().nullish(),
-  priceLabel: z.string().nullish(),
+  amount: z.number().nullish(),
+  label: z.string().nullish(),
   unit: z.string().nullish(),
   note: z.string().nullish(),
   features: z.array(z.string()),
@@ -92,7 +92,6 @@ export const programCardModel = z.object({
   cardBullets: z.array(z.string()),
   otherShort: z.string(),
   priceFrom: z.object({ amount: z.number().nullish(), label: z.string().nullish(), unit: z.string() }),
-  order: z.number(),
 });
 export type ProgramCard = z.infer<typeof programCardModel>;
 

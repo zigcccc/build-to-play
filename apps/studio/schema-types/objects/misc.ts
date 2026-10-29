@@ -34,14 +34,6 @@ export const stat = defineType({
   preview: { select: { title: 'value', subtitle: 'label' } },
 });
 
-export const sectionHeader = defineType({
-  name: 'sectionHeader',
-  title: 'Glava razdelka',
-  type: 'object',
-  options: { collapsible: true, collapsed: false },
-  fields: [str('eyebrow', 'Nadnaslov'), str('heading', 'Naslov'), txt('intro', 'Uvod', { optional: true })],
-});
-
 export const ctaCard = defineType({
   name: 'ctaCard',
   title: 'CTA kartica',

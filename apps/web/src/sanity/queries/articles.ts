@@ -65,8 +65,10 @@ const listCopyModel = z.object({
 });
 export type ArticlesCopy = z.infer<typeof listCopyModel>;
 
+const COPY = /* groq */ `*[_id == "articlesPage"][0]{ hero, list, article, "seo": seo${SEO} }`;
+
 const LIST_QUERY = defineQuery(`{
-  "copy": *[_id == "articlesPage"][0]{ hero, list, article, "seo": seo${SEO} },
+  "copy": ${COPY},
   "categories": *[_type == "category" && defined(slug.current)] | order(order asc){ _id, title, "slug": slug.current, description, "seo": seo${SEO} },
   "articles": *[_type == "article" && defined(slug.current) && ($category == "" || category->slug.current == $category)]
     | order(publishedAt desc)[0...$limit]${CARD},
@@ -178,7 +180,7 @@ export const getArticleSlugs = () =>
 
 export const getArticlesCopy = (stega = true) =>
   sanityFetch({
-    query: defineQuery(`*[_id == "articlesPage"][0]{ hero, list, article, "seo": seo${SEO} }`),
+    query: COPY,
     tags: ['articlesPage'],
     model: listCopyModel,
     stega,

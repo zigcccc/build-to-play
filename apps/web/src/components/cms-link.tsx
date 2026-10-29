@@ -5,7 +5,7 @@ import { pageRoute, routes } from '@/lib/routes';
 import type { CmsLinkValue } from '@/sanity/models';
 import { getGlobal } from '@/sanity/queries/global';
 import { BookingTrigger } from './booking/booking-trigger';
-import { CookieSettingsTrigger } from './preferences/preferences-trigger';
+import { ConsentSettingsTrigger } from './consent/consent-settings-trigger';
 
 type Props = {
   link: Omit<CmsLinkValue, 'label'> & { label?: string };
@@ -53,9 +53,9 @@ export async function CmsLink({ link, className, children, program, fallback = n
   }
   if (link.kind === 'cookieSettings') {
     return (
-      <CookieSettingsTrigger aria-label={rest['aria-label']} className={className}>
+      <ConsentSettingsTrigger aria-label={rest['aria-label']} className={className}>
         {content}
-      </CookieSettingsTrigger>
+      </ConsentSettingsTrigger>
     );
   }
   if (link.kind === 'phone' || link.kind === 'email') {
