@@ -32,11 +32,9 @@ export function Tabs({ items, label, className, listClassName, aside, after }: P
   const onValueChange = (next: unknown) => {
     setValue(String(next));
     // When the list is stuck, bring the new panel's start into view instead of leaving the reader mid-panel.
+    // Instant on purpose: an in-flight smooth scroll makes iOS swallow the next tap.
     const top = root.current?.getBoundingClientRect().top ?? 0;
-    if (top < STICKY_TOP) {
-      const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollBy({ top: top - STICKY_TOP, behavior: smooth ? 'smooth' : 'auto' });
-    }
+    if (top < STICKY_TOP - 1) window.scrollBy({ top: top - STICKY_TOP });
   };
 
   return (
