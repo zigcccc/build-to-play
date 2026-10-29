@@ -9,7 +9,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { BookingTrigger } from '@/components/booking/booking-trigger';
-import { CmsIcon, SocialIcon, socialLabel } from '@/components/icons';
+import { CmsIcon } from '@/components/icons';
+import { SocialButtons } from '@/components/social-buttons';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { pageRoute, routes } from '@/lib/routes';
@@ -209,20 +210,7 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
               )
             )}
             <BookingTrigger className={cn(buttonStyles({ size: 'md' }), 'mt-6')}>{mobile.ctaLabel}</BookingTrigger>
-            <div className="mt-4 flex gap-2">
-              {socials.map((s) => (
-                <a
-                  aria-label={socialLabel[s.platform]}
-                  className="inline-flex size-11 items-center justify-center border border-control text-ink"
-                  href={s.url}
-                  key={s.platform}
-                  rel="noopener"
-                  target="_blank"
-                >
-                  <SocialIcon platform={s.platform} />
-                </a>
-              ))}
-            </div>
+            <SocialButtons className="mt-4" socials={socials} />
           </nav>
         </Collapsible.Panel>
       </div>

@@ -9,6 +9,7 @@ import { PackageCards } from '@/components/sections/package-cards';
 import { Arrow } from '@/components/ui/arrow';
 import { buttonStyles } from '@/components/ui/button';
 import { PageHero } from '@/components/ui/page-hero';
+import { SectionTitle } from '@/components/ui/section-title';
 import { Tabs } from '@/components/ui/tabs';
 import { cn } from '@/lib/cn';
 import { absolute, breadcrumbs, faqPage, graph, ids, webPage } from '@/lib/json-ld';
@@ -60,7 +61,7 @@ export default async function PricingPage() {
             })),
           },
           faqPage(page.faq.items.map((f) => ({ question: f.question, answerText: toPlainText(f.answer) }))),
-          breadcrumbs(crumbs.map((c) => ({ name: c.name, path: c.href ?? routes.pricing })))
+          breadcrumbs(crumbs, routes.pricing)
         )}
       />
       <PageHero crumbs={crumbs} deco eyebrow={page.hero.eyebrow} lead={page.hero.lead} title={page.hero.heading} />
@@ -114,12 +115,12 @@ export default async function PricingPage() {
 
       <section aria-labelledby="pogoji-title" className="sec border-hairline border-t bg-surface">
         <div className="wrap">
-          <div className="mb-[clamp(40px,5vw,64px)] flex max-w-[720px] flex-col gap-5">
-            <p className="eyebrow">{page.conditions.eyebrow}</p>
-            <h2 className="h2" id="pogoji-title">
-              {page.conditions.heading}
-            </h2>
-          </div>
+          <SectionTitle
+            className="mb-[clamp(40px,5vw,64px)] max-w-[720px]"
+            eyebrow={page.conditions.eyebrow}
+            heading={page.conditions.heading}
+            id="pogoji-title"
+          />
           <ul className="m-0 grid-fit list-none p-0 [--gap:32px] [--min:240px]">
             {page.conditions.items.map((item) => (
               <li className="flex flex-col gap-3 border-hairline border-t pt-6" key={item.title}>

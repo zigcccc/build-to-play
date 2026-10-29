@@ -3,6 +3,7 @@ import { Arrow } from '@/components/ui/arrow';
 import { buttonStyles } from '@/components/ui/button';
 import { NumberedList } from '@/components/ui/numbered-list';
 import { SanityImage } from '@/components/ui/sanity-image';
+import { SectionTitle } from '@/components/ui/section-title';
 import type { HomeData } from '@/sanity/queries/home';
 
 export function AboutTeaser({ about, trainer }: { about: HomeData['about']; trainer: { name: string; role: string } }) {
@@ -24,11 +25,7 @@ export function AboutTeaser({ about, trainer }: { about: HomeData['about']; trai
             </span>
           </figcaption>
         </figure>
-        <div className="flex flex-col gap-6">
-          <p className="eyebrow">{about.eyebrow}</p>
-          <h2 className="h2" id="o-meni-title">
-            {about.heading}
-          </h2>
+        <SectionTitle className="gap-6" eyebrow={about.eyebrow} heading={about.heading} id="o-meni-title">
           <p className="lead">{about.lead}</p>
           <p className="text-muted leading-[26px]">{about.text}</p>
           <NumberedList className="mt-2" items={about.items} />
@@ -36,7 +33,7 @@ export function AboutTeaser({ about, trainer }: { about: HomeData['about']; trai
             {about.link.label}
             <Arrow />
           </CmsLink>
-        </div>
+        </SectionTitle>
       </div>
     </section>
   );

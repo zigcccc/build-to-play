@@ -2,6 +2,7 @@ import { CmsLink } from '@/components/cms-link';
 import { AccentHeading } from '@/components/ui/accent-heading';
 import { Arrow } from '@/components/ui/arrow';
 import { buttonStyles } from '@/components/ui/button';
+import { SectionTitle } from '@/components/ui/section-title';
 import { cn } from '@/lib/cn';
 import type { CtaCardValue } from '@/sanity/models';
 
@@ -14,12 +15,12 @@ export function CtaCard({ cta, program }: { cta: CtaCardValue; program?: string 
           <div aria-hidden className="deco2 right-[-2%] bottom-[-12%] text-[520px]">
             2
           </div>
-          <div className="relative flex flex-col gap-5">
-            <p className="eyebrow">{cta.eyebrow}</p>
-            <h2 className="h2" id="cta-title">
-              <AccentHeading value={cta.heading} />
-            </h2>
-          </div>
+          <SectionTitle
+            className="relative"
+            eyebrow={cta.eyebrow}
+            heading={<AccentHeading value={cta.heading} />}
+            id="cta-title"
+          />
           <div className="relative flex flex-col gap-6">
             <p className="lead text-muted">{cta.text}</p>
             <div className="flex flex-wrap gap-3">

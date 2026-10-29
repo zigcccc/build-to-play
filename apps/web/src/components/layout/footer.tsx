@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { BookingTrigger } from '@/components/booking/booking-trigger';
 import { CmsLink } from '@/components/cms-link';
 import { ConsentSettingsTrigger } from '@/components/consent/consent-settings-trigger';
-import { SocialIcon, socialLabel } from '@/components/icons';
+import { SocialButtons } from '@/components/social-buttons';
 import { buttonStyles } from '@/components/ui/button';
 import { routes } from '@/lib/routes';
 import { currentYear } from '@/lib/year';
@@ -57,20 +57,7 @@ export async function Footer() {
 
             <div className="flex flex-col gap-3">
               <p className={`${captionClass} mb-1`}>{footer.followCaption}</p>
-              <div className="flex gap-2">
-                {settings.socials.map((s) => (
-                  <a
-                    aria-label={socialLabel[s.platform]}
-                    className="inline-flex size-11 items-center justify-center border border-control text-ink hover:border-ink"
-                    href={s.url}
-                    key={s.platform}
-                    rel="noopener"
-                    target="_blank"
-                  >
-                    <SocialIcon platform={s.platform} />
-                  </a>
-                ))}
-              </div>
+              <SocialButtons socials={settings.socials} />
               <BookingTrigger className={`${buttonStyles({ size: 'sm' })} mt-2 self-start`}>
                 {footer.ctaLabel}
               </BookingTrigger>

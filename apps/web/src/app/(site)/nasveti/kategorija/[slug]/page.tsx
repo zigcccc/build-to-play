@@ -59,7 +59,7 @@ async function CategoryContent({ params }: Pick<Props, 'params'>) {
           webPage(path, category.title, category.description ?? data.copy.hero.lead, {
             '@type': ['WebPage', 'CollectionPage'],
           }),
-          breadcrumbs(crumbs.map((c) => ({ name: c.name, path: c.href ?? path })))
+          breadcrumbs(crumbs, path)
         )}
       />
       <PageHero

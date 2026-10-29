@@ -1,4 +1,5 @@
 import type { Graph, PostalAddress, Thing } from 'schema-dts';
+import type { Crumb } from '@/components/ui/breadcrumbs';
 import { siteUrl } from '@/env/client';
 import { routes } from '@/lib/routes';
 import { urlFor } from '@/sanity/image';
@@ -100,14 +101,15 @@ export function siteGraph({ settings, locations }: Pick<GlobalData, 'settings' |
   );
 }
 
-export function breadcrumbs(items: { name: string; path: string }[]): Thing {
+/** The visible breadcrumb trail as JSON-LD; a crumb without a link is the current page. */
+export function breadcrumbs(crumbs: Crumb[], currentPath: string): Thing {
   return {
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, i) => ({
+    itemListElement: crumbs.map((crumb, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      name: item.name,
-      item: absolute(item.path),
+      name: crumb.name,
+      item: absolute(crumb.href ?? currentPath),
     })),
   };
 }

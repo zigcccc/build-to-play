@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { JsonLd } from '@/components/json-ld';
 import { LegalText } from '@/components/legal-text';
-import { Breadcrumbs } from '@/components/ui/breadcrumbs';
+import { HeroTitle } from '@/components/ui/hero-title';
 import { formatDate } from '@/lib/date';
 import { breadcrumbs, graph, webPage } from '@/lib/json-ld';
 import { buildMetadata } from '@/lib/metadata';
@@ -27,7 +27,7 @@ export default async function PrivacyPage() {
       <JsonLd
         data={graph(
           webPage(routes.privacy, page.title, page.seo?.description ?? page.title, { dateModified: page.updatedAt }),
-          breadcrumbs(crumbs.map((c) => ({ name: c.name, path: c.href ?? routes.privacy })))
+          breadcrumbs(crumbs, routes.privacy)
         )}
       />
       <section
@@ -36,14 +36,13 @@ export default async function PrivacyPage() {
         data-hero
       >
         <div className="wrap flex flex-col gap-6">
-          <Breadcrumbs className="mb-1" items={crumbs} />
-          <p className="eyebrow">{page.eyebrow}</p>
-          <h1
-            className="m-0 text-balance font-bold font-display text-[clamp(52px,8vw,112px)] uppercase leading-[0.9] tracking-[0.005em]"
+          <HeroTitle
+            crumbs={crumbs}
+            eyebrow={page.eyebrow}
             id="page-title"
-          >
-            {page.title}
-          </h1>
+            title={page.title}
+            titleClassName="m-0 text-balance font-bold font-display text-[clamp(52px,8vw,112px)] uppercase leading-[0.9] tracking-[0.005em]"
+          />
           <p className="text-[15px] text-muted">
             {page.updatedLabel} <time dateTime={page.updatedAt}>{formatDate(page.updatedAt)}</time>
           </p>

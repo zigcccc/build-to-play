@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
-import { Breadcrumbs, type Crumb } from './breadcrumbs';
+import type { Crumb } from './breadcrumbs';
+import { HeroTitle } from './hero-title';
 
 type Props = {
   crumbs: Crumb[];
@@ -28,11 +29,13 @@ export function PageHero({ crumbs, eyebrow, title, lead, deco, className, titleC
         </div>
       )}
       <div className="wrap relative flex flex-col gap-6">
-        <Breadcrumbs className="mb-1" items={crumbs} />
-        <p className="eyebrow">{eyebrow}</p>
-        <h1 className={cn('d1 max-w-[900px]', titleClassName)} id="page-title">
-          {title}
-        </h1>
+        <HeroTitle
+          crumbs={crumbs}
+          eyebrow={eyebrow}
+          id="page-title"
+          title={title}
+          titleClassName={cn('d1 max-w-[900px]', titleClassName)}
+        />
         {lead && <div className="lead max-w-[560px]">{lead}</div>}
         {children}
       </div>

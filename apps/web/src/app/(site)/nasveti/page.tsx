@@ -38,7 +38,7 @@ export default async function ArticlesPage() {
               })),
             },
           }),
-          breadcrumbs(crumbs.map((c) => ({ name: c.name, path: c.href ?? routes.articles })))
+          breadcrumbs(crumbs, routes.articles)
         )}
       />
       <PageHero

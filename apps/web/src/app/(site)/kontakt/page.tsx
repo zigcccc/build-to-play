@@ -39,7 +39,7 @@ export default async function ContactPage() {
             '@type': 'ContactPage',
             mainEntity: { '@id': ids.business },
           }),
-          breadcrumbs(crumbs.map((c) => ({ name: c.name, path: c.href ?? routes.contact })))
+          breadcrumbs(crumbs, routes.contact)
         )}
       />
       <PageHero

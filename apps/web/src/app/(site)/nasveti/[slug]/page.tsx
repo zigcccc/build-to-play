@@ -8,8 +8,8 @@ import { Share } from '@/components/articles/share';
 import { Toc } from '@/components/articles/toc';
 import { JsonLd } from '@/components/json-ld';
 import { Arrow } from '@/components/ui/arrow';
-import { Breadcrumbs } from '@/components/ui/breadcrumbs';
 import { buttonStyles } from '@/components/ui/button';
+import { HeroTitle } from '@/components/ui/hero-title';
 import { SanityImage } from '@/components/ui/sanity-image';
 import { siteUrl } from '@/env/client';
 import { formatDate } from '@/lib/date';
@@ -104,20 +104,24 @@ async function ArticleContent({ params }: Pick<Props, 'params'>) {
             inLanguage: 'sl-SI',
             image: article.cover ? urlFor(article.cover).width(1200).height(630).fit('crop').url() : undefined,
           },
-          breadcrumbs([...crumbs.map((c) => ({ name: c.name, path: c.href as string })), { name: article.title, path }])
+          breadcrumbs([...crumbs, { name: article.title }], path)
         )}
       />
 
-      <article>
+      <article aria-labelledby="article-title">
         <header className="pt-[168px] pb-[clamp(32px,4vw,48px)]" data-hero>
           <div className="wrap flex flex-col gap-6">
-            <Breadcrumbs className="mb-1" items={crumbs} />
-            <Link className="cat self-start hover:bg-accent/25" href={routes.category(article.category.slug)}>
-              {article.category.title}
-            </Link>
-            <h1 className="m-0 max-w-[1000px] text-balance font-bold font-display text-[clamp(48px,7vw,104px)] uppercase leading-[0.92]">
-              {article.title}
-            </h1>
+            <HeroTitle
+              crumbs={crumbs}
+              eyebrow={
+                <Link className="cat self-start hover:bg-accent/25" href={routes.category(article.category.slug)}>
+                  {article.category.title}
+                </Link>
+              }
+              id="article-title"
+              title={article.title}
+              titleClassName="m-0 max-w-[1000px] text-balance font-bold font-display text-[clamp(48px,7vw,104px)] uppercase leading-[0.92]"
+            />
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
               <span className="flex items-center gap-3">
                 <SanityImage aspect={1} className="size-11 object-cover" image={article.author.avatar} sizes="44px" />

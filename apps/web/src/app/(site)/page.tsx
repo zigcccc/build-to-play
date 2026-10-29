@@ -14,6 +14,7 @@ import { accentHeadingText } from '@/components/ui/accent-heading';
 import { Arrow } from '@/components/ui/arrow';
 import { buttonStyles } from '@/components/ui/button';
 import { SectionHeader } from '@/components/ui/section-header';
+import { SectionTitle } from '@/components/ui/section-title';
 import { graph, ids, webPage } from '@/lib/json-ld';
 import { buildMetadata, plain } from '@/lib/metadata';
 import { getGlobal } from '@/sanity/queries/global';
@@ -76,17 +77,18 @@ export default async function HomePage() {
 
       <section aria-labelledby="lokacije-title" className="sec border-hairline border-t" id="lokacije">
         <div className="wrap grid-fit items-start [--gap:clamp(40px,6vw,96px)] [--min:460px]">
-          <div className="flex flex-col gap-6">
-            <p className="eyebrow">{home.locations.eyebrow}</p>
-            <h2 className="h2" id="lokacije-title">
-              {home.locations.heading}
-            </h2>
+          <SectionTitle
+            className="gap-6"
+            eyebrow={home.locations.eyebrow}
+            heading={home.locations.heading}
+            id="lokacije-title"
+          >
             <LocationsList
               directionsLabel={layout.labels.directions}
               locations={locations}
               online={home.locations.online}
             />
-          </div>
+          </SectionTitle>
           <LocationsMap className="aspect-4/3 w-full" locations={locations} />
         </div>
       </section>

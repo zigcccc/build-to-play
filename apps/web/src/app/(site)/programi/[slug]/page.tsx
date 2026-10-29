@@ -9,9 +9,10 @@ import { CtaCard } from '@/components/sections/cta-card';
 import { FaqSection } from '@/components/sections/faq-section';
 import { PackageCards } from '@/components/sections/package-cards';
 import { Arrow } from '@/components/ui/arrow';
-import { Breadcrumbs } from '@/components/ui/breadcrumbs';
 import { buttonStyles } from '@/components/ui/button';
+import { HeroTitle } from '@/components/ui/hero-title';
 import { SanityImage } from '@/components/ui/sanity-image';
+import { SectionTitle } from '@/components/ui/section-title';
 import { cn } from '@/lib/cn';
 import { absolute, breadcrumbs, faqPage, graph, ids, webPage } from '@/lib/json-ld';
 import { buildMetadata } from '@/lib/metadata';
@@ -113,7 +114,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
             },
           },
           faqPage(program.faqs.map((f) => ({ question: f.question, answerText: toPlainText(f.answer) }))),
-          breadcrumbs(crumbs.map((c) => ({ name: c.name, path: c.href ?? path })))
+          breadcrumbs(crumbs, path)
         )}
       />
 
@@ -124,13 +125,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
       >
         <div className="wrap grid-fit items-end [--gap:clamp(40px,6vw,96px)] [--min:460px]">
           <div className="flex flex-col gap-6">
-            <Breadcrumbs className="mb-1" items={crumbs} />
-            <p className="eyebrow">
-              {t.hero.eyebrowPrefix} {num}
-            </p>
-            <h1 className="d1" id="pg-title">
-              {program.name}
-            </h1>
+            <HeroTitle crumbs={crumbs} eyebrow={`${t.hero.eyebrowPrefix} ${num}`} id="pg-title" title={program.name} />
             <p className="lead max-w-[560px]">{program.lead}</p>
             <div className="mt-2 flex flex-wrap gap-3">
               <CmsLink
@@ -165,12 +160,12 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
 
       <section aria-labelledby="zakoga-title" className="sec">
         <div className="wrap">
-          <div className="mb-[clamp(40px,5vw,64px)] flex max-w-[720px] flex-col gap-5">
-            <p className="eyebrow">{t.forWho.eyebrow}</p>
-            <h2 className="h2" id="zakoga-title">
-              {t.forWho.heading}
-            </h2>
-          </div>
+          <SectionTitle
+            className="mb-[clamp(40px,5vw,64px)] max-w-[720px]"
+            eyebrow={t.forWho.eyebrow}
+            heading={t.forWho.heading}
+            id="zakoga-title"
+          />
           <ul className="m-0 grid-fit list-none border border-hairline bg-hairline p-0 [--gap:1px] [--min:260px]">
             {program.forWho.map((w) => (
               <li className="flex flex-col gap-3.5 bg-black p-[clamp(24px,3vw,32px)]" key={w.title}>
@@ -185,13 +180,9 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
 
       <section aria-labelledby="dobis-title" className="sec border-hairline border-t">
         <div className="wrap grid-fit items-start [--gap:clamp(32px,6vw,96px)] [--min:400px]">
-          <div className="flex flex-col gap-5">
-            <p className="eyebrow">{t.includes.eyebrow}</p>
-            <h2 className="h2" id="dobis-title">
-              {t.includes.heading}
-            </h2>
+          <SectionTitle eyebrow={t.includes.eyebrow} heading={t.includes.heading} id="dobis-title">
             <p className="lead max-w-[440px] text-muted">{program.includesLead}</p>
-          </div>
+          </SectionTitle>
           <ul className="rows m-0 list-none p-0">
             {program.includes.map((item, i) => (
               <li className="flex min-h-16 items-center gap-4 py-3 text-[17px]" key={item}>
@@ -205,12 +196,12 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
 
       <section aria-labelledby="potek-title" className="sec border-hairline border-t bg-surface">
         <div className="wrap">
-          <div className="mb-[clamp(40px,5vw,64px)] flex max-w-[720px] flex-col gap-5">
-            <p className="eyebrow">{t.steps.eyebrow}</p>
-            <h2 className="h2" id="potek-title">
-              {t.steps.heading}
-            </h2>
-          </div>
+          <SectionTitle
+            className="mb-[clamp(40px,5vw,64px)] max-w-[720px]"
+            eyebrow={t.steps.eyebrow}
+            heading={t.steps.heading}
+            id="potek-title"
+          />
           <ol className="m-0 grid-fit list-none p-0 [--gap:32px] [--min:220px]">
             {steps.map((step, i) => (
               <li className="flex flex-col gap-3 border-accent border-t pt-6" key={step.title}>
@@ -226,12 +217,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
       <section aria-labelledby="cene-title" className="sec border-hairline border-t" id="cene">
         <div className="wrap">
           <div className="mb-[clamp(40px,5vw,64px)] flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
-            <div className="flex flex-col gap-5">
-              <p className="eyebrow">{t.pricing.eyebrow}</p>
-              <h2 className="h2" id="cene-title">
-                {t.pricing.heading}
-              </h2>
-            </div>
+            <SectionTitle eyebrow={t.pricing.eyebrow} heading={t.pricing.heading} id="cene-title" />
             <Link className={`${buttonStyles({ variant: 'text' })} group`} href={routes.pricing}>
               {layout.labels.fullPricing}
               <Arrow />
