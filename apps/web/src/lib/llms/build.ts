@@ -15,7 +15,7 @@ const abs = (path: string) => `${siteUrl}${path}`;
  * engine can quote them without crawling every page.
  */
 export async function buildLlmsTxt(full: boolean) {
-  const [{ settings, locations }, data] = await Promise.all([getGlobal(false), getLlmsData()]);
+  const [{ settings, locations, articlesEnabled }, data] = await Promise.all([getGlobal(false), getLlmsData()]);
   const name = plain(settings.siteName);
   const lines: string[] = [`# ${name}`, '', `> ${plain(settings.description)}`, ''];
 
@@ -38,11 +38,11 @@ export async function buildLlmsTxt(full: boolean) {
     `- [Cenik](${abs(routes.pricing)}): vsi paketi in cene, pogoji plačila in odpovedi.`,
     `- [O meni](${abs(routes.about)}): trener, pristop, izobrazba in licence.`,
     `- [Kontakt](${abs(routes.contact)}): obrazec, telefon, e-pošta, lokacije in delovni čas.`,
-    `- [Nasveti](${abs(routes.articles)}): članki o treningu, prehrani in regeneraciji.`,
+    ...(articlesEnabled ? [`- [Nasveti](${abs(routes.articles)}): članki o treningu, prehrani in regeneraciji.`] : []),
     ''
   );
 
-  if (data.articles.length) {
+  if (articlesEnabled && data.articles.length) {
     lines.push('## Nasveti', '');
     for (const a of data.articles)
       lines.push(`- [${plain(a.title)}](${abs(routes.article(a.slug))}): ${plain(a.excerpt)}`);

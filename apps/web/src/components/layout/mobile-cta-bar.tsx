@@ -32,12 +32,22 @@ export function MobileCtaBar({ cta, callLabel, phone }: { cta: string; callLabel
   return (
     <div
       className={cn(
-        'fixed inset-x-0 bottom-0 z-40 px-3 pb-3 transition-[transform,visibility] duration-250 nav:hidden',
-        show ? 'visible translate-y-0' : 'invisible translate-y-[130%] delay-[0s,250ms]'
+        'fixed inset-x-0 bottom-0 z-40 px-3 pb-3 transition-[opacity,visibility] duration-250 nav:hidden',
+        show ? 'visible opacity-100' : 'invisible opacity-0 delay-[0s,250ms]'
       )}
       data-show={show}
     >
-      <div className="glass flex gap-2 p-2">
+      {/*
+        The bar must never leave the viewport, not even mid-transition: mobile browsers count a visible
+        fixed element below the fold as page content, zoom the layout viewport out and the page starts
+        panning sideways. So it fades and nudges inside its own bottom padding instead of sliding out.
+      */}
+      <div
+        className={cn(
+          'glass flex gap-2 p-2 transition-[translate] duration-250',
+          show ? 'translate-y-0' : 'translate-y-2'
+        )}
+      >
         <BookingTrigger className={cn(buttonStyles({ size: 'md' }), 'flex-1')}>{cta}</BookingTrigger>
         <a
           aria-label={callLabel}

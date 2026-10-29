@@ -1,5 +1,5 @@
 import { CogIcon } from '@sanity/icons/Cog';
-import { defineField, defineType } from 'sanity';
+import { defineType } from 'sanity';
 import { groups, list, section, str, txt, typed } from '../fields';
 
 export const siteSettings = defineType({
@@ -21,14 +21,6 @@ export const siteSettings = defineType({
       group: 'brand',
       description:
         '2–3 povedi: kdo si, kaj ponujaš, kje. Uporablja se za iskalnike, AI asistente (llms.txt) in kot privzeti opis.',
-    }),
-    defineField({
-      name: 'trainer',
-      title: 'Trener',
-      type: 'reference',
-      to: [{ type: 'person' }],
-      group: 'brand',
-      validation: (r) => r.required(),
     }),
     section(
       'phone',

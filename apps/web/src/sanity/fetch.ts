@@ -33,6 +33,7 @@ async function cachedQuery(query: string, params: QueryParams, tags: CacheTag[],
 }
 
 const VARIABLES_QUERY = /* groq */ `*[_id == "siteSettings"][0]{
+  "ime": *[_type == "person" && owner == true][0].name,
   "rok": responseTime,
   "trajanje": consultationDuration,
   "interval": testInterval,
@@ -42,7 +43,7 @@ const VARIABLES_QUERY = /* groq */ `*[_id == "siteSettings"][0]{
 
 /** Values for the `{rok}`-style placeholders editors can use in any CMS string. */
 async function getVariables(): Promise<Variables> {
-  const vars = (await cachedQuery(VARIABLES_QUERY, {}, ['siteSettings'], false)) as Record<
+  const vars = (await cachedQuery(VARIABLES_QUERY, {}, ['siteSettings', 'person'], false)) as Record<
     string,
     string | null
   > | null;

@@ -23,6 +23,7 @@ export const person = {
   _id: 'person-trainer',
   _type: 'person',
   name: '[Ime Priimek]',
+  owner: true,
   role: 'Trener · Build 2 Play',
   jobTitle: 'Osebni in športni trener',
   bio: '[Kratka predstavitev v enem stavku.]',
@@ -81,7 +82,6 @@ export const siteSettings = {
   tagline: 'Train. Build. Perform.',
   description:
     'Build 2 Play je osebni in športni trener v kraju [Mesto]. Ponujam osebne treninge ena na ena ali v paru, kondicijsko pripravo za športnike in ekipe ter online trenerstvo z video navodili. Prvi posvet je brezplačen.',
-  trainer: ref('person-trainer'),
   phone: { display: '[+386 XX XXX XXX]', e164: '+386' },
   email: '[info@domena.si]',
   socials: keyed([
@@ -283,7 +283,7 @@ export const aboutPage = {
   _id: 'aboutPage',
   _type: 'aboutPage',
   hero: {
-    eyebrow: 'O meni · [Ime Priimek]',
+    eyebrow: 'O meni · {ime}',
     heading: 'Zakaj Build 2 Play.',
     lead: '[Dva do trije stavki: kdo sem, s kom najraje delam in zakaj sem ustanovil Build 2 Play.] Verjamem, da je trening orodje — za igro, za službo, za življenje, ki ga hočeš živeti.',
     primaryCta: booking('Brezplačen posvet'),
@@ -336,7 +336,7 @@ export const aboutPage = {
     page('Poglej programe', 'home', 'programi')
   ),
   seo: {
-    title: 'O meni – [Ime Priimek], osebni in športni trener',
+    title: 'O meni – {ime}, osebni in športni trener',
     description:
       'Kdo sem, kako delam in na kakšnem znanju gradim: ocena izhodišča, načrt po meri, tehnika pred težo in merljiv napredek.',
   },
@@ -447,6 +447,7 @@ export const pricingPage = {
 export const articlesPage = {
   _id: 'articlesPage',
   _type: 'articlesPage',
+  enabled: false,
   hero: {
     eyebrow: 'Nasveti',
     heading: 'Trening, prehrana, regeneracija.',
@@ -576,7 +577,6 @@ export const privacyPage = {
         ['Piškotek', 'Namen', 'Trajanje', 'Vrsta'],
         ['[b2p_consent]', 'Shrani tvojo izbiro piškotkov', '[12 mesecev]', 'Nujni'],
         ['[ime]', '[Analitika obiska]', '[trajanje]', 'Analitični'],
-        ['[ime]', '[Vdelani zemljevid]', '[trajanje]', 'Zunanje vsebine'],
       ]),
     ]),
     section('Kontakt in pritožbe', 'kontakt', [
@@ -737,10 +737,4 @@ export const cookieConsent = {
   },
   necessary: { title: 'Nujni', text: 'Potrebni za delovanje strani in obrazcev. Vedno vključeni.' },
   analytics: { title: 'Analitični', text: 'Anonimna statistika obiskov, da vemo, kaj izboljšati (Vercel Analytics).' },
-  external: { title: 'Zunanje vsebine', text: 'Zemljevidi in vdelani videi tretjih ponudnikov.' },
-  toast: { text: 'Nastavitve piškotkov so shranjene.', change: 'Spremeni' },
-  mapPlaceholder: {
-    text: 'Zemljevid se naloži šele, ko dovoliš zunanje vsebine.',
-    button: 'Dovoli zemljevid',
-  },
 };

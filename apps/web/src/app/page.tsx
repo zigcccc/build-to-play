@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const [home, global] = await Promise.all([getHome(), getGlobal()]);
-  const { settings, layout, programs, locations, cookies } = global;
+  const { settings, layout, programs, locations } = global;
 
   return (
     <main>
@@ -87,7 +87,7 @@ export default async function HomePage() {
               online={home.locations.online}
             />
           </div>
-          <LocationsMap className="aspect-4/3 w-full" copy={cookies.mapPlaceholder} locations={locations} />
+          <LocationsMap className="aspect-4/3 w-full" locations={locations} />
         </div>
       </section>
 

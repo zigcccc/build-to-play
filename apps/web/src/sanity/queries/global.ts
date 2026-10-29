@@ -18,7 +18,7 @@ const GLOBAL_QUERY = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{
     siteName, tagline, description, email, phone, socials, openingHours, companyName, companyAddress,
     vatId, registrationNumber, areaServed, priceRange, responseTime, consultationDuration, notificationEmail,
-    "trainer": trainer->{ name, role, jobTitle, bio, knowsAbout, sameAs, "avatar": avatar${IMAGE} },
+    "trainer": *[_type == "person" && owner == true][0]{ name, role, jobTitle, bio, knowsAbout, sameAs, "avatar": avatar${IMAGE} },
     "seo": seo${SEO}
   },
   "layout": *[_id == "layout"][0]{
@@ -28,7 +28,8 @@ const GLOBAL_QUERY = defineQuery(`{
   "programs": *[_type == "program" && defined(slug.current)] | order(order asc)${PROGRAM_CARD},
   "locations": *[_type == "location"] | order(order asc){ _id, name, street, postalCode, city, tags, geo, mapsUrl },
   "forms": *[_id == "forms"][0]{ ..., labels{ ..., consent${PORTABLE_TEXT} } },
-  "cookies": *[_id == "cookieConsent"][0]
+  "cookies": *[_id == "cookieConsent"][0],
+  "articlesEnabled": coalesce(*[_id == "articlesPage"][0].enabled, false)
 }`);
 
 const titleText = z.object({ title: z.string(), text: z.string() });
@@ -187,15 +188,13 @@ export const globalModel = z.object({
       closeConfirm: z.object({ title: z.string(), text: z.string(), stay: z.string(), discard: z.string() }),
     }),
   }),
+  articlesEnabled: z.boolean(),
   cookies: z.object({
     banner: z.object({ title: z.string(), text: z.string(), moreLabel: z.string() }),
     buttons: z.object({ settings: z.string(), rejectAll: z.string(), acceptAll: z.string(), save: z.string() }),
     dialog: z.object({ title: z.string(), intro: z.string() }),
     necessary: titleText,
     analytics: titleText,
-    external: titleText,
-    toast: z.object({ text: z.string(), change: z.string() }),
-    mapPlaceholder: z.object({ text: z.string(), button: z.string() }),
   }),
 });
 
@@ -208,7 +207,7 @@ export type LocationValue = GlobalData['locations'][number];
 export const getGlobal = cache((stega = true) =>
   sanityFetch({
     query: GLOBAL_QUERY,
-    tags: ['siteSettings', 'layout', 'program', 'location', 'forms', 'cookieConsent', 'person'],
+    tags: ['siteSettings', 'layout', 'program', 'location', 'forms', 'cookieConsent', 'person', 'articlesPage'],
     model: globalModel,
     stega,
   })

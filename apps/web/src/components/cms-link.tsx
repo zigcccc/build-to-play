@@ -16,7 +16,12 @@ type Props = {
   /** Program to preselect when this link opens the booking flow. */
   program?: ProgramKey;
   'aria-label'?: string;
+  /** Rendered instead when the link leads nowhere (e.g. to the switched-off Nasveti section). */
+  fallback?: ReactNode;
 };
+
+const isArticlesLink = (link: Props['link']) =>
+  link.kind === 'article' || (link.kind === 'page' && link.page === 'articles');
 
 export function cmsHref(link: Props['link']): string | null {
   const anchor = link.anchor ? `#${link.anchor}` : '';
@@ -35,8 +40,10 @@ export function cmsHref(link: Props['link']): string | null {
 }
 
 /** Renders any CMS link: internal route, external URL, phone, e-mail, or an overlay action. */
-export async function CmsLink({ link, className, children, program, ...rest }: Props) {
+export async function CmsLink({ link, className, children, program, fallback = null, ...rest }: Props) {
   const content = children ?? link.label;
+
+  if (isArticlesLink(link) && !(await getGlobal()).articlesEnabled) return fallback;
 
   if (link.kind === 'booking') {
     return (
@@ -63,7 +70,7 @@ export async function CmsLink({ link, className, children, program, ...rest }: P
   }
 
   const href = cmsHref(link);
-  if (!href) return null;
+  if (!href) return fallback;
   if (link.kind === 'external') {
     return (
       <a aria-label={rest['aria-label']} className={className} href={href} rel="noopener" target="_blank">

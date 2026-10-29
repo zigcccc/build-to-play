@@ -1,5 +1,5 @@
 import { DocumentsIcon } from '@sanity/icons/Documents';
-import { defineType } from 'sanity';
+import { defineField, defineType } from 'sanity';
 import { groups, section, seoField, str, txt } from '../fields';
 
 export const articlesPage = defineType({
@@ -9,6 +9,15 @@ export const articlesPage = defineType({
   icon: DocumentsIcon,
   groups: groups(['list', 'Seznam'], ['article', 'Članek'], ['seo', 'SEO']),
   fields: [
+    defineField({
+      name: 'enabled',
+      title: 'Nasveti so vklopljeni',
+      type: 'boolean',
+      initialValue: false,
+      group: 'list',
+      description:
+        'Ko je izklopljeno, strani z nasveti in članki ne obstajajo (404), povezave nanje pa izginejo iz menija, noge, zemljevida strani in llms.txt.',
+    }),
     section('hero', 'Uvod', [str('eyebrow', 'Nadnaslov'), str('heading', 'Naslov'), txt('lead', 'Uvod')], {
       group: 'list',
     }),

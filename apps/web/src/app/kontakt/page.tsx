@@ -28,7 +28,7 @@ const rowClass = 'flex min-h-16 items-center gap-4 text-ink hover:text-accent';
 
 export default async function ContactPage() {
   const [page, global] = await Promise.all([getContactPage(), getGlobal()]);
-  const { settings, layout, forms, programs, locations, cookies } = global;
+  const { settings, layout, forms, programs, locations } = global;
   const crumbs = [{ name: layout.labels.breadcrumbHome, href: routes.home }, { name: pageName(layout, 'contact') }];
 
   return (
@@ -146,11 +146,7 @@ export default async function ContactPage() {
 
       <section aria-label={page.locationsHeading} className="pb-[clamp(72px,10vw,120px)]">
         <div className="wrap">
-          <LocationsMap
-            className="h-[clamp(280px,36vw,480px)] w-full"
-            copy={cookies.mapPlaceholder}
-            locations={locations}
-          />
+          <LocationsMap className="h-[clamp(280px,36vw,480px)] w-full" locations={locations} />
         </div>
       </section>
     </main>

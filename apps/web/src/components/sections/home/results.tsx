@@ -27,33 +27,51 @@ function Report({ tab, data }: { tab: Tab; data: HomeData['results'] }) {
         </div>
         <p className="h3c">{data.reportTitle}</p>
         <div>
-          <svg
-            aria-label={`${data.reportTitle} – ${tab.label}`}
-            className="block h-[140px] w-full"
-            preserveAspectRatio="none"
-            role="img"
-            viewBox="0 0 320 120"
-          >
-            <line stroke="rgb(255 255 255 / 0.08)" vectorEffect="non-scaling-stroke" x1="0" x2="320" y1="10" y2="10" />
-            <line stroke="rgb(255 255 255 / 0.08)" vectorEffect="non-scaling-stroke" x1="0" x2="320" y1="60" y2="60" />
-            <line
-              stroke="rgb(255 255 255 / 0.16)"
-              vectorEffect="non-scaling-stroke"
-              x1="0"
-              x2="320"
-              y1="110"
-              y2="110"
-            />
-            <path d={area} fill="rgb(179 154 114 / 0.16)" />
-            <polyline
-              fill="none"
-              points={line}
-              stroke="#b39a72"
-              strokeLinejoin="miter"
-              strokeWidth="2.5"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
+          <div className="relative h-[140px]">
+            <svg aria-hidden className="absolute inset-0 size-full" preserveAspectRatio="none" viewBox="0 0 320 120">
+              <line
+                stroke="rgb(255 255 255 / 0.08)"
+                vectorEffect="non-scaling-stroke"
+                x1="0"
+                x2="320"
+                y1="10"
+                y2="10"
+              />
+              <line
+                stroke="rgb(255 255 255 / 0.08)"
+                vectorEffect="non-scaling-stroke"
+                x1="0"
+                x2="320"
+                y1="60"
+                y2="60"
+              />
+              <line
+                stroke="rgb(255 255 255 / 0.16)"
+                vectorEffect="non-scaling-stroke"
+                x1="0"
+                x2="320"
+                y1="110"
+                y2="110"
+              />
+            </svg>
+            <svg
+              aria-label={`${data.reportTitle} – ${tab.label}`}
+              className="absolute inset-0 size-full motion-safe:animate-chart-reveal"
+              preserveAspectRatio="none"
+              role="img"
+              viewBox="0 0 320 120"
+            >
+              <path d={area} fill="rgb(179 154 114 / 0.16)" />
+              <polyline
+                fill="none"
+                points={line}
+                stroke="#b39a72"
+                strokeLinejoin="miter"
+                strokeWidth="2.5"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+          </div>
           <div className="mt-2 flex justify-between text-muted text-xs">
             {data.chartLabels.map((label) => (
               <span key={label}>{label}</span>
@@ -61,8 +79,12 @@ function Report({ tab, data }: { tab: Tab; data: HomeData['results'] }) {
           </div>
         </div>
         <ul className="m-0 flex list-none flex-col p-0">
-          {tab.metrics.map((m) => (
-            <li className="flex items-center justify-between gap-4 border-white/10 border-t py-3.5" key={m._key}>
+          {tab.metrics.map((m, i) => (
+            <li
+              className="flex items-center justify-between gap-4 border-white/10 border-t py-3.5 motion-safe:animate-rise"
+              key={m._key}
+              style={{ animationDelay: `${300 + i * 120}ms` }}
+            >
               <span className="flex min-w-0 flex-col">
                 <span className="text-[13px] text-muted leading-[18px]">{m.label}</span>
                 <span className="font-semibold text-[17px]">
@@ -86,7 +108,7 @@ export function Results({ data }: { data: HomeData['results'] }) {
       <div className="wrap">
         <SectionHeader aside={<p>{data.intro}</p>} eyebrow={data.eyebrow} heading={data.heading} id="rezultati-title" />
         <Tabs
-          className="flex flex-col gap-7"
+          className="gap-y-7"
           items={data.tabs.map((tab) => ({
             value: tab.programKey,
             label: tab.label,

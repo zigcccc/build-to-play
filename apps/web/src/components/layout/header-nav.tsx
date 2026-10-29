@@ -36,6 +36,8 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
   const pathname = usePathname();
   const barRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  // The bar and the programs dropdown read as one surface while it is open.
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const inPrograms = pathname.startsWith('/programi/');
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: close the mobile menu whenever the route changes
@@ -45,16 +47,38 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuOpen(false);
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    // The page behind the open menu must not scroll.
+    const html = document.documentElement;
+    const previous = html.style.overflow;
+    html.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      html.style.overflow = previous;
+    };
   }, [menuOpen]);
 
   return (
     <Collapsible.Root onOpenChange={setMenuOpen} open={menuOpen}>
-      <div className="glass flex flex-col" ref={barRef}>
+      {menuOpen && (
+        <div
+          aria-hidden
+          className="fixed inset-0 bg-black/60 backdrop-blur-[6px] motion-safe:animate-fade-in nav:hidden"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+      <div
+        className="glass relative flex flex-col transition-colors duration-200 data-dropdown:bg-black/92"
+        data-dropdown={dropdownOpen || undefined}
+        ref={barRef}
+      >
         <div className="flex h-16 items-center justify-between gap-4 pr-2.5 pl-5">
           {logo}
 
-          <NavigationMenu.Root aria-label="Glavna navigacija" className="hidden nav:block">
+          <NavigationMenu.Root
+            aria-label="Glavna navigacija"
+            className="hidden nav:block"
+            onValueChange={(value) => setDropdownOpen(value != null)}
+          >
             <NavigationMenu.List className="flex items-center gap-1">
               {nav.map((item) =>
                 item.target === 'programs' ? (
@@ -124,9 +148,9 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
                 anchor={barRef}
                 className="z-50 w-(--anchor-width)"
                 collisionAvoidance={{ side: 'none' }}
-                sideOffset={8}
+                sideOffset={-1}
               >
-                <NavigationMenu.Popup className="border border-white/10 bg-black/92 backdrop-blur-[16px] transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0">
+                <NavigationMenu.Popup className="border border-white/10 border-t-white/6 bg-black/92 backdrop-blur-[16px] transition-[clip-path,opacity] duration-250 ease-out [clip-path:inset(0)] data-ending-style:opacity-0 data-ending-style:duration-150 data-ending-style:[clip-path:inset(0_0_100%_0)] data-starting-style:[clip-path:inset(0_0_100%_0)]">
                   <NavigationMenu.Viewport />
                 </NavigationMenu.Popup>
               </NavigationMenu.Positioner>
@@ -147,7 +171,7 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
         </div>
 
         <Collapsible.Panel
-          className="max-h-[calc(100dvh-92px)] overflow-y-auto border-white/12 border-t nav:hidden"
+          className="max-h-[calc(100dvh-92px)] overflow-y-auto overscroll-contain border-white/12 border-t nav:hidden"
           hiddenUntilFound
         >
           <nav aria-label="Mobilna navigacija" className="flex flex-col bg-black/92 px-5 pt-1 pb-5">

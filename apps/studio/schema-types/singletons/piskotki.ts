@@ -24,9 +24,6 @@ export const cookieConsent = defineType({
     section('dialog', 'Nastavitve', [str('title', 'Naslov'), txt('intro', 'Uvod')]),
     category('necessary', 'Nujni piškotki'),
     category('analytics', 'Analitični piškotki'),
-    category('external', 'Zunanje vsebine'),
-    section('toast', 'Obvestilo po shranjevanju', [str('text', 'Besedilo'), str('change', 'Spremeni')]),
-    section('mapPlaceholder', 'Zemljevid brez soglasja', [str('text', 'Besedilo'), str('button', 'Gumb')]),
   ],
   preview: { prepare: () => ({ title: 'Piškotki' }) },
 });

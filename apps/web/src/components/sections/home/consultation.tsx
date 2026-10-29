@@ -11,10 +11,10 @@ export function Consultation({ data }: { data: HomeData['consultation'] }) {
   return (
     <section aria-labelledby="posvet-title" className="sec border-hairline border-y bg-surface">
       <div className="wrap grid-fit items-start [--gap:clamp(40px,6vw,96px)] [--min:460px]">
-        <div className="flex flex-col gap-6">
+        <div className="@container flex flex-col gap-6">
           <p className="eyebrow">{data.eyebrow}</p>
           <h2
-            className="m-0 text-balance font-bold font-display text-[clamp(56px,8vw,112px)] uppercase leading-[0.9] tracking-[0.005em]"
+            className="m-0 text-balance font-bold font-display text-[min(clamp(56px,8vw,112px),19cqi)] uppercase leading-[0.9] tracking-[0.005em]"
             id="posvet-title"
           >
             <AccentHeading value={data.heading} />

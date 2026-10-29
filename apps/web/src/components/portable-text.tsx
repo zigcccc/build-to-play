@@ -8,6 +8,7 @@ const linkMark: PortableTextComponents['marks'] = {
   link: ({ value, children }) => (
     <CmsLink
       className="cursor-pointer text-accent underline underline-offset-2 hover:text-accent-hover"
+      fallback={children}
       link={value as LinkMark}
     >
       {children}

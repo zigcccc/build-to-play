@@ -2,7 +2,7 @@
 
 import { Dialog } from '@base-ui/react/dialog';
 import { Switch } from '@base-ui/react/switch';
-import { Check, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { buttonStyles } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import { routes } from '@/lib/routes';
 import type { CookieCopy } from '@/sanity/queries/global';
 import type { Consent } from './preferences-context';
 
-type View = 'hidden' | 'banner' | 'settings' | 'saved';
+type View = 'hidden' | 'banner' | 'settings';
 
 export type CookieUiProps = {
   view: View;
@@ -47,27 +47,18 @@ function CookieSwitch({
   );
 }
 
-/** Banner (Zavrni/Sprejmi with equal weight), settings dialog and the "saved" toast. */
+/** Banner (Zavrni/Sprejmi with equal weight) and the settings dialog. */
 export function CookieUi({ view, consent, copy, onSave, onViewChange }: CookieUiProps) {
   const [analytics, setAnalytics] = useState(consent?.analytics ?? false);
-  const [external, setExternal] = useState(consent?.external ?? false);
 
   // Sync switches with the stored choice whenever settings reopen.
   useEffect(() => {
     if (view === 'settings') {
       setAnalytics(consent?.analytics ?? false);
-      setExternal(consent?.external ?? false);
     }
   }, [view, consent]);
 
-  // The toast disappears on its own.
-  useEffect(() => {
-    if (view !== 'saved') return;
-    const t = setTimeout(() => onViewChange('hidden'), 5000);
-    return () => clearTimeout(t);
-  }, [view, onViewChange]);
-
-  const all = (value: boolean) => onSave({ analytics: value, external: value });
+  const all = (value: boolean) => onSave({ analytics: value });
 
   return (
     <>
@@ -108,7 +99,7 @@ export function CookieUi({ view, consent, copy, onSave, onViewChange }: CookieUi
         open={view === 'settings'}
       >
         <Dialog.Portal>
-          <Dialog.Backdrop className="fixed inset-0 z-[60] bg-black/70" />
+          <Dialog.Backdrop className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-[6px]" />
           <Dialog.Popup className="fixed inset-x-0 bottom-0 z-[60] max-h-[94dvh] overflow-auto border-hairline border-t bg-surface shadow-[0_24px_80px_rgb(0_0_0/0.6)] outline-none sheet:inset-x-auto sheet:top-1/2 sheet:bottom-auto sheet:left-1/2 sheet:max-h-[calc(100dvh-48px)] sheet:w-[min(560px,calc(100%-32px))] sheet:-translate-x-1/2 sheet:-translate-y-1/2 sheet:border">
             <div className="flex items-center justify-between gap-4 pt-6 pr-5 pb-2 pl-7">
               <Dialog.Title className="m-0 font-bold font-display text-4xl uppercase leading-9">
@@ -129,7 +120,6 @@ export function CookieUi({ view, consent, copy, onSave, onViewChange }: CookieUi
                 {[
                   { key: 'necessary', text: copy.necessary, checked: true, disabled: true },
                   { key: 'analytics', text: copy.analytics, checked: analytics, onChange: setAnalytics },
-                  { key: 'external', text: copy.external, checked: external, onChange: setExternal },
                 ].map((row) => (
                   <div className="flex items-start justify-between gap-5 py-[18px]" key={row.key}>
                     <span>
@@ -153,34 +143,13 @@ export function CookieUi({ view, consent, copy, onSave, onViewChange }: CookieUi
               <button className={cn(buttonStyles({ variant: 'line' }), small)} onClick={() => all(true)} type="button">
                 {copy.buttons.acceptAll}
               </button>
-              <button
-                className={cn(buttonStyles(), small)}
-                onClick={() => onSave({ analytics, external })}
-                type="button"
-              >
+              <button className={cn(buttonStyles(), small)} onClick={() => onSave({ analytics })} type="button">
                 {copy.buttons.save}
               </button>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-
-      {view === 'saved' && (
-        <div
-          className="fixed bottom-24 left-1/2 z-[55] flex w-max max-w-[calc(100%-32px)] -translate-x-1/2 items-center gap-3 border border-hairline bg-surface px-[18px] py-3.5 text-sm nav:bottom-6"
-          role="status"
-        >
-          <Check aria-hidden className="text-accent" size={18} />
-          {copy.toast.text}
-          <button
-            className={cn(buttonStyles({ variant: 'text' }), 'min-h-8 px-3 text-xs')}
-            onClick={() => onViewChange('settings')}
-            type="button"
-          >
-            {copy.toast.change}
-          </button>
-        </div>
-      )}
     </>
   );
 }

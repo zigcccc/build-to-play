@@ -71,6 +71,8 @@ export function BookingDialog({
 }: BookingDialogProps) {
   const [state, setState] = useState(() => initial(initialProgram));
   const [confirmClose, setConfirmClose] = useState(false);
+  // "Nadaljuj" sits on the right but stays the safe default focus.
+  const stayRef = useRef<HTMLButtonElement>(null);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [failed, setFailed] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -183,7 +185,7 @@ export function BookingDialog({
     <>
       <Dialog.Root onOpenChange={requestClose} open={open}>
         <Dialog.Portal>
-          <Dialog.Backdrop className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-[2px] transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
+          <Dialog.Backdrop className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-[6px] transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
           <Dialog.Popup
             className={cn(
               'fixed z-[60] flex flex-col border-hairline bg-surface shadow-[0_24px_80px_rgb(0_0_0/0.6)] transition-[transform,opacity] duration-250 outline-none',
@@ -512,8 +514,11 @@ export function BookingDialog({
 
       <AlertDialog.Root onOpenChange={setConfirmClose} open={confirmClose}>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className="fixed inset-0 z-[80] bg-black/70" />
-          <AlertDialog.Popup className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 z-[80] flex w-[min(440px,calc(100%-32px))] flex-col gap-3 border border-hairline bg-surface p-7 shadow-[0_24px_80px_rgb(0_0_0/0.6)] outline-none">
+          <AlertDialog.Backdrop className="fixed inset-0 z-[80] bg-black/70 backdrop-blur-[6px]" />
+          <AlertDialog.Popup
+            className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 z-[80] flex w-[min(440px,calc(100%-32px))] flex-col gap-3 border border-hairline bg-surface p-7 shadow-[0_24px_80px_rgb(0_0_0/0.6)] outline-none"
+            initialFocus={stayRef}
+          >
             <AlertDialog.Title className="m-0 font-bold font-display text-[32px] uppercase leading-8">
               {b.closeConfirm.title}
             </AlertDialog.Title>
@@ -521,9 +526,6 @@ export function BookingDialog({
               {b.closeConfirm.text}
             </AlertDialog.Description>
             <div className="mt-3 flex flex-wrap gap-2">
-              <AlertDialog.Close className={cn(buttonStyles(), 'flex-[1_1_180px]')}>
-                {b.closeConfirm.stay}
-              </AlertDialog.Close>
               <button
                 className={cn(buttonStyles({ variant: 'line' }), 'flex-[1_1_140px]')}
                 onClick={close}
@@ -531,6 +533,9 @@ export function BookingDialog({
               >
                 {b.closeConfirm.discard}
               </button>
+              <AlertDialog.Close className={cn(buttonStyles(), 'flex-[1_1_180px]')} ref={stayRef}>
+                {b.closeConfirm.stay}
+              </AlertDialog.Close>
             </div>
           </AlertDialog.Popup>
         </AlertDialog.Portal>

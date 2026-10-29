@@ -93,9 +93,9 @@ export default async function PricingPage() {
             {page.packages.heading}
           </h2>
           <Tabs
-            after={Object.fromEntries(programs.map((p) => [p.key, programLink(p, 'mt-6 cta:hidden')]))}
+            after={Object.fromEntries(programs.map((p) => [p.key, programLink(p, 'mt-6 w-full cta:hidden')]))}
             aside={Object.fromEntries(programs.map((p) => [p.key, programLink(p, 'hidden cta:inline-flex')]))}
-            className="flex flex-col gap-8"
+            className="gap-y-8"
             items={programs.map((p) => ({
               value: p.key,
               label: p.shortLabel,

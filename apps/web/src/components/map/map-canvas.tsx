@@ -51,5 +51,5 @@ export default function MapCanvas({ locations }: { locations: LocationValue[] })
     return () => map.remove();
   }, [locations]);
 
-  return <div className="size-full" ref={container} />;
+  return <div className="relative size-full" ref={container} />;
 }

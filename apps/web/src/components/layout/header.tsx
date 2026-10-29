@@ -4,7 +4,7 @@ import { getGlobal } from '@/sanity/queries/global';
 import { HeaderNav } from './header-nav';
 
 export async function Header() {
-  const { layout, programs, settings } = await getGlobal();
+  const { layout, programs, settings, articlesEnabled } = await getGlobal();
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -24,7 +24,7 @@ export async function Header() {
             </Link>
           }
           mobile={layout.mobileMenu}
-          nav={layout.nav}
+          nav={layout.nav.filter((item) => articlesEnabled || item.target !== 'articles')}
           programs={programs.map((p) => ({
             num: String(p.order).padStart(2, '0'),
             name: p.name,

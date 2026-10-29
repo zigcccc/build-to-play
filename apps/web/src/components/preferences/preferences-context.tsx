@@ -12,7 +12,7 @@ const COOKIE = 'b2p_consent';
 const VERSION = 1;
 const MAX_AGE = 60 * 60 * 24 * 365;
 
-export type Consent = { analytics: boolean; external: boolean };
+export type Consent = { analytics: boolean };
 type Stored = Consent & { v: number; ts: number };
 
 type ConsentContextValue = {
@@ -38,7 +38,7 @@ function readConsent(): Consent | null {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(decodeURIComponent(raw)) as Stored;
-    return parsed.v === VERSION ? { analytics: !!parsed.analytics, external: !!parsed.external } : null;
+    return parsed.v === VERSION ? { analytics: !!parsed.analytics } : null;
   } catch {
     return null;
   }
@@ -46,7 +46,7 @@ function readConsent(): Consent | null {
 
 export function ConsentProvider({ children, copy }: { children: ReactNode; copy: CookieCopy }) {
   const [consent, setConsent] = useState<Consent | null>(null);
-  const [view, setView] = useState<'hidden' | 'banner' | 'settings' | 'saved'>('hidden');
+  const [view, setView] = useState<'hidden' | 'banner' | 'settings'>('hidden');
   // Once shown, the UI stays mounted so closing portals can finish their exit cleanly.
   const [uiMounted, setUiMounted] = useState(false);
   useEffect(() => {
@@ -65,7 +65,7 @@ export function ConsentProvider({ children, copy }: { children: ReactNode; copy:
     // biome-ignore lint/suspicious/noDocumentCookie: consent must be a first-party cookie readable on every page; Cookie Store API isn't universal yet
     document.cookie = `${COOKIE}=${encodeURIComponent(JSON.stringify(value))}; Max-Age=${MAX_AGE}; Path=/; SameSite=Lax${secure}`;
     setConsent(next);
-    setView('saved');
+    setView('hidden');
   };
 
   return (
