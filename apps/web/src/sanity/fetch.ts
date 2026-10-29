@@ -5,7 +5,7 @@ import { draftMode } from 'next/headers';
 import type { QueryParams } from 'next-sanity';
 import type { z } from 'zod';
 import { serverEnv } from '@/env/server';
-import { fillVariables, type Variables } from '@/lib/interpolate';
+import { interpolate, keepBrandTogether, mapStrings, type Variables } from '@/lib/interpolate';
 import { client } from './client';
 
 type FetchOptions<Model extends z.ZodType> = {
@@ -14,7 +14,10 @@ type FetchOptions<Model extends z.ZodType> = {
   /** Every document `_type` the query reads, including dereferenced ones. */
   tags: CacheTag[];
   model: Model;
-  /** Disable stega for values that end up in <head>, URLs or logic. */
+  /**
+   * The result is visible copy (default): stega in draft mode, and the brand name kept on one line.
+   * Pass false for anything machine-read: <head>, URLs, logic, OG images, llms.txt, e-mails.
+   */
   stega?: boolean;
 };
 
@@ -67,5 +70,9 @@ export async function sanityFetch<Model extends z.ZodType>({
   if (!parsed.success) {
     throw new Error(`Sanity response failed validation [${tags.join(', ')}]:\n${parsed.error.message}`);
   }
-  return fillVariables(parsed.data, await getVariables());
+  const vars = await getVariables();
+  return mapStrings(parsed.data, (text) => {
+    const filled = text.includes('{') ? interpolate(text, vars) : text;
+    return stega ? keepBrandTogether(filled) : filled;
+  });
 }

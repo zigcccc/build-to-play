@@ -5,6 +5,7 @@ import { Resend } from 'resend';
 import { InquiryConfirmation } from '@/emails/inquiry-confirmation';
 import { InquiryNotification } from '@/emails/inquiry-notification';
 import { serverEnv } from '@/env/server';
+import { interpolate } from '@/lib/interpolate';
 import { client } from '@/sanity/client';
 import { getGlobal } from '@/sanity/queries/global';
 
@@ -78,7 +79,7 @@ export async function deliverInquiry(record: InquiryRecord, spam?: SpamReason) {
   const subject = isBooking ? `Brezplačen posvet: ${record.name}` : `Sporočilo s spletne strani: ${record.name}`;
   const confirmationText = isBooking
     ? forms.booking.success.text
-    : forms.states.successText.replace('{poslano}', record.email);
+    : interpolate(forms.states.successText, { poslano: record.email });
 
   let emailStatus = 'sent';
   try {

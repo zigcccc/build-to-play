@@ -17,8 +17,8 @@ type Options = {
   ogImageFile?: boolean;
 };
 
-/** Strips stega markers and non-breaking spaces from text destined for <head>. */
-export const plain = (text: string) => stegaClean(text).replace(/\u00a0/g, ' ');
+/** Strips stega markers from text destined for <head> and other machine-read output. */
+export const plain = (text: string) => stegaClean(text);
 
 /** The generated site share card (app/opengraph-image.tsx). */
 const DEFAULT_OG_IMAGE = '/opengraph-image';

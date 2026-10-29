@@ -2,6 +2,7 @@
 
 import { bookingDayLabel, bookingTimeLabel } from '@b2p/shared';
 import { checkBotId } from 'botid/server';
+import { stegaClean } from 'next-sanity';
 import {
   bookingSchema,
   contactSchema,
@@ -31,8 +32,12 @@ async function spamReason(honeypot: unknown, startedAt: unknown): Promise<SpamRe
   return isBot ? 'bot' : undefined;
 }
 
+// The form renders its options from visible copy (brand nbsp, stega in draft mode); compare them as plain text.
+const normalize = (text: string) => stegaClean(text).replace(/\u00a0/g, ' ');
+
 /** A submitted choice only counts if it is one the CMS offers; anything else was not sent by our form. */
-const pick = (value: string | undefined, allowed: string[]) => (value && allowed.includes(value) ? value : undefined);
+const pick = (value: string | undefined, allowed: string[]) =>
+  value ? allowed.find((option) => option === normalize(value)) : undefined;
 
 async function store(record: InquiryRecord, spam: SpamReason | undefined): Promise<FormState> {
   try {

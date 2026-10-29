@@ -15,6 +15,7 @@ import { SocialIcon } from '@/components/icons';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { bookingSchema, type FieldErrors, fieldErrors } from '@/lib/forms/schemas';
+import { interpolate } from '@/lib/interpolate';
 import { twoDigit } from '@/lib/number';
 import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
 import type { BookingProgram } from './booking-context';
@@ -200,7 +201,7 @@ export function BookingDialog({
               {state.step < 4 ? (
                 <div className="flex flex-1 flex-col gap-2.5">
                   <span className="text-[13px] text-muted">
-                    {b.title} · {b.stepLabel.replace('{n}', String(state.step)).replace('{total}', '3')}
+                    {b.title} · {interpolate(b.stepLabel, { n: String(state.step), total: '3' })}
                   </span>
                   <div aria-hidden className="grid max-w-60 grid-cols-3 gap-1">
                     {[1, 2, 3].map((n) => (

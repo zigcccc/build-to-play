@@ -6,6 +6,7 @@ import { type FormState, submitContact } from '@/actions/inquiry';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { contactSchema, homeContactSchema } from '@/lib/forms/schemas';
+import { interpolate, markUp } from '@/lib/interpolate';
 import type { FormsCopy } from '@/sanity/queries/global';
 import { ErrorSummary, Field, FieldError, Select, SpamTraps, TextArea, TextInput } from './fields';
 import { useValidatedForm } from './use-validated-form';
@@ -52,7 +53,7 @@ export function ContactForm({ variant, heading, copy, programs, email, consent }
   const p = copy.placeholders;
 
   if (state.status === 'success' && !dismissed) {
-    const text = (isHome ? copy.states.successTextHome : copy.states.successText).replace('{poslano}', state.email);
+    const text = interpolate(isHome ? copy.states.successTextHome : copy.states.successText, { poslano: state.email });
     return (
       <div className="flex flex-col items-start gap-4 py-6" role="status">
         <span className="inline-flex size-14 items-center justify-center bg-accent text-black">
@@ -92,11 +93,13 @@ export function ContactForm({ variant, heading, copy, programs, email, consent }
       {form.hasErrors && <ErrorSummary>{copy.errors.summary}</ErrorSummary>}
       {state.status === 'error' && (
         <ErrorSummary>
-          {copy.states.failure.split(email)[0]}
-          <a className="text-link underline" href={`mailto:${email}`}>
-            {email}
-          </a>
-          {copy.states.failure.split(email)[1]}
+          {markUp(
+            copy.states.failure,
+            email,
+            <a className="text-link underline" href={`mailto:${email}`}>
+              {email}
+            </a>
+          )}
         </ErrorSummary>
       )}
 
