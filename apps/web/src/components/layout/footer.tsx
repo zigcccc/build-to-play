@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { BookingTrigger } from '@/components/booking/booking-trigger';
 import { CmsLink } from '@/components/cms-link';
-import { CookieSettingsTrigger } from '@/components/consent/cookie-settings-trigger';
 import { SocialIcon, socialLabel } from '@/components/icons';
+import { CookieSettingsTrigger } from '@/components/preferences/preferences-trigger';
 import { buttonStyles } from '@/components/ui/button';
 import { routes } from '@/lib/routes';
 import { currentYear } from '@/lib/year';

@@ -6,7 +6,7 @@ import { pageRoute, routes } from '@/lib/routes';
 import type { CmsLinkValue } from '@/sanity/models';
 import { getGlobal } from '@/sanity/queries/global';
 import { BookingTrigger } from './booking/booking-trigger';
-import { CookieSettingsTrigger } from './consent/cookie-settings-trigger';
+import { CookieSettingsTrigger } from './preferences/preferences-trigger';
 
 type Props = {
   link: Omit<CmsLinkValue, 'label'> & { label?: string };

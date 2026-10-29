@@ -9,7 +9,7 @@ import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { routes } from '@/lib/routes';
 import type { CookieCopy } from '@/sanity/queries/global';
-import type { Consent } from './consent-context';
+import type { Consent } from './preferences-context';
 
 type View = 'hidden' | 'banner' | 'settings' | 'saved';
 

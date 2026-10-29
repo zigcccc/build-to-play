@@ -3,7 +3,7 @@
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
-import { useConsent } from '@/components/consent/consent-context';
+import { useConsent } from '@/components/preferences/preferences-context';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import type { LocationValue } from '@/sanity/queries/global';

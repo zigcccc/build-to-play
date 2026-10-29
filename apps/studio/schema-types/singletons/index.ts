@@ -1,11 +1,11 @@
 import { aboutPage } from './about-page';
 import { articlesPage } from './articles-page';
 import { contactPage } from './contact-page';
-import { cookieConsent } from './cookie-consent';
 import { forms } from './forms';
 import { homePage } from './home-page';
 import { layout } from './layout';
 import { notFoundPage } from './not-found-page';
+import { cookieConsent } from './piskotki';
 import { pricingPage } from './pricing-page';
 import { privacyPage } from './privacy-page';
 import { programPage } from './program-page';

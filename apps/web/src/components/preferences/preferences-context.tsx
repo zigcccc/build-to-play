@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import { createContext, type ReactNode, use, useEffect, useState } from 'react';
 import type { CookieCopy } from '@/sanity/queries/global';
 
-const CookieUi = dynamic(() => import('./cookie-ui').then((m) => m.CookieUi));
+const CookieUi = dynamic(() => import('./preferences-ui').then((m) => m.CookieUi));
 
 const COOKIE = 'b2p_consent';
 const VERSION = 1;
