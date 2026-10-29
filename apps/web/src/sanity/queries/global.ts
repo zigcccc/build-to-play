@@ -4,7 +4,15 @@ import { cache } from 'react';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
 import { IMAGE, LINK, PORTABLE_TEXT, PROGRAM_CARD, SEO } from '../fragments';
-import { imageModel, labeledValueModel, linkModel, portableTextModel, programCardModel, seoModel } from '../models';
+import {
+  cmsEnum,
+  imageModel,
+  labeledValueModel,
+  linkModel,
+  portableTextModel,
+  programCardModel,
+  seoModel,
+} from '../models';
 
 const GLOBAL_QUERY = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{
@@ -32,7 +40,7 @@ export const globalModel = z.object({
     description: z.string(),
     email: z.string(),
     phone: z.object({ display: z.string(), e164: z.string() }),
-    socials: z.array(z.object({ platform: socialPlatform, url: z.string(), handle: z.string() })),
+    socials: z.array(z.object({ platform: cmsEnum(socialPlatform), url: z.string(), handle: z.string() })),
     openingHours: z.array(labeledValueModel),
     companyName: z.string(),
     companyAddress: z.string().nullish(),
@@ -55,7 +63,7 @@ export const globalModel = z.object({
     seo: seoModel,
   }),
   layout: z.object({
-    nav: z.array(z.object({ label: z.string(), target: z.union([pageKey, z.literal('programs')]) })),
+    nav: z.array(z.object({ label: z.string(), target: cmsEnum(z.union([pageKey, z.literal('programs')])) })),
     headerCta: z.string(),
     programsMenu: z.object({ helperText: z.string(), pricingLabel: z.string(), bookingLabel: z.string() }),
     mobileMenu: z.object({ homeLabel: z.string(), ctaLabel: z.string() }),

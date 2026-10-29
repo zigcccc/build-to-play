@@ -1,5 +1,13 @@
 import { iconName, linkKind, pageKey, programKey } from '@b2p/shared';
+import { stegaClean } from 'next-sanity';
 import { z } from 'zod';
+
+/**
+ * CMS values that drive logic (enums) must be compared without stega markers.
+ * Draft mode encodes strings for click-to-edit; this strips them before validation.
+ */
+export const cmsEnum = <T extends z.ZodType>(schema: T) =>
+  z.preprocess((value) => (typeof value === 'string' ? stegaClean(value) : value), schema);
 
 export const imageModel = z.object({
   alt: z.string().nullish(),
@@ -18,8 +26,8 @@ export type SanityImage = z.infer<typeof imageModel>;
 
 export const linkModel = z.object({
   label: z.string(),
-  kind: linkKind,
-  page: pageKey.nullish(),
+  kind: cmsEnum(linkKind),
+  page: cmsEnum(pageKey).nullish(),
   url: z.string().nullish(),
   anchor: z.string().nullish(),
   programSlug: z.string().nullish(),
@@ -37,7 +45,7 @@ export type AccentHeadingValue = z.infer<typeof accentHeadingModel>;
 
 export const titledTextModel = z.object({ title: z.string(), text: z.string() });
 export const statModel = z.object({ value: z.string(), label: z.string() });
-export const iconItemModel = z.object({ icon: iconName, title: z.string(), text: z.string() });
+export const iconItemModel = z.object({ icon: cmsEnum(iconName), title: z.string(), text: z.string() });
 export const labeledValueModel = z.object({ label: z.string(), value: z.string() });
 
 export const ctaCardModel = z.object({
@@ -74,12 +82,12 @@ export type PackageValue = z.infer<typeof packageModel>;
 
 export const programCardModel = z.object({
   _id: z.string(),
-  key: programKey,
+  key: cmsEnum(programKey),
   name: z.string(),
   slug: z.string(),
   shortLabel: z.string(),
   pricingLabel: z.string(),
-  icon: iconName,
+  icon: cmsEnum(iconName),
   tagline: z.string(),
   cardDescription: z.string(),
   cardBullets: z.array(z.string()),

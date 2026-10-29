@@ -3,7 +3,7 @@ import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
 import { CTA_CARD, FAQ, LINK, PACKAGE, SEO } from '../fragments';
-import { ctaCardModel, faqModel, iconItemModel, linkModel, packageModel, seoModel } from '../models';
+import { cmsEnum, ctaCardModel, faqModel, iconItemModel, linkModel, packageModel, seoModel } from '../models';
 
 const PRICING_QUERY = defineQuery(`{
   "page": *[_id == "pricingPage"][0]{
@@ -31,7 +31,7 @@ const pricingModel = z.object({
   programs: z.array(
     z.object({
       _id: z.string(),
-      key: programKey,
+      key: cmsEnum(programKey),
       name: z.string(),
       shortLabel: z.string(),
       pricingLabel: z.string(),
