@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   typedRoutes: true,
   transpilePackages: ['@b2p/shared'],
+  // Dev only: lets a phone on the local network load the dev scripts (otherwise the page never hydrates).
+  allowedDevOrigins: ['192.168.*.*', '10.*.*.*', '*.local'],
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
   },
