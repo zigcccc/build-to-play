@@ -20,8 +20,8 @@ Helpers are in `seed-helpers.ts`:
 - `keyed()` to add the array `_key`s
 
 How it behaves:
-- Each document has a **fixed `_id`** and is written with `createOrReplace`, so re-running the seed is safe.
-- **Re-running it overwrites any edits made in the Studio.** Once the client is editing, run it only with `--only=`.
+- Each document has a **fixed `_id`**. By default the seed uses `createIfNotExists`, so it only adds missing documents and never touches Studio edits.
+- `--force` switches to `createOrReplace` and **overwrites** what's in the dataset. Combine it with `--only=` to update the documents you changed in the seed; check for a `drafts.` copy first.
 - Copy comes verbatim from `docs/handoff/design`. Keep `[placeholders]` as they are, and write the response time, duration and interval as `{rok}` / `{trajanje}` / `{interval}`.
 
 Commands, run from the repo root:
@@ -29,6 +29,7 @@ Commands, run from the repo root:
 ```bash
 pnpm --filter @b2p/studio seed                      # everything
 pnpm --filter @b2p/studio seed -- --only=homePage   # by _id or _type
+pnpm --filter @b2p/studio seed -- --only=homePage --force   # overwrite
 pnpm --filter @b2p/studio exec sanity documents validate -y
 ```
 

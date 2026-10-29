@@ -1,6 +1,7 @@
 /**
- * Seeds the dataset with the design copy. Idempotent: fixed IDs + createOrReplace.
- * Run: pnpm --filter @b2p/studio seed   (add `-- --only=homePage,forms` to limit)
+ * Seeds the dataset with the design copy, using fixed IDs. By default it only creates documents that don't exist yet,
+ * so it never touches content edited in the Studio. `--force` overwrites (createOrReplace): use it with `--only=`.
+ * Run: pnpm --filter @b2p/studio seed   (add `-- --only=homePage,forms` to limit, `-- --force` to overwrite)
  */
 import { createReadStream } from 'node:fs';
 import { resolve } from 'node:path';
@@ -39,15 +40,24 @@ async function main() {
     .find((arg) => arg.startsWith('--only='))
     ?.slice(7)
     .split(',');
+  const force = process.argv.includes('--force');
+  const wanted = (doc: { _id: string; _type: string }) => !only || only.includes(doc._id) || only.includes(doc._type);
 
-  const heroAsset = await uploadImage('images/hero-suspension-row.jpg', 'hero-suspension-row.jpg');
-  const home = {
-    ...homePage,
-    hero: {
-      ...homePage.hero,
-      image: { _type: 'altImage', asset: heroAsset, alt: 'Trening z obročema TRX v temnem fitnesu' },
-    },
-  };
+  // The hero image is uploaded only when the home page is actually going to be written.
+  const writeHome = wanted(homePage) && (force || !(await client.getDocument(homePage._id)));
+  const home = writeHome
+    ? {
+        ...homePage,
+        hero: {
+          ...homePage.hero,
+          image: {
+            _type: 'altImage',
+            asset: await uploadImage('images/hero-suspension-row.jpg', 'hero-suspension-row.jpg'),
+            alt: 'Trening z obročema TRX v temnem fitnesu',
+          },
+        },
+      }
+    : homePage;
 
   const docs: { _id: string; _type: string }[] = [
     person,
@@ -70,12 +80,12 @@ async function main() {
     comingSoonPage,
     forms,
     cookieConsent,
-  ].filter((doc) => !only || only.includes(doc._id) || only.includes(doc._type));
+  ].filter(wanted);
 
   const tx = client.transaction();
-  for (const doc of docs) tx.createOrReplace(doc);
+  for (const doc of docs) force ? tx.createOrReplace(doc) : tx.createIfNotExists(doc);
   await tx.commit({ visibility: 'async' });
-  console.log(`Seeded ${docs.length} documents.`);
+  console.log(`${force ? 'Wrote' : 'Created missing of'} ${docs.length} documents.`);
 }
 
 main().catch((error) => {
