@@ -1,4 +1,3 @@
-import type { ProgramKey } from '@b2p/shared';
 import { Check } from 'lucide-react';
 import { BookingTrigger } from '@/components/booking/booking-trigger';
 import { buttonStyles } from '@/components/ui/button';
@@ -6,7 +5,7 @@ import { cn } from '@/lib/cn';
 import { formatPrice } from '@/lib/price';
 import type { PackageValue } from '@/sanity/models';
 
-type Props = { packages: PackageValue[]; program: ProgramKey; featuredLabel: string };
+type Props = { packages: PackageValue[]; program: string; featuredLabel: string };
 
 export function PackageCards({ packages, program, featuredLabel }: Props) {
   return (

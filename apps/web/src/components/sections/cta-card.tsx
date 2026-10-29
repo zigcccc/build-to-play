@@ -1,4 +1,3 @@
-import type { ProgramKey } from '@b2p/shared';
 import { CmsLink } from '@/components/cms-link';
 import { AccentHeading } from '@/components/ui/accent-heading';
 import { Arrow } from '@/components/ui/arrow';
@@ -7,7 +6,7 @@ import { cn } from '@/lib/cn';
 import type { CtaCardValue } from '@/sanity/models';
 
 /** Closing "Brezplačen posvet" card with the outlined decorative 2. */
-export function CtaCard({ cta, program }: { cta: CtaCardValue; program?: ProgramKey }) {
+export function CtaCard({ cta, program }: { cta: CtaCardValue; program?: string }) {
   return (
     <section aria-labelledby="cta-title" className="pb-[clamp(72px,10vw,136px)]">
       <div className="wrap">

@@ -12,7 +12,7 @@ const HOME_QUERY = defineQuery(`*[_id == "homePage"][0]{
   consultation{ eyebrow, heading, lead, primaryCta${LINK}, secondaryCta${LINK}, steps },
   results{
     eyebrow, heading, intro, steps, reportEyebrow, reportTitle, chartLabels, caption,
-    tabs[]{ _key, "programKey": program->key, "label": program->shortLabel, description, points, metrics[]{ _key, label, from, to, delta } },
+    tabs[]{ _key, "program": program->slug.current, "label": program->shortLabel, description, points, metrics[]{ _key, label, from, to, delta } },
     "testimonials": testimonials[]->{ _id, quote, name, program, place },
     moreTestimonials${LINK}
   },
@@ -62,7 +62,7 @@ const homeModel = z.object({
     tabs: z.array(
       z.object({
         _key: z.string(),
-        programKey: z.string(),
+        program: z.string(),
         label: z.string(),
         description: z.string(),
         points: z.array(z.number()),

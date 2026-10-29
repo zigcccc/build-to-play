@@ -1,6 +1,5 @@
 'use client';
 
-import type { ProgramKey } from '@b2p/shared';
 import dynamic from 'next/dynamic';
 import { createContext, type ReactNode, use, useEffect, useState } from 'react';
 import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
@@ -8,9 +7,9 @@ import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
 // The flow is only downloaded once someone actually opens it.
 const BookingDialog = dynamic(() => import('./booking-dialog').then((m) => m.BookingDialog));
 
-export type BookingProgram = { key: ProgramKey; label: string };
+export type BookingProgram = { key: string; label: string };
 
-type BookingContextValue = { open: (program?: ProgramKey) => void };
+type BookingContextValue = { open: (program?: string) => void };
 
 const BookingContext = createContext<BookingContextValue | null>(null);
 
@@ -31,12 +30,12 @@ type Props = {
 };
 
 export function BookingProvider({ children, ...dialogProps }: Props) {
-  const [state, setState] = useState<{ open: boolean; program?: ProgramKey; mounted: boolean }>({
+  const [state, setState] = useState<{ open: boolean; program?: string; mounted: boolean }>({
     open: false,
     mounted: false,
   });
 
-  const open = (program?: ProgramKey) => setState({ open: true, program, mounted: true });
+  const open = (program?: string) => setState({ open: true, program, mounted: true });
 
   // Deep link: any URL with ?posvet=1 opens the flow (once the page has finished hydrating).
   useEffect(() => {

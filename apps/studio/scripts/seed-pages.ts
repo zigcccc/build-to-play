@@ -186,7 +186,7 @@ export const homePage = {
     eyebrow: 'Programi in cenik',
     heading: 'Izberi svojo pot.',
     intro:
-      'Trije programi, en pristop: najprej te spoznam, potem trenirava. Ne veš, kaj izbrati? Za to je uvodni posvet.',
+      'Štirje programi, en pristop: najprej te spoznam, potem trenirava. Ne veš, kaj izbrati? Za to je uvodni posvet.',
     link: page('Celoten cenik', 'pricing'),
   },
   consultation: {
@@ -251,6 +251,18 @@ export const homePage = {
           { _type: 'resultMetric', label: 'Opravljeni treningi', from: '0', to: '22 / 24', delta: '92 %' },
           { _type: 'resultMetric', label: 'Sklece v enem nizu', from: '12', to: '30', delta: '+150 %' },
           { _type: 'resultMetric', label: 'Koraki na dan', from: '5.400', to: '9.100', delta: '+69 %' },
+        ]),
+      },
+      {
+        _type: 'resultTab',
+        program: ref('program-vratarji'),
+        description:
+          'Odziv, gibljivost in eksplozivnost v vratih. Testi so izbrani glede na zahteve vratarskega položaja.',
+        points: [0, 12, 20, 32, 41, 50, 61, 70],
+        metrics: keyed([
+          { _type: 'resultMetric', label: 'Reakcijski čas', from: '0,42 s', to: '0,35 s', delta: '−17 %' },
+          { _type: 'resultMetric', label: 'Bočni skok', from: '1,95 m', to: '2,20 m', delta: '+13 %' },
+          { _type: 'resultMetric', label: 'Notranja rotacija kolka', from: '28°', to: '41°', delta: '+46 %' },
         ]),
       },
     ]),

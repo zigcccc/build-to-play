@@ -68,7 +68,7 @@ export function HomeContact({ data, global }: Props) {
             copy={forms}
             email={settings.email}
             heading={data.formHeading}
-            programs={programs.map((p) => ({ key: p.key, label: p.name }))}
+            programs={programs.map((p) => ({ key: p.slug, label: p.name }))}
             variant="home"
           />
         </div>

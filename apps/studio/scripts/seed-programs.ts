@@ -91,6 +91,27 @@ export const faqs = [
     'Da. V paketu Plus pregledam tvoje posnetke in ti vrnem komentarje.'
   ),
   faq('faq-online-5', 'Se lahko kadarkoli odjavim?', '[Dopolni pogoje odpovedi.]'),
+  faq(
+    'faq-vratarji-1',
+    'Ali trening poteka na ledu?',
+    '[Dopolni: trening poteka na suhem / tudi na ledu – kje in kdaj.]'
+  ),
+  faq(
+    'faq-vratarji-2',
+    'Od katere starosti sprejemaš vratarje?',
+    'Od [starost] let naprej. Pri mlajših je poudarek na koordinaciji, gibljivosti in pravilni tehniki gibanja.'
+  ),
+  faq(
+    'faq-vratarji-3',
+    'Kako se trening ujema z delom v klubu?',
+    'Na ledu treniraš s klubom, z mano gradiš telo, ki to zdrži: gibljivost, moč in odziv. Načrt uskladim z urnikom tvojih treningov in tekem.'
+  ),
+  faq(
+    'faq-vratarji-4',
+    'Potrebujem vratarsko opremo?',
+    'Ne. Treniramo v športni opremi, za vaje odziva uporabljam žogice in reakcijske pripomočke.'
+  ),
+  faq('faq-vratarji-5', 'Ali sodeluješ s trenerjem vratarjev v klubu?', '[Dopolni: da / ne, kako poteka sodelovanje.]'),
   faq('faq-pricing-1', 'Kako plačam?', '[Dopolni načine plačila.] Za vsako plačilo prejmeš račun.'),
   faq(
     'faq-pricing-2',
@@ -310,6 +331,78 @@ export const programs = [
       title: 'Online trenerstvo – trening na daljavo',
       description:
         'Program v aplikaciji, video navodila za vsako vajo in tedenski pregledi napredka. Treniraš doma ali v fitnesu, vodenje dobiš na daljavo.',
+    },
+  },
+  {
+    _id: 'program-vratarji',
+    _type: 'program',
+    name: 'Trening za hokejske vratarje',
+    slug: slug('hokejski-vratarji'),
+    order: 4,
+    shortLabel: 'Vratarji',
+    pricingLabel: 'Hokejski vratarji',
+    icon: 'shield',
+    tagline: 'Hitrejši odziv, gibljivi boki in moč v položaju.',
+    cardDescription:
+      'Za hokejske vratarje, ki želijo hitreje reagirati, se eksplozivneje premikati v vratih in ostati zdravi skozi sezono.',
+    cardBullets: ['Gibljivost bokov in kolen', 'Odziv in koordinacija oko–roka', 'Bočni odriv in eksplozivnost'],
+    otherShort: 'Odziv, gibljivost in moč, prilagojeni vratarskemu položaju.',
+    priceFrom: { label: '[Cena] €', unit: '/ mesec' },
+    lead: 'Za hokejske vratarje vseh starosti, ki želijo hitreje reagirati, se eksplozivneje premikati v vratih in ostati zdravi skozi dolgo sezono.',
+    forWho: titled([
+      ['Mladi vratarji', 'Varna osnova gibljivosti, koordinacije in moči, ki jo vratar potrebuje za razvoj.'],
+      ['Klubski vratarji', 'Več eksplozivnosti in hitrejši odziv za tekme na višji ravni.'],
+      ['Med sezono', 'Vzdrževanje moči in gibljivosti brez dodatne utrujenosti pred tekmami.'],
+      ['Po poškodbi', 'Postopna vrnitev v vrata po poškodbi kolka, dimelj ali kolena.'],
+    ]),
+    includesLead:
+      'Trening, zgrajen okoli vratarskega položaja: gibljivost, odziv in moč, ki jih potrebuješ v vratih. [Dopolni: trening na suhem / tudi na ledu.]',
+    includes: [
+      'Testiranje gibljivosti in odziva',
+      'Gibljivost bokov, kolen in gležnjev',
+      'Odziv in koordinacija oko–roka',
+      'Bočni odriv in eksplozivnost',
+      'Preventiva poškodb dimelj in kolkov',
+      'Načrt po fazah sezone',
+    ],
+    assessmentStep: 'Testi gibljivosti bokov, bočnega odriva, reakcijskega časa in ravnotežja v vratarskem položaju.',
+    faqs: faqIds('vratarji'),
+    packages: packages([
+      [
+        'Individualno',
+        '/ mesec',
+        '[2] treninga na teden.',
+        [
+          'Program za vratarski položaj',
+          'Testiranje vsakih {interval} tednov',
+          'Načrt po fazah sezone',
+          'Podpora prek sporočil',
+        ],
+        'Izberi',
+        true,
+      ],
+      [
+        'Vratarska skupina',
+        '/ mesec na osebo',
+        '2–4 vratarji, [2] treninga na teden.',
+        ['Trening v skupini', 'Skupno testiranje', 'Nižja cena na osebo'],
+        'Izberi',
+        false,
+      ],
+      [
+        'Klub',
+        '',
+        'Za klube, ki želijo pripravo za vse svoje vratarje.',
+        ['Treningi na vaši lokaciji', 'Testiranje vseh vratarjev', 'Poročilo za trenerja'],
+        'Pošlji povpraševanje',
+        false,
+        'Po dogovoru',
+      ],
+    ]),
+    seo: {
+      title: 'Trening za hokejske vratarje',
+      description:
+        'Kondicijska priprava za hokejske vratarje: gibljivost bokov, odziv, bočni odriv in preventiva poškodb dimelj. Testiranje in načrt po fazah sezone.',
     },
   },
 ];

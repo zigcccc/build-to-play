@@ -1,9 +1,8 @@
-import { programKey } from '@b2p/shared';
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
 import { CTA_CARD, FAQ, LINK, PACKAGE, SEO } from '../fragments';
-import { cmsEnum, ctaCardModel, faqModel, iconItemModel, linkModel, packageModel, seoModel } from '../models';
+import { ctaCardModel, faqModel, iconItemModel, linkModel, packageModel, seoModel } from '../models';
 
 const PRICING_QUERY = defineQuery(`{
   "page": *[_id == "pricingPage"][0]{
@@ -14,7 +13,7 @@ const PRICING_QUERY = defineQuery(`{
     "seo": seo${SEO}
   },
   "programs": *[_type == "program" && defined(slug.current)] | order(order asc){
-    _id, key, name, shortLabel, pricingLabel, "slug": slug.current, packages[]${PACKAGE}
+    _id, name, shortLabel, pricingLabel, "slug": slug.current, packages[]${PACKAGE}
   }
 }`);
 
@@ -31,7 +30,6 @@ const pricingModel = z.object({
   programs: z.array(
     z.object({
       _id: z.string(),
-      key: cmsEnum(programKey),
       name: z.string(),
       shortLabel: z.string(),
       pricingLabel: z.string(),

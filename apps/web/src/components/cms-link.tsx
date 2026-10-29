@@ -1,4 +1,3 @@
-import type { ProgramKey } from '@b2p/shared';
 import type { Route } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -14,7 +13,7 @@ type Props = {
   /** Rendered instead of the label (e.g. label + icon). */
   children?: ReactNode;
   /** Program to preselect when this link opens the booking flow. */
-  program?: ProgramKey;
+  program?: string;
   'aria-label'?: string;
   /** Rendered instead when the link leads nowhere (e.g. to the switched-off Nasveti section). */
   fallback?: ReactNode;

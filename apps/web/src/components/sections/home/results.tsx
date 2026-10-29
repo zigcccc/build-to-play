@@ -110,14 +110,15 @@ function Report({ tab, data }: { tab: Tab; data: HomeData['results'] }) {
 
 export function Results({ data }: { data: HomeData['results'] }) {
   const testimonial = data.testimonials?.[0];
+  // overflow-x-clip: the report glow bleeds past the viewport on narrow screens; `clip` (not hidden) keeps the tabs sticky.
   return (
-    <section aria-labelledby="rezultati-title" className="sec" id="rezultati">
+    <section aria-labelledby="rezultati-title" className="sec overflow-x-clip" id="rezultati">
       <div className="wrap">
         <SectionHeader aside={<p>{data.intro}</p>} eyebrow={data.eyebrow} heading={data.heading} id="rezultati-title" />
         <Tabs
           className="gap-y-7"
           items={data.tabs.map((tab) => ({
-            value: tab.programKey,
+            value: tab.program,
             label: tab.label,
             panel: (
               <div className="grid-fit items-start [--gap:clamp(40px,6vw,96px)] [--min:440px]">

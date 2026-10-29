@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
             consent={<InlineText value={forms.labels.consent} />}
             copy={forms}
             locations={locations.map(({ _id, name }) => ({ _id, name }))}
-            programs={programs.map((p) => ({ key: p.key, label: p.shortLabel }))}
+            programs={programs.map((p) => ({ key: p.slug, label: p.shortLabel }))}
             socials={{ instagram: settings.socials.find((s) => s.platform === 'instagram')?.url }}
           >
             <Header />

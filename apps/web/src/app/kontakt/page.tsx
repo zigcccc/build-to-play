@@ -62,7 +62,7 @@ export default async function ContactPage() {
               copy={forms}
               email={settings.email}
               heading={page.formHeading}
-              programs={programs.map((p) => ({ key: p.key, label: p.name }))}
+              programs={programs.map((p) => ({ key: p.slug, label: p.name }))}
               variant="contact"
             />
           </div>

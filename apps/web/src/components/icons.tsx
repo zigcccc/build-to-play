@@ -9,6 +9,7 @@ import {
   type LucideProps,
   MapPin,
   Receipt,
+  Shield,
   Smartphone,
   Target,
   Trophy,
@@ -28,6 +29,7 @@ const programIcons = {
   activity: Activity,
   target: Target,
   users: Users,
+  shield: Shield,
 } satisfies Record<IconName, unknown>;
 
 export function CmsIcon({ name, ...props }: { name: IconName } & LucideProps) {

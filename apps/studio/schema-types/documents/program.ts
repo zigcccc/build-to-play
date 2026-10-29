@@ -1,4 +1,4 @@
-import { iconName, programKey } from '@b2p/shared';
+import { iconName } from '@b2p/shared';
 import { RocketIcon } from '@sanity/icons/Rocket';
 import { defineField, defineType } from 'sanity';
 import { groups, list, refs, section, seoField, str, strList, txt, typed } from '../fields';
@@ -10,26 +10,14 @@ export const program = defineType({
   icon: RocketIcon,
   groups: groups(['basics', 'Osnovno'], ['page', 'Stran programa'], ['packages', 'Paketi'], ['seo', 'SEO']),
   fields: [
-    defineField({
-      name: 'key',
-      title: 'Vrsta programa',
-      type: 'string',
-      group: 'basics',
-      options: {
-        list: [...programKey.options],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
-      description: 'Določa ikono in predizbiro v obrazcu za posvet.',
-      validation: (r) => r.required(),
-    }),
     str('name', 'Ime programa', { group: 'basics' }),
     defineField({
       name: 'slug',
       title: 'URL',
       type: 'slug',
       group: 'basics',
-      options: { source: 'key' },
+      options: { source: 'name' },
+      description: 'Določa tudi predizbiro programa v obrazcu za posvet.',
       validation: (r) => r.required(),
     }),
     defineField({

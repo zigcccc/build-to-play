@@ -47,13 +47,14 @@ export function Tabs({ items, label, className, listClassName, aside, after }: P
       <BaseTabs.List
         aria-label={label}
         className={cn(
-          'sticky top-[86px] z-30 grid grid-flow-col auto-cols-fr gap-1 border border-hairline bg-surface p-1 shadow-[0_8px_24px_rgb(0_0_0/0.5)]',
+          // Equal widths while the labels fit; past that (narrow phones, long CMS labels) the bar scrolls sideways.
+          'sticky top-[86px] z-30 grid auto-cols-[minmax(max-content,1fr)] grid-flow-col gap-1 overflow-x-auto border border-hairline bg-surface p-1 shadow-[0_8px_24px_rgb(0_0_0/0.5)] [scrollbar-width:none]',
           listClassName
         )}
       >
         {items.map((item) => (
           <BaseTabs.Tab
-            className="min-h-11 cursor-pointer px-2 font-bold text-[13px] text-ink uppercase tracking-[0.14em] transition-colors hover:bg-white/6 data-active:bg-accent data-active:text-black data-active:hover:bg-accent-hover"
+            className="min-h-11 cursor-pointer px-2 font-bold text-[13px] text-ink uppercase tracking-[0.08em] sheet:tracking-[0.14em] transition-colors hover:bg-white/6 data-active:bg-accent data-active:text-black data-active:hover:bg-accent-hover"
             key={item.value}
             value={item.value}
           >

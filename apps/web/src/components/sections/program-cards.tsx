@@ -2,22 +2,28 @@ import { Check } from 'lucide-react';
 import Link from 'next/link';
 import { CmsIcon } from '@/components/icons';
 import { Arrow } from '@/components/ui/arrow';
+import { cn } from '@/lib/cn';
 import { formatPrice } from '@/lib/price';
 import { routes } from '@/lib/routes';
 import type { ProgramCard } from '@/sanity/models';
 
 type Labels = { priceFrom: string; moreAboutProgram: string };
 
+// Fixed column counts so a row never ends in an orphan card: 1 → 2 → 4 for an even count, 1 → 3 otherwise.
+const columns = (count: number) => (count % 2 ? 'nav:grid-cols-3' : 'sheet:grid-cols-2 xl:grid-cols-4');
+
 export function ProgramCards({ programs, labels }: { programs: ProgramCard[]; labels: Labels }) {
   return (
-    <div className="grid-fit border border-hairline bg-hairline [--gap:1px] [--min:340px]">
+    <div className={cn('grid gap-px border border-hairline bg-hairline', columns(programs.length))}>
       {programs.map((p) => (
-        <article className="flex flex-col gap-6 bg-black p-[clamp(24px,3vw,40px)]" key={p._id}>
+        <article className="flex flex-col gap-6 bg-black p-[clamp(24px,3vw,40px)] xl:p-7" key={p._id}>
           <div className="flex items-center justify-between">
             <span className="num">{String(p.order).padStart(2, '0')}</span>
             <CmsIcon name={p.icon} size={28} />
           </div>
-          <h3 className="m-0 font-bold font-display text-4xl uppercase leading-9">{p.name}</h3>
+          <h3 className="m-0 font-bold font-display text-4xl uppercase leading-9 xl:text-[30px] xl:leading-[30px]">
+            {p.name}
+          </h3>
           <p className="text-muted">{p.cardDescription}</p>
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
             {p.cardBullets.map((bullet) => (

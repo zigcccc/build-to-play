@@ -77,7 +77,7 @@ export async function submitBooking(input: unknown, meta: { honeypot: string; st
     email: data.email,
     phone: data.phone,
     goal: data.goal,
-    subject: programs.find((p) => p.key === data.program)?.name,
+    subject: programs.find((p) => p.slug === data.program)?.name,
     mode: data.mode === 'live' ? forms.booking.step2.modeLive : forms.booking.step2.modeVideo,
     location:
       data.mode === 'live'

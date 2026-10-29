@@ -1,8 +1,5 @@
 import { z } from 'zod';
 
-export const programKey = z.enum(['fitnes', 'sport', 'online']);
-export type ProgramKey = z.infer<typeof programKey>;
-
 export const socialPlatform = z.enum(['instagram', 'facebook', 'tiktok', 'youtube', 'linkedin']);
 export type SocialPlatform = z.infer<typeof socialPlatform>;
 
@@ -20,6 +17,7 @@ export const iconName = z.enum([
   'activity',
   'target',
   'users',
+  'shield',
 ]);
 export type IconName = z.infer<typeof iconName>;
 

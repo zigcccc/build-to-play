@@ -1,4 +1,4 @@
-import { iconName, linkKind, pageKey, programKey } from '@b2p/shared';
+import { iconName, linkKind, pageKey } from '@b2p/shared';
 import { stegaClean } from 'next-sanity';
 import { z } from 'zod';
 
@@ -82,7 +82,6 @@ export type PackageValue = z.infer<typeof packageModel>;
 
 export const programCardModel = z.object({
   _id: z.string(),
-  key: cmsEnum(programKey),
   name: z.string(),
   slug: z.string(),
   shortLabel: z.string(),

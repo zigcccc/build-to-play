@@ -89,28 +89,30 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
                         <ChevronDown size={16} />
                       </NavigationMenu.Icon>
                     </NavigationMenu.Trigger>
-                    <NavigationMenu.Content
-                      className="grid grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,0.8fr)] gap-1 p-3"
-                      keepMounted
-                    >
-                      {programs.map((p) => (
-                        <NavigationMenu.Link
-                          className="flex flex-col gap-3 border border-transparent p-5 text-ink transition-colors hover:border-white/14 hover:bg-white/4 hover:text-ink"
-                          href={routes.program(p.slug)}
-                          key={p.slug}
-                          render={<Link href={routes.program(p.slug)} />}
-                        >
-                          <span className="flex items-center justify-between">
-                            <span className="font-display font-semibold text-accent text-xl">{p.num}</span>
-                            <CmsIcon name={p.icon} size={24} strokeWidth={1.5} />
-                          </span>
-                          <span className="font-bold font-display text-[26px] uppercase leading-[26px]">{p.name}</span>
-                          <span className="text-muted text-sm">{p.tagline}</span>
-                        </NavigationMenu.Link>
-                      ))}
-                      <div className="flex flex-col justify-between gap-4 bg-surface p-5">
+                    <NavigationMenu.Content className="flex flex-col gap-1 p-3" keepMounted>
+                      {/* One row however many programs the CMS holds; the helper strip sits below. */}
+                      <div className="grid auto-cols-fr grid-flow-col gap-1">
+                        {programs.map((p) => (
+                          <NavigationMenu.Link
+                            className="flex flex-col gap-3 border border-transparent p-5 text-ink transition-colors hover:border-white/14 hover:bg-white/4 hover:text-ink"
+                            href={routes.program(p.slug)}
+                            key={p.slug}
+                            render={<Link href={routes.program(p.slug)} />}
+                          >
+                            <span className="flex items-center justify-between">
+                              <span className="font-display font-semibold text-accent text-xl">{p.num}</span>
+                              <CmsIcon name={p.icon} size={24} strokeWidth={1.5} />
+                            </span>
+                            <span className="font-bold font-display text-[26px] uppercase leading-[26px]">
+                              {p.name}
+                            </span>
+                            <span className="text-muted text-sm">{p.tagline}</span>
+                          </NavigationMenu.Link>
+                        ))}
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2 bg-surface px-5 py-3">
                         <span className="text-muted text-sm">{programsMenu.helperText}</span>
-                        <span className="flex flex-col gap-1">
+                        <span className="flex flex-wrap gap-x-8">
                           <NavigationMenu.Link
                             className="group inline-flex min-h-10 items-center gap-2 font-bold text-accent text-xs uppercase tracking-[0.14em] hover:text-accent-hover"
                             href={routes.pricing}

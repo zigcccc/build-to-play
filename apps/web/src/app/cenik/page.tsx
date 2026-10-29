@@ -93,16 +93,16 @@ export default async function PricingPage() {
             {page.packages.heading}
           </h2>
           <Tabs
-            after={Object.fromEntries(programs.map((p) => [p.key, programLink(p, 'mt-6 w-full cta:hidden')]))}
-            aside={Object.fromEntries(programs.map((p) => [p.key, programLink(p, 'hidden cta:inline-flex')]))}
+            after={Object.fromEntries(programs.map((p) => [p.slug, programLink(p, 'mt-6 w-full cta:hidden')]))}
+            aside={Object.fromEntries(programs.map((p) => [p.slug, programLink(p, 'hidden cta:inline-flex')]))}
             className="gap-y-8"
             items={programs.map((p) => ({
-              value: p.key,
+              value: p.slug,
               label: p.shortLabel,
               panel: (
                 <>
                   <h3 className="sr-only">{p.name}</h3>
-                  <PackageCards featuredLabel={layout.labels.featured} packages={p.packages} program={p.key} />
+                  <PackageCards featuredLabel={layout.labels.featured} packages={p.packages} program={p.slug} />
                 </>
               ),
             }))}

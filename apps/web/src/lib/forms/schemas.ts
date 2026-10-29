@@ -1,4 +1,4 @@
-import { bookingDay, bookingMode, bookingTime, programKey } from '@b2p/shared';
+import { bookingDay, bookingMode, bookingTime } from '@b2p/shared';
 import { z } from 'zod';
 
 /** Error keys map to the CMS copy in `forms.errors`, so client and server show the same text. */
@@ -42,7 +42,8 @@ export const homeContactSchema = z.object({
 export const bookingSchema = z.object({
   ...contactFields,
   goal: trimmed.min(1).max(200),
-  program: programKey.optional(),
+  // The program's slug; the action resolves it against the CMS list.
+  program: trimmed.max(100).optional(),
   mode: bookingMode,
   location: optional,
   days: z.array(bookingDay).max(6),

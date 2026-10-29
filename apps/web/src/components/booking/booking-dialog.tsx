@@ -1,6 +1,6 @@
 'use client';
 
-import { bookingDay, bookingDayLabel, bookingTime, bookingTimeLabel, type ProgramKey } from '@b2p/shared';
+import { bookingDay, bookingDayLabel, bookingTime, bookingTimeLabel } from '@b2p/shared';
 import { AlertDialog } from '@base-ui/react/alert-dialog';
 import { Dialog } from '@base-ui/react/dialog';
 import { Radio } from '@base-ui/react/radio';
@@ -21,7 +21,7 @@ import type { BookingProgram } from './booking-context';
 export type BookingDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  initialProgram?: ProgramKey;
+  initialProgram?: string;
   copy: FormsCopy;
   programs: BookingProgram[];
   locations: Pick<LocationValue, '_id' | 'name'>[];
@@ -44,7 +44,7 @@ const dotClass =
 const chipClass =
   'inline-flex min-h-11 cursor-pointer items-center justify-center rounded-full border border-control px-4 font-medium text-ink text-sm hover:border-ink data-checked:border-accent data-checked:bg-accent data-checked:text-black data-pressed:border-accent data-pressed:bg-accent data-pressed:text-black';
 
-const initial = (program?: ProgramKey) => ({
+const initial = (program?: string) => ({
   step: 1 as Step,
   goal: '',
   program: (program ?? UNKNOWN) as string,

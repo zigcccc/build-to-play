@@ -28,7 +28,7 @@ export const SEO = /* groq */ `{ title, description, noIndex, "ogImage": ogImage
 export const PACKAGE = /* groq */ `{ _key, name, price, priceLabel, unit, note, features, ctaLabel, "featured": coalesce(featured, false) }`;
 
 export const PROGRAM_CARD_FIELDS = /* groq */ `
-  _id, key, name, "slug": slug.current, shortLabel, pricingLabel, icon, tagline,
+  _id, name, "slug": slug.current, shortLabel, pricingLabel, icon, tagline,
   cardDescription, cardBullets, otherShort, priceFrom, "order": order`;
 
 export const PROGRAM_CARD = `{${PROGRAM_CARD_FIELDS}}`;

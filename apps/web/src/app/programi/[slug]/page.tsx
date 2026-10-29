@@ -131,7 +131,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
               <CmsLink
                 className={cn(buttonStyles(), 'group flex-[1_1_100%] cta:flex-none')}
                 link={t.hero.primaryCta}
-                program={program.key}
+                program={program.slug}
               >
                 {t.hero.primaryCta.label}
                 <Arrow />
@@ -234,7 +234,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
               <Arrow />
             </Link>
           </div>
-          <PackageCards featuredLabel={layout.labels.featured} packages={program.packages} program={program.key} />
+          <PackageCards featuredLabel={layout.labels.featured} packages={program.packages} program={program.slug} />
           <p className="mt-6 text-muted text-sm">{t.pricing.vatNote}</p>
         </div>
       </section>
@@ -271,7 +271,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
         </div>
       </section>
 
-      <CtaCard cta={t.cta} program={program.key} />
+      <CtaCard cta={t.cta} program={program.slug} />
     </main>
   );
 }
