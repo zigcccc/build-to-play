@@ -1,3 +1,3 @@
-export * from "./content-types";
-export * from "./enums";
-export * from "./routes";
+export * from './content-types';
+export * from './enums';
+export * from './routes';

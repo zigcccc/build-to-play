@@ -1,25 +1,25 @@
 {
-	"name": "@b2p/studio",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"dev": "sanity dev",
-		"build": "sanity build",
-		"typecheck": "tsc --noEmit",
-		"schema:deploy": "sanity schemas deploy",
-		"seed": "sanity exec scripts/seed.ts --with-user-token"
-	},
-	"dependencies": {
-		"@b2p/shared": "workspace:*",
-		"@sanity/icons": "^5.2.3",
-		"@sanity/table": "^3.1.20",
-		"@sanity/vision": "^6.21.0",
-		"react": "^19.2.4",
-		"react-dom": "^19.2.4",
-		"sanity": "^6.21.0",
-		"styled-components": "^6.1.18"
-	},
-	"devDependencies": {
-		"@types/react": "^19.2.14"
-	}
+  "name": "@b2p/studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "typecheck": "tsc --noEmit",
+    "schema:deploy": "sanity schemas deploy",
+    "seed": "sanity exec scripts/seed.ts --with-user-token"
+  },
+  "dependencies": {
+    "@b2p/shared": "workspace:*",
+    "@sanity/icons": "^5.2.3",
+    "@sanity/table": "^3.1.20",
+    "@sanity/vision": "^6.21.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^6.21.0",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14"
+  }
 }
