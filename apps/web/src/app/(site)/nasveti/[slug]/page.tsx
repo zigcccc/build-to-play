@@ -54,7 +54,7 @@ export default function ArticlePage({ params }: Props) {
 
 async function ArticleContent({ params }: Pick<Props, 'params'>) {
   const { slug } = await params;
-  const [article, copy, { layout }] = await Promise.all([getArticle(slug), getArticlesCopy(), getGlobal()]);
+  const [article, copy, { layout, settings }] = await Promise.all([getArticle(slug), getArticlesCopy(), getGlobal()]);
   if (!article) notFound();
 
   const path = routes.article(slug);
@@ -69,6 +69,9 @@ async function ArticleContent({ params }: Pick<Props, 'params'>) {
     { name: article.category.title, href: routes.category(article.category.slug) },
   ];
   const t = copy.article;
+  const { author } = article;
+  // The owner is the site-wide /#trainer with a profile on /o-meni; anyone else gets their own Person node.
+  const byOwner = author._id === settings.trainer._id;
 
   return (
     <main>
@@ -84,7 +87,16 @@ async function ArticleContent({ params }: Pick<Props, 'params'>) {
             mainEntityOfPage: { '@id': `${absolute(path)}#webpage` },
             datePublished: article.publishedAt,
             dateModified: article.updatedAt ?? article.publishedAt,
-            author: { '@id': ids.trainer },
+            author: byOwner
+              ? { '@id': ids.trainer }
+              : {
+                  '@type': 'Person',
+                  name: author.name,
+                  jobTitle: author.jobTitle,
+                  description: author.bio,
+                  image: author.avatar ? urlFor(author.avatar).width(800).url() : undefined,
+                  sameAs: author.sameAs ?? undefined,
+                },
             publisher: { '@id': ids.business },
             articleSection: article.category.title,
             wordCount: article.wordCount,
@@ -162,10 +174,12 @@ async function ArticleContent({ params }: Pick<Props, 'params'>) {
               <span className="font-bold font-display text-[28px] uppercase leading-[30px]">{article.author.name}</span>
               <span className="text-[15px] text-muted">{article.author.bio}</span>
             </div>
-            <Link className={`${buttonStyles({ variant: 'text' })} group`} href={routes.about}>
-              {t.authorLink}
-              <Arrow />
-            </Link>
+            {byOwner && (
+              <Link className={`${buttonStyles({ variant: 'text' })} group`} href={routes.about}>
+                {t.authorLink}
+                <Arrow />
+              </Link>
+            )}
           </div>
         </div>
       </section>

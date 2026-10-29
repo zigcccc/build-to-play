@@ -49,7 +49,10 @@ export default function ProgramPage({ params }: PageProps<'/programi/[slug]'>) {
 
 async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'params'>) {
   const { slug } = await params;
-  const [{ program, template: t }, { layout, programs }] = await Promise.all([getProgramPage(slug), getGlobal()]);
+  const [{ program, template: t }, { layout, programs, settings }] = await Promise.all([
+    getProgramPage(slug),
+    getGlobal(),
+  ]);
   if (!program) notFound();
 
   const path = routes.program(slug);
@@ -83,7 +86,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
             serviceType: program.name,
             url: absolute(path),
             provider: { '@id': ids.business },
-            areaServed: { '@id': ids.business },
+            areaServed: settings.areaServed,
             audience: { '@type': 'Audience', audienceType: program.forWho.map((w) => w.title).join(', ') },
             hasOfferCatalog: {
               '@type': 'OfferCatalog',

@@ -1,5 +1,6 @@
-import type { Graph, Thing } from 'schema-dts';
+import type { Graph, PostalAddress, Thing } from 'schema-dts';
 import { siteUrl } from '@/env/client';
+import { routes } from '@/lib/routes';
 import { urlFor } from '@/sanity/image';
 import type { GlobalData } from '@/sanity/queries/global';
 
@@ -14,6 +15,14 @@ export const ids = {
 export const absolute = (path: string) => (path.startsWith('http') ? path : `${siteUrl}${path}`);
 
 export const graph = (...nodes: Thing[]): Graph => ({ '@context': 'https://schema.org', '@graph': nodes });
+
+const postalAddress = (streetAddress: string, postalCode?: string, addressLocality?: string): PostalAddress => ({
+  '@type': 'PostalAddress',
+  streetAddress,
+  postalCode,
+  addressLocality,
+  addressCountry: 'SI',
+});
 
 /** Site-wide entities every page references by @id: website, business, trainer and locations. */
 export function siteGraph({ settings, locations }: Pick<GlobalData, 'settings' | 'locations'>): Graph {
@@ -43,6 +52,13 @@ export function siteGraph({ settings, locations }: Pick<GlobalData, 'settings' |
       priceRange: settings.priceRange ?? undefined,
       areaServed: settings.areaServed,
       vatID: settings.vatId ?? undefined,
+      // The registered address when set, else the first training location (Google expects one on a LocalBusiness).
+      address: settings.companyAddress
+        ? postalAddress(settings.companyAddress)
+        : locations[0] && postalAddress(locations[0].street, locations[0].postalCode, locations[0].city),
+      identifier: settings.registrationNumber
+        ? { '@type': 'PropertyValue', propertyID: 'Matična številka', value: settings.registrationNumber }
+        : undefined,
       founder: { '@id': ids.trainer },
       employee: { '@id': ids.trainer },
       sameAs,
@@ -64,7 +80,7 @@ export function siteGraph({ settings, locations }: Pick<GlobalData, 'settings' |
       knowsAbout: trainer.knowsAbout ?? undefined,
       image: trainer.avatar ? urlFor(trainer.avatar).width(800).url() : undefined,
       worksFor: { '@id': ids.business },
-      url: absolute('/o-meni'),
+      url: absolute(routes.about),
       sameAs: [...(trainer.sameAs ?? []), ...sameAs],
     },
     ...locations.map(
@@ -73,13 +89,7 @@ export function siteGraph({ settings, locations }: Pick<GlobalData, 'settings' |
         '@id': ids.location(l._id),
         name: l.name,
         parentOrganization: { '@id': ids.business },
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: l.street,
-          postalCode: l.postalCode,
-          addressLocality: l.city,
-          addressCountry: 'SI',
-        },
+        address: postalAddress(l.street, l.postalCode, l.city),
         geo:
           l.geo?.lat && l.geo.lng
             ? { '@type': 'GeoCoordinates', latitude: l.geo.lat, longitude: l.geo.lng }
