@@ -28,13 +28,14 @@ Content follows this path:
 
 1. Studio schema (`apps/studio/schema-types`)
 2. `schema:deploy`
-3. GROQ query (`apps/web/src/sanity/queries`) plus a Zod model (`.../models`)
+3. GROQ query, Zod model and loader together in `apps/web/src/sanity/queries/<page>.ts` (shared fragments in `sanity/fragments.ts`, shared models in `sanity/models.ts`)
 4. `sanityFetch({ query, params, tags, model })`
 5. Server component
 
 Rules:
 
-- `sanityFetch` is `server-only`. It parses the response with the Zod model and **throws** on mismatch.
+- Next runs with **Cache Components**. `sanityFetch` (`server-only`) wraps a `'use cache'` function with `cacheTag(...tags)` and `cacheLife('max')`. It parses the response with the Zod model and **throws** on mismatch. Draft mode bypasses the cache automatically.
+- Routes with params need `generateStaticParams`. Any runtime API (`cookies`, `searchParams`) has to sit behind `<Suspense>`.
 - `tags` must list **every** `_type` the query touches, including dereferenced types. They come from the `cacheTag` enum in `@b2p/shared`.
 - The Sanity webhook POSTs `{_type}` to `/api/revalidate-tag`, which calls `revalidateTag(_type, "max")`.
 - In draft mode (Presentation tool), fetches use `perspective: "drafts"`, stega, and no cache. Metadata fetches pass `stega: false`.
@@ -59,6 +60,7 @@ Rules:
   - JSON-LD via `lib/json-ld.ts`: a single `@graph` that references `/#business` and `/#trainer`, plus a BreadcrumbList.
   - One H1 and semantic HTML.
   - New routes must be added to `sitemap.ts` and `llms.txt`.
+- **Code style:** Biome with 2 spaces, single quotes and 120 columns. Project skills live in `.claude/skills/`: `cms-field-end-to-end`, `verify-against-design` and `sanity-seed`.
 - **Env** is parsed with Zod in `src/env/{server,client}.ts`. Never read `process.env` elsewhere.
 - **Where we deliberately differ from the handoff:** Base UI instead of shadcn, and a standalone Studio (not embedded at `/studio`).
 
