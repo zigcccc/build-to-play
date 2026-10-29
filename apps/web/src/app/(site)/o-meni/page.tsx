@@ -11,6 +11,7 @@ import { cn } from '@/lib/cn';
 import { breadcrumbs, graph, ids, webPage } from '@/lib/json-ld';
 import { buildMetadata } from '@/lib/metadata';
 import { pageName } from '@/lib/nav-label';
+import { twoDigit } from '@/lib/number';
 import { routes } from '@/lib/routes';
 import { getAbout } from '@/sanity/queries/about';
 import { getGlobal } from '@/sanity/queries/global';
@@ -140,7 +141,7 @@ export default async function AboutPage() {
           <ol className="m-0 grid-fit list-none border border-hairline bg-hairline p-0 [--gap:1px] [--min:260px]">
             {approach.items.map((item, i) => (
               <li className="flex flex-col gap-4 bg-black p-[clamp(24px,3vw,36px)]" key={item.title}>
-                <span className="num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="num">{twoDigit(i + 1)}</span>
                 <h3 className="h3c">{item.title}</h3>
                 <p className="text-[15px] text-muted">{item.text}</p>
               </li>

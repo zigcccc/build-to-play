@@ -26,7 +26,7 @@ export async function Header() {
           mobile={layout.mobileMenu}
           nav={layout.nav.filter((item) => articlesEnabled || item.target !== 'articles')}
           programs={programs.map((p) => ({
-            num: String(p.order).padStart(2, '0'),
+            num: p.number,
             name: p.name,
             slug: p.slug,
             tagline: p.tagline,

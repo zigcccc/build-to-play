@@ -5,10 +5,10 @@ import { FAQ, FAQ_TAGS, PACKAGE } from '../fragments';
 import { faqModel, packageModel } from '../models';
 
 const SITEMAP_QUERY = defineQuery(`{
-  "pages": *[_id in ["homePage", "aboutPage", "pricingPage", "articlesPage", "contactPage", "privacyPage"]]{ _id, _updatedAt },
-  "programs": *[_type == "program" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
+  "pages": *[_id in ["homePage", "aboutPage", "pricingPage", "articlesPage", "contactPage", "privacyPage"] && seo.noIndex != true]{ _id, _updatedAt },
+  "programs": *[_type == "program" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },
   "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt, updatedAt, publishedAt },
-  "categories": *[_type == "category" && defined(slug.current)]{ "slug": slug.current, _updatedAt }
+  "categories": *[_type == "category" && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt }
 }`);
 
 const dated = z.object({ slug: z.string(), _updatedAt: z.string() });

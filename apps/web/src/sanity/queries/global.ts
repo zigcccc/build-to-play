@@ -1,7 +1,7 @@
 import { pageKey, socialPlatform } from '@b2p/shared';
 import { defineQuery } from 'next-sanity';
-import { cache } from 'react';
 import { z } from 'zod';
+import { twoDigit } from '@/lib/number';
 import { sanityFetch } from '../fetch';
 import { IMAGE, LINK, LINK_TAGS, PORTABLE_TEXT, PORTABLE_TEXT_TAGS, PROGRAM_CARD, SEO } from '../fragments';
 import {
@@ -93,7 +93,8 @@ export const globalModel = z.object({
       directions: z.string(),
     }),
   }),
-  programs: z.array(programCardModel),
+  // Numbered by position, so gaps or ties in `order` never show as "10" or a second "02".
+  programs: z.array(programCardModel).transform((list) => list.map((p, i) => ({ ...p, number: twoDigit(i + 1) }))),
   locations: z.array(
     z.object({
       _id: z.string(),
@@ -204,8 +205,8 @@ export type FormsCopy = GlobalData['forms'];
 export type CookieCopy = GlobalData['cookies'];
 export type LocationValue = GlobalData['locations'][number];
 
-/** Site chrome + settings used on every page. Deduped per request. */
-export const getGlobal = cache((stega = true) =>
+/** Site chrome + settings used on every page. */
+export const getGlobal = (stega = true) =>
   sanityFetch({
     query: GLOBAL_QUERY,
     tags: [
@@ -222,5 +223,4 @@ export const getGlobal = cache((stega = true) =>
     ],
     model: globalModel,
     stega,
-  })
-);
+  });

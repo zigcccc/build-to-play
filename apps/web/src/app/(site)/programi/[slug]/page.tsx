@@ -15,6 +15,7 @@ import { SanityImage } from '@/components/ui/sanity-image';
 import { cn } from '@/lib/cn';
 import { absolute, breadcrumbs, faqPage, graph, ids, webPage } from '@/lib/json-ld';
 import { buildMetadata } from '@/lib/metadata';
+import { twoDigit } from '@/lib/number';
 import { toPlainText } from '@/lib/portable-text';
 import { formatPrice } from '@/lib/price';
 import { routes } from '@/lib/routes';
@@ -56,7 +57,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
   if (!program) notFound();
 
   const path = routes.program(slug);
-  const num = String(program.order).padStart(2, '0');
+  const num = programs.find((p) => p._id === program._id)?.number ?? '';
   const others = programs.filter((p) => p._id !== program._id);
   const steps = [
     t.steps.step1,
@@ -194,7 +195,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
           <ul className="rows m-0 list-none p-0">
             {program.includes.map((item, i) => (
               <li className="flex min-h-16 items-center gap-4 py-3 text-[17px]" key={item}>
-                <span className="num w-8 flex-none">{String(i + 1).padStart(2, '0')}</span>
+                <span className="num w-8 flex-none">{twoDigit(i + 1)}</span>
                 {item}
               </li>
             ))}
@@ -213,9 +214,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
           <ol className="m-0 grid-fit list-none p-0 [--gap:32px] [--min:220px]">
             {steps.map((step, i) => (
               <li className="flex flex-col gap-3 border-accent border-t pt-6" key={step.title}>
-                <span className="font-bold font-display text-[56px] text-accent leading-[52px]">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+                <span className="font-bold font-display text-[56px] text-accent leading-[52px]">{twoDigit(i + 1)}</span>
                 <h3 className="m-0 font-semibold text-lg">{step.title}</h3>
                 <p className="text-[15px] text-muted">{step.text}</p>
               </li>
@@ -262,7 +261,7 @@ async function ProgramContent({ params }: Pick<PageProps<'/programi/[slug]'>, 'p
                 href={routes.program(o.slug)}
                 key={o._id}
               >
-                <span className="num">{String(o.order).padStart(2, '0')}</span>
+                <span className="num">{o.number}</span>
                 <span className="font-bold font-display text-4xl uppercase leading-9">{o.name}</span>
                 <span className="text-[15px] text-muted">{o.otherShort}</span>
                 <span className={`${buttonStyles({ variant: 'text' })} self-start`}>

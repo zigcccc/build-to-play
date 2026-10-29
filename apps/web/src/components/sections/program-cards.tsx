@@ -5,7 +5,7 @@ import { Arrow } from '@/components/ui/arrow';
 import { cn } from '@/lib/cn';
 import { formatPrice } from '@/lib/price';
 import { routes } from '@/lib/routes';
-import type { ProgramCard } from '@/sanity/models';
+import type { GlobalData } from '@/sanity/queries/global';
 
 type Labels = { priceFrom: string; moreAboutProgram: string };
 
@@ -16,7 +16,7 @@ const layout = (count: number) =>
     ? ['nav:grid-cols-3', '']
     : ['sheet:grid-cols-2 xl:grid-cols-4', 'xl:max-w-[1328px] xl:px-[clamp(12px,3vw,40px)]'];
 
-export function ProgramCards({ programs, labels }: { programs: ProgramCard[]; labels: Labels }) {
+export function ProgramCards({ programs, labels }: { programs: GlobalData['programs']; labels: Labels }) {
   const [columns, container] = layout(programs.length);
   return (
     <div className={cn('wrap', container)}>
@@ -24,7 +24,7 @@ export function ProgramCards({ programs, labels }: { programs: ProgramCard[]; la
         {programs.map((p) => (
           <article className="flex flex-col gap-6 bg-black p-[clamp(24px,3vw,40px)] xl:p-8" key={p._id}>
             <div className="flex items-center justify-between">
-              <span className="num">{String(p.order).padStart(2, '0')}</span>
+              <span className="num">{p.number}</span>
               <CmsIcon name={p.icon} size={28} />
             </div>
             <h3 className="m-0 font-bold font-display text-4xl uppercase leading-9 xl:text-[30px] xl:leading-[30px]">

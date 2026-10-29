@@ -5,16 +5,18 @@ import { Breadcrumbs } from '@/components/ui/breadcrumbs';
 import { formatDate } from '@/lib/date';
 import { breadcrumbs, graph, webPage } from '@/lib/json-ld';
 import { buildMetadata } from '@/lib/metadata';
+import { twoDigit } from '@/lib/number';
+import { toPlainText } from '@/lib/portable-text';
 import { routes } from '@/lib/routes';
 import { getGlobal } from '@/sanity/queries/global';
 import { getPrivacy } from '@/sanity/queries/legal';
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPrivacy(false);
-  return buildMetadata({ seo: page.seo, title: page.title, description: page.title, path: routes.privacy });
+  // Without an SEO description, the opening of the policy says more than repeating its title.
+  const description = toPlainText(page.sections[0]?.body ?? []).slice(0, 160) || page.title;
+  return buildMetadata({ seo: page.seo, title: page.title, description, path: routes.privacy });
 }
-
-const num = (i: number) => String(i + 1).padStart(2, '0');
 
 export default async function PrivacyPage() {
   const [page, { layout }] = await Promise.all([getPrivacy(), getGlobal()]);
@@ -58,7 +60,7 @@ export default async function PrivacyPage() {
                 href={`#${s.anchor}`}
                 key={s._key}
               >
-                <span className="w-[22px] flex-none font-display font-semibold text-accent">{num(i)}</span>
+                <span className="w-[22px] flex-none font-display font-semibold text-accent">{twoDigit(i + 1)}</span>
                 {s.title}
               </a>
             ))}
@@ -75,7 +77,7 @@ export default async function PrivacyPage() {
                 className="mb-5 scroll-mt-[110px] font-bold font-display text-[clamp(28px,3vw,36px)] text-ink uppercase leading-none"
                 id={s.anchor}
               >
-                {num(i)} · {s.title}
+                {twoDigit(i + 1)} · {s.title}
               </h2>
               <div className="[&>*+*]:mt-5">
                 <LegalText value={s.body} />

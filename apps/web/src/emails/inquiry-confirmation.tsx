@@ -1,4 +1,5 @@
 import { Heading, Text } from 'react-email';
+import { twoDigit } from '@/lib/number';
 import { colors, EmailLayout, Rows } from './layout';
 
 type Props = {
@@ -22,9 +23,7 @@ export function InquiryConfirmation({ heading, text, nextSteps, rows, signature,
       <Text style={{ margin: '0 0 24px', fontSize: 16, lineHeight: '24px', color: colors.muted }}>{text}</Text>
       {nextSteps.map((step, i) => (
         <Text key={step} style={{ margin: '0 0 8px', fontSize: 15, lineHeight: '22px' }}>
-          <span style={{ color: colors.accent, fontWeight: 700, marginRight: 12 }}>
-            {String(i + 1).padStart(2, '0')}
-          </span>
+          <span style={{ color: colors.accent, fontWeight: 700, marginRight: 12 }}>{twoDigit(i + 1)}</span>
           {step}
         </Text>
       ))}

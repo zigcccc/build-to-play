@@ -4,7 +4,10 @@ import { sanityFetch } from '../fetch';
 import { IMAGE, PORTABLE_TEXT, PORTABLE_TEXT_TAGS, SEO } from '../fragments';
 import { imageModel, portableTextModel, seoModel } from '../models';
 
-export const PAGE_SIZE = 13;
+/** The list opens with one featured article above the grid, then grows a grid page at a time. */
+const FEATURED = 1;
+const PAGE_SIZE = 12;
+export const FIRST_PAGE = FEATURED + PAGE_SIZE;
 
 // ~5 characters per word, ~180 words per minute.
 const READING_TIME = /* groq */ `"readingTime": coalesce(round(length(pt::text(body)) / 5 / 180), 1)`;
@@ -81,7 +84,7 @@ const listModel = z.object({
 export const getArticleList = (category = '', stega = true) =>
   sanityFetch({
     query: LIST_QUERY,
-    params: { category, limit: PAGE_SIZE },
+    params: { category, limit: FIRST_PAGE },
     tags: ['articlesPage', 'article', 'category'],
     model: listModel,
     stega,
@@ -94,7 +97,7 @@ const MORE_QUERY =
 export const getMoreArticles = (category: string, from: number) =>
   sanityFetch({
     query: MORE_QUERY,
-    params: { category, from, to: from + PAGE_SIZE - 1 },
+    params: { category, from, to: from + PAGE_SIZE },
     tags: ['article', 'category'],
     model: z.array(articleCardModel),
   });

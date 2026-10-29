@@ -12,10 +12,13 @@ export async function generateStaticParams() {
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [{ program, template }, { settings }] = await Promise.all([getProgramPage(slug, false), getGlobal(false)]);
+  const [{ program, template }, { settings, programs }] = await Promise.all([
+    getProgramPage(slug, false),
+    getGlobal(false),
+  ]);
   if (!program) notFound();
   return renderOg({
-    eyebrow: `${template.hero.eyebrowPrefix} ${String(program.order).padStart(2, '0')}`,
+    eyebrow: `${template.hero.eyebrowPrefix} ${programs.find((p) => p._id === program._id)?.number ?? ''}`,
     title: program.name,
     tagline: settings.tagline,
   });

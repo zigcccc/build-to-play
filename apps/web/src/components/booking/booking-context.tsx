@@ -40,7 +40,13 @@ export function BookingProvider({ children, ...dialogProps }: Props) {
   // Deep link: any URL with ?posvet=1 opens the flow (once the page has finished hydrating).
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('posvet') !== '1') return;
-    const id = requestIdleCallback(() => setState({ open: true, mounted: true }), { timeout: 1500 });
+    const show = () => setState({ open: true, mounted: true });
+    // Safari has no requestIdleCallback; a short timer stands in for it there.
+    if (!('requestIdleCallback' in window)) {
+      const timer = setTimeout(show, 300);
+      return () => clearTimeout(timer);
+    }
+    const id = requestIdleCallback(show, { timeout: 1500 });
     return () => cancelIdleCallback(id);
   }, []);
 

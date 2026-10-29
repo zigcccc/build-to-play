@@ -15,6 +15,7 @@ import { SocialIcon } from '@/components/icons';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { bookingSchema, type FieldErrors, fieldErrors } from '@/lib/forms/schemas';
+import { twoDigit } from '@/lib/number';
 import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
 import type { BookingProgram } from './booking-context';
 
@@ -446,9 +447,7 @@ export function BookingDialog({
                     <ol className="m-0 flex list-none flex-col gap-3 p-0">
                       {b.success.nextSteps.map((step, i) => (
                         <li className="grid grid-cols-[36px_1fr] gap-2" key={step}>
-                          <span className="font-bold font-display text-[22px] text-accent">
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
+                          <span className="font-bold font-display text-[22px] text-accent">{twoDigit(i + 1)}</span>
                           <span>{step}</span>
                         </li>
                       ))}

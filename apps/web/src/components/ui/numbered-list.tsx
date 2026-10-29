@@ -1,4 +1,5 @@
 import { cn } from '@/lib/cn';
+import { twoDigit } from '@/lib/number';
 
 type Item = { title: string; text: string };
 
@@ -26,7 +27,7 @@ export function NumberedList({
               lg ? 'font-bold text-[44px] leading-[44px]' : 'font-semibold text-[22px] leading-6'
             )}
           >
-            {String(i + 1).padStart(2, '0')}
+            {twoDigit(i + 1)}
           </span>
           <span>
             <strong className={cn('block font-semibold', lg ? 'text-xl leading-7' : 'text-base leading-6')}>
