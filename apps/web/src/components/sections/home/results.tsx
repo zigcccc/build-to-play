@@ -19,8 +19,15 @@ function Report({ tab, data }: { tab: Tab; data: HomeData['results'] }) {
   const { line, area } = chart(tab.points);
   return (
     <div className="relative">
-      <div aria-hidden className="absolute inset-x-[10%] inset-y-[14%] bg-accent opacity-22 blur-[80px]" />
-      <figure className="glass relative m-0 flex flex-col gap-5 p-[clamp(20px,3vw,32px)]">
+      {/*
+        Gradient glow instead of filter: blur(80px), and no backdrop blur on the card (nothing but the glow is
+        behind it). Both are re-rasterised every time a panel is shown and made tab switches crawl on iOS.
+      */}
+      <div
+        aria-hidden
+        className="absolute -inset-x-[10%] -inset-y-[6%] bg-[radial-gradient(closest-side,rgb(179_154_114/0.22),transparent)]"
+      />
+      <figure className="relative m-0 flex flex-col gap-5 border border-white/10 bg-black/60 p-[clamp(20px,3vw,32px)]">
         <div className="flex items-center justify-between gap-3">
           <span className="label">{data.reportEyebrow}</span>
           <span className="rounded-full border border-white/22 px-3 py-1 font-medium text-xs">{tab.label}</span>
