@@ -93,7 +93,7 @@ export const siteSettings = {
     { _type: 'labeledValue', label: 'Sobota', value: '[08:00–13:00]' },
     { _type: 'labeledValue', label: 'Nedelja', value: 'Zaprto' },
   ]),
-  notificationEmail: 'zkrasovec@gmail.com',
+  notificationEmail: '[obvestila@domena.si]',
   companyName: '[Naziv podjetja, d.o.o.]',
   areaServed: '[Mesto] z okolico in online po Sloveniji',
   priceRange: '€€',
