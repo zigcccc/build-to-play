@@ -8,7 +8,7 @@ export async function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <div className="relative mx-auto max-w-[1328px] px-[clamp(12px,3vw,40px)] pt-3">
+      <div className="wrap-wide relative pt-3">
         <HeaderNav
           cta={layout.headerCta}
           logo={

@@ -67,8 +67,8 @@ export default async function HomePage() {
             heading={home.programs.heading}
             id="programi-title"
           />
-          <ProgramCards labels={layout.labels} programs={programs} />
         </div>
+        <ProgramCards labels={layout.labels} programs={programs} />
       </section>
 
       <Consultation data={home.consultation} />
