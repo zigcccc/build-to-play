@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { IMAGE, PORTABLE_TEXT, SEO } from '../fragments';
+import { IMAGE, PORTABLE_TEXT, PORTABLE_TEXT_TAGS, SEO } from '../fragments';
 import { imageModel, portableTextModel, seoModel } from '../models';
 
 export const PAGE_SIZE = 13;
@@ -144,7 +144,7 @@ export const getArticle = (slug: string, stega = true) =>
   sanityFetch({
     query: ARTICLE_QUERY,
     params: { slug },
-    tags: ['article', 'category', 'person'],
+    tags: ['article', 'category', 'person', ...PORTABLE_TEXT_TAGS],
     model: articleModel,
     stega,
   });

@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { IMAGE, LINK, SEO } from '../fragments';
+import { IMAGE, LINK, LINK_TAGS, SEO } from '../fragments';
 import { accentHeadingModel, imageModel, linkModel, seoModel, statModel, titledTextModel } from '../models';
 
 const HOME_QUERY = defineQuery(`*[_id == "homePage"][0]{
@@ -104,7 +104,7 @@ export type HomeData = z.infer<typeof homeModel>;
 export const getHome = (stega = true) =>
   sanityFetch({
     query: HOME_QUERY,
-    tags: ['homePage', 'program', 'testimonial', 'article'],
+    tags: ['homePage', 'program', 'testimonial', 'article', ...LINK_TAGS],
     model: homeModel,
     stega,
   });

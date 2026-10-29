@@ -1,7 +1,18 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { CTA_CARD, FAQ, IMAGE, LINK, PACKAGE, PROGRAM_CARD_FIELDS, SEO } from '../fragments';
+import {
+  CTA_CARD,
+  CTA_CARD_TAGS,
+  FAQ,
+  FAQ_TAGS,
+  IMAGE,
+  LINK,
+  LINK_TAGS,
+  PACKAGE,
+  PROGRAM_CARD_FIELDS,
+  SEO,
+} from '../fragments';
 import {
   ctaCardModel,
   faqModel,
@@ -76,7 +87,7 @@ export const getProgramPage = (slug: string, stega = true) =>
   sanityFetch({
     query: PROGRAM_QUERY,
     params: { slug },
-    tags: ['program', 'programPage', 'faq'],
+    tags: ['program', 'programPage', ...LINK_TAGS, ...FAQ_TAGS, ...CTA_CARD_TAGS],
     model: programPageModel,
     stega,
   });

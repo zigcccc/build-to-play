@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { CTA_CARD, FAQ, LINK, PACKAGE, SEO } from '../fragments';
+import { CTA_CARD, CTA_CARD_TAGS, FAQ, FAQ_TAGS, LINK, LINK_TAGS, PACKAGE, SEO } from '../fragments';
 import { ctaCardModel, faqModel, iconItemModel, linkModel, packageModel, seoModel } from '../models';
 
 const PRICING_QUERY = defineQuery(`{
@@ -40,4 +40,9 @@ const pricingModel = z.object({
 });
 
 export const getPricing = (stega = true) =>
-  sanityFetch({ query: PRICING_QUERY, tags: ['pricingPage', 'program', 'faq'], model: pricingModel, stega });
+  sanityFetch({
+    query: PRICING_QUERY,
+    tags: ['pricingPage', 'program', ...LINK_TAGS, ...FAQ_TAGS, ...CTA_CARD_TAGS],
+    model: pricingModel,
+    stega,
+  });

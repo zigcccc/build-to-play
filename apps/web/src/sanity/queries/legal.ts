@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { LINK, PORTABLE_TEXT, SEO } from '../fragments';
+import { LINK, LINK_TAGS, PORTABLE_TEXT, PORTABLE_TEXT_TAGS, SEO } from '../fragments';
 import { linkModel, portableTextModel, seoModel } from '../models';
 
 const PRIVACY_QUERY = defineQuery(`*[_id == "privacyPage"][0]{
@@ -13,7 +13,7 @@ const PRIVACY_QUERY = defineQuery(`*[_id == "privacyPage"][0]{
 export const getPrivacy = (stega = true) =>
   sanityFetch({
     query: PRIVACY_QUERY,
-    tags: ['privacyPage', 'program', 'article'],
+    tags: ['privacyPage', ...PORTABLE_TEXT_TAGS],
     model: z.object({
       eyebrow: z.string(),
       title: z.string(),
@@ -34,7 +34,7 @@ const NOT_FOUND_QUERY = defineQuery(`*[_id == "notFoundPage"][0]{
 export const getNotFound = () =>
   sanityFetch({
     query: NOT_FOUND_QUERY,
-    tags: ['notFoundPage', 'program', 'article'],
+    tags: ['notFoundPage', ...LINK_TAGS],
     model: z.object({
       eyebrow: z.string(),
       heading: z.string(),

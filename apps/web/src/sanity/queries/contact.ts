@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { PORTABLE_TEXT, SEO } from '../fragments';
+import { PORTABLE_TEXT, PORTABLE_TEXT_TAGS, SEO } from '../fragments';
 import { portableTextModel, seoModel } from '../models';
 
 const CONTACT_QUERY = defineQuery(`*[_id == "contactPage"][0]{
@@ -20,4 +20,4 @@ const contactModel = z.object({
 });
 
 export const getContactPage = (stega = true) =>
-  sanityFetch({ query: CONTACT_QUERY, tags: ['contactPage', 'program', 'article'], model: contactModel, stega });
+  sanityFetch({ query: CONTACT_QUERY, tags: ['contactPage', ...PORTABLE_TEXT_TAGS], model: contactModel, stega });

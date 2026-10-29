@@ -58,7 +58,7 @@ export async function sanityFetch<Model extends z.ZodType>({
   model,
   stega = true,
 }: FetchOptions<Model>): Promise<z.infer<Model>> {
-  const data = await cachedQuery(query, params, tags, stega);
+  const data = await cachedQuery(query, params, [...new Set(tags)], stega);
   const parsed = model.safeParse(data);
   if (!parsed.success) {
     throw new Error(`Sanity response failed validation [${tags.join(', ')}]:\n${parsed.error.message}`);

@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { FAQ, PACKAGE } from '../fragments';
+import { FAQ, FAQ_TAGS, PACKAGE } from '../fragments';
 import { faqModel, packageModel } from '../models';
 
 const SITEMAP_QUERY = defineQuery(`{
@@ -52,7 +52,7 @@ const LLMS_QUERY = defineQuery(`{
 export const getLlmsData = () =>
   sanityFetch({
     query: LLMS_QUERY,
-    tags: ['program', 'faq', 'pricingPage', 'article', 'category', 'aboutPage'],
+    tags: ['program', 'pricingPage', 'article', 'category', 'aboutPage', ...FAQ_TAGS],
     model: z.object({
       programs: z.array(
         z.object({

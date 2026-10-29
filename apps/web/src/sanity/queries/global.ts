@@ -3,7 +3,7 @@ import { defineQuery } from 'next-sanity';
 import { cache } from 'react';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { IMAGE, LINK, PORTABLE_TEXT, PROGRAM_CARD, SEO } from '../fragments';
+import { IMAGE, LINK, LINK_TAGS, PORTABLE_TEXT, PORTABLE_TEXT_TAGS, PROGRAM_CARD, SEO } from '../fragments';
 import {
   cmsEnum,
   imageModel,
@@ -207,7 +207,18 @@ export type LocationValue = GlobalData['locations'][number];
 export const getGlobal = cache((stega = true) =>
   sanityFetch({
     query: GLOBAL_QUERY,
-    tags: ['siteSettings', 'layout', 'program', 'location', 'forms', 'cookieConsent', 'person', 'articlesPage'],
+    tags: [
+      'siteSettings',
+      'layout',
+      'program',
+      'location',
+      'forms',
+      'cookieConsent',
+      'person',
+      'articlesPage',
+      ...LINK_TAGS,
+      ...PORTABLE_TEXT_TAGS,
+    ],
     model: globalModel,
     stega,
   })

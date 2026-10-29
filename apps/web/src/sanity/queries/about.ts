@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
-import { CTA_CARD, IMAGE, LINK, SEO } from '../fragments';
+import { CTA_CARD, CTA_CARD_TAGS, IMAGE, LINK, LINK_TAGS, SEO } from '../fragments';
 import { ctaCardModel, imageModel, linkModel, seoModel, statModel, titledTextModel } from '../models';
 
 const ABOUT_QUERY = defineQuery(`*[_id == "aboutPage"][0]{
@@ -37,4 +37,4 @@ const aboutModel = z.object({
 });
 
 export const getAbout = (stega = true) =>
-  sanityFetch({ query: ABOUT_QUERY, tags: ['aboutPage', 'program', 'article'], model: aboutModel, stega });
+  sanityFetch({ query: ABOUT_QUERY, tags: ['aboutPage', ...LINK_TAGS, ...CTA_CARD_TAGS], model: aboutModel, stega });
