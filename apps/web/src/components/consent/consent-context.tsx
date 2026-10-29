@@ -47,6 +47,11 @@ function readConsent(): Consent | null {
 export function ConsentProvider({ children, copy }: { children: ReactNode; copy: CookieCopy }) {
   const [consent, setConsent] = useState<Consent | null>(null);
   const [view, setView] = useState<'hidden' | 'banner' | 'settings' | 'saved'>('hidden');
+  // Once shown, the UI stays mounted so closing portals can finish their exit cleanly.
+  const [uiMounted, setUiMounted] = useState(false);
+  useEffect(() => {
+    if (view !== 'hidden') setUiMounted(true);
+  }, [view]);
 
   useEffect(() => {
     const stored = readConsent();
@@ -66,7 +71,7 @@ export function ConsentProvider({ children, copy }: { children: ReactNode; copy:
   return (
     <ConsentContext value={{ consent, save, openSettings: () => setView('settings') }}>
       {children}
-      {view !== 'hidden' && <CookieUi consent={consent} copy={copy} onSave={save} onViewChange={setView} view={view} />}
+      {uiMounted && <CookieUi consent={consent} copy={copy} onSave={save} onViewChange={setView} view={view} />}
       {consent?.analytics && (
         <>
           <Analytics />
