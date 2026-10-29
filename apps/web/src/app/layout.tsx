@@ -4,8 +4,6 @@ import { Suspense } from 'react';
 import { BookingProvider } from '@/components/booking/booking-context';
 import { JsonLd } from '@/components/json-ld';
 import { DraftTools } from '@/components/layout/draft-tools';
-import { Footer } from '@/components/layout/footer';
-import { Header } from '@/components/layout/header';
 import { InlineText } from '@/components/portable-text';
 import { ConsentProvider } from '@/components/preferences/preferences-context';
 import { siteUrl } from '@/env/client';
@@ -57,9 +55,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
             programs={programs.map((p) => ({ key: p.slug, label: p.shortLabel }))}
             socials={{ instagram: settings.socials.find((s) => s.platform === 'instagram')?.url }}
           >
-            <Header />
             {children}
-            <Footer />
           </BookingProvider>
         </ConsentProvider>
         <Suspense>

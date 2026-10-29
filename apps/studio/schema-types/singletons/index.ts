@@ -1,5 +1,6 @@
 import { aboutPage } from './about-page';
 import { articlesPage } from './articles-page';
+import { comingSoonPage } from './coming-soon-page';
 import { contactPage } from './contact-page';
 import { forms } from './forms';
 import { homePage } from './home-page';
@@ -22,6 +23,7 @@ export const singletonTypes = [
   contactPage,
   privacyPage,
   notFoundPage,
+  comingSoonPage,
   forms,
   cookieConsent,
 ];

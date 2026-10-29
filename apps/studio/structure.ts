@@ -10,6 +10,7 @@ const pages = [
   'contactPage',
   'privacyPage',
   'notFoundPage',
+  'comingSoonPage',
 ];
 const settings = ['siteSettings', 'layout', 'forms', 'cookieConsent'];
 

@@ -9,6 +9,7 @@ export const routes = {
   articles: sharedRoutes.articles as Route,
   contact: sharedRoutes.contact as Route,
   privacy: sharedRoutes.privacy as Route,
+  comingSoon: sharedRoutes.comingSoon as Route,
   program: (slug: string) => sharedRoutes.program(slug) as Route,
   article: (slug: string) => sharedRoutes.article(slug) as Route,
   category: (slug: string) => sharedRoutes.category(slug) as Route,

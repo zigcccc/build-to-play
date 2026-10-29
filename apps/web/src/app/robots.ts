@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { siteUrl } from '@/env/client';
 import { serverEnv } from '@/env/server';
+import { gateKey } from '@/lib/site-gate';
 
 // AI assistants are explicitly welcome: being cited in answers is a goal of this site.
 const AI_CRAWLERS = [
@@ -20,8 +21,8 @@ const AI_CRAWLERS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
-  // Preview deployments must never be indexed.
-  if (serverEnv.VERCEL_ENV === 'preview') return { rules: { userAgent: '*', disallow: '/' } };
+  // Preview deployments and the gated pre-launch site must never be indexed.
+  if (serverEnv.VERCEL_ENV === 'preview' || gateKey) return { rules: { userAgent: '*', disallow: '/' } };
 
   return {
     rules: [

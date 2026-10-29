@@ -11,6 +11,8 @@ export const routes = {
   category: (slug: string) => `/nasveti/kategorija/${slug}`,
   contact: '/kontakt',
   privacy: '/politika-zasebnosti',
+  /** Served in place of every page while the site gate is on (SITE_GATE_KEY). */
+  comingSoon: '/kmalu',
 } as const;
 
 export const pageRoute: Record<PageKey, string> = {

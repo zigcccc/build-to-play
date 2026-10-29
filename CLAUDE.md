@@ -70,3 +70,10 @@ Rules:
 | ---------------------- | ------------- | ----------------------------------------------------------- |
 | `build-to-play`        | `apps/web`    | buildtoplay.si                                              |
 | `build-to-play-studio` | `apps/studio` | studio.buildtoplay.si (static `sanity build` + SPA rewrite) |
+
+**Pre-launch gate.** While `SITE_GATE_KEY` is set, `src/proxy.ts` serves the coming-soon page (`/kmalu`, singleton `comingSoonPage`) in place of every page. `robots.txt` disallows everything and responses carry `noindex`. Two kinds of visitor get past it with the `b2p_preview` cookie:
+
+- Whoever opens `/predogled?k=<key>`.
+- Presentation: the draft-mode enable route sets the cookie after a valid Studio secret.
+
+Pages need the site chrome from the `(site)` route group layout; `/kmalu` stays outside that group. To launch, remove the env var and redeploy.

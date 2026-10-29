@@ -11,6 +11,7 @@ export const singletonType = z.enum([
   'contactPage',
   'privacyPage',
   'notFoundPage',
+  'comingSoonPage',
   'forms',
   'cookieConsent',
 ]);

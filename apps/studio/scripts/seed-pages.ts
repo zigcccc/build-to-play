@@ -619,6 +619,14 @@ export const notFoundPage = {
   ]),
 };
 
+export const comingSoonPage = {
+  _id: 'comingSoonPage',
+  _type: 'comingSoonPage',
+  eyebrow: 'Kmalu',
+  heading: 'Nova stran se še ogreva.',
+  text: 'Spletna stran bo kmalu na voljo. Do takrat me najdeš po telefonu, e-pošti ali na Instagramu.',
+};
+
 const privacyMark = key();
 
 export const forms = {

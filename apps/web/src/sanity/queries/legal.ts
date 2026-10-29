@@ -44,3 +44,12 @@ export const getNotFound = () =>
       quickLinks: z.array(linkModel),
     }),
   });
+
+const COMING_SOON_QUERY = defineQuery(`*[_id == "comingSoonPage"][0]{ eyebrow, heading, text }`);
+
+export const getComingSoon = () =>
+  sanityFetch({
+    query: COMING_SOON_QUERY,
+    tags: ['comingSoonPage'],
+    model: z.object({ eyebrow: z.string(), heading: z.string(), text: z.string() }),
+  });

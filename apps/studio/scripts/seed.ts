@@ -9,6 +9,7 @@ import { articles, categories } from './seed-articles';
 import {
   aboutPage,
   articlesPage,
+  comingSoonPage,
   contactPage,
   cookieConsent,
   forms,
@@ -66,6 +67,7 @@ async function main() {
     contactPage,
     privacyPage,
     notFoundPage,
+    comingSoonPage,
     forms,
     cookieConsent,
   ].filter((doc) => !only || only.includes(doc._id) || only.includes(doc._type));

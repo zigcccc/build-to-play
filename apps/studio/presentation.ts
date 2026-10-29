@@ -8,6 +8,7 @@ const singletonPages = {
   articlesPage: { title: 'Nasveti', href: pageRoute.articles },
   contactPage: { title: 'Kontakt', href: pageRoute.contact },
   privacyPage: { title: 'Politika zasebnosti', href: pageRoute.privacy },
+  comingSoonPage: { title: 'Kmalu', href: routes.comingSoon },
 } as const;
 
 export const resolve: PresentationPluginOptions['resolve'] = {
