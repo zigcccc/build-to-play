@@ -11,7 +11,7 @@ import {
   MIN_FILL_MS,
   SPAM_FIELDS,
 } from '@/lib/forms/schemas';
-import { deliverInquiry, type InquiryRecord } from '@/lib/inquiry.server';
+import { deliverInquiry, type InquiryRecord, type SpamReason } from '@/lib/inquiry.server';
 import { getGlobal } from '@/sanity/queries/global';
 
 export type FormState =
@@ -20,17 +20,23 @@ export type FormState =
   | { status: 'success'; email: string }
   | { status: 'error' };
 
-/** Bots get a fake success so they learn nothing; humans never hit this. */
-async function isSpam(honeypot: unknown, startedAt: unknown) {
-  if (typeof honeypot === 'string' && honeypot.length > 0) return true;
-  if (Date.now() - Number(startedAt) < MIN_FILL_MS) return true;
+/**
+ * Why a submission looks automated. Flagged inquiries are still stored (status "spam", no e-mails) and the sender
+ * sees the normal success: a false positive must not lose a lead, and BotID always flags a submit without JavaScript.
+ */
+async function spamReason(honeypot: unknown, startedAt: unknown): Promise<SpamReason | undefined> {
+  if (typeof honeypot === 'string' && honeypot.length > 0) return 'honeypot';
+  if (Date.now() - Number(startedAt) < MIN_FILL_MS) return 'tooFast';
   const { isBot } = await checkBotId();
-  return isBot;
+  return isBot ? 'bot' : undefined;
 }
 
-async function store(record: InquiryRecord): Promise<FormState> {
+/** A submitted choice only counts if it is one the CMS offers; anything else was not sent by our form. */
+const pick = (value: string | undefined, allowed: string[]) => (value && allowed.includes(value) ? value : undefined);
+
+async function store(record: InquiryRecord, spam: SpamReason | undefined): Promise<FormState> {
   try {
-    await deliverInquiry(record);
+    await deliverInquiry(record, spam);
     return { status: 'success', email: record.email };
   } catch (error) {
     console.error('[inquiry] could not be stored', error);
@@ -44,49 +50,53 @@ export async function submitContact(
   formData: FormData
 ): Promise<FormState> {
   const raw = Object.fromEntries(formData);
-  if (await isSpam(raw[SPAM_FIELDS.honeypot], raw[SPAM_FIELDS.startedAt])) {
-    return { status: 'success', email: String(raw.email ?? '') };
-  }
-
   const parsed = (variant === 'home' ? homeContactSchema : contactSchema).safeParse(raw);
   if (!parsed.success) return { status: 'invalid', errors: fieldErrors(parsed.error) };
 
   const data = parsed.data;
-  return store({
-    kind: 'contact',
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    subject: 'subject' in data ? data.subject : 'program' in data ? data.program : undefined,
-    message: data.message,
-    source: variant === 'home' ? '/' : '/kontakt',
-  });
+  const { forms, programs } = await getGlobal(false);
+  const subject =
+    'subject' in data
+      ? pick(data.subject, forms.contact.subjects)
+      : pick(data.program, [...programs.map((p) => p.name), forms.contact.programUnknown]);
+  return store(
+    {
+      kind: 'contact',
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      subject,
+      message: data.message,
+      source: variant === 'home' ? '/' : '/kontakt',
+    },
+    await spamReason(raw[SPAM_FIELDS.honeypot], raw[SPAM_FIELDS.startedAt])
+  );
 }
 
 export async function submitBooking(input: unknown, meta: { honeypot: string; startedAt: number; source: string }) {
-  if (await isSpam(meta.honeypot, meta.startedAt)) return { status: 'success' } as FormState;
-
   const parsed = bookingSchema.safeParse(input);
   if (!parsed.success) return { status: 'invalid', errors: fieldErrors(parsed.error) } as FormState;
 
   const data = parsed.data;
   const { forms, programs, locations } = await getGlobal(false);
-  const state = await store({
-    kind: 'booking',
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    goal: data.goal,
-    subject: programs.find((p) => p.slug === data.program)?.name,
-    mode: data.mode === 'live' ? forms.booking.step2.modeLive : forms.booking.step2.modeVideo,
-    location:
-      data.mode === 'live'
-        ? (locations.find((l) => l._id === data.location)?.name ?? forms.booking.step2.anyLocation)
-        : undefined,
-    days: data.days.map((d) => bookingDayLabel[d]),
-    times: data.times.map((t) => bookingTimeLabel[t]),
-    message: data.message,
-    source: meta.source,
-  });
-  return state;
+  return store(
+    {
+      kind: 'booking',
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      goal: pick(data.goal, forms.booking.step1.goals),
+      subject: programs.find((p) => p.slug === data.program)?.name,
+      mode: data.mode === 'live' ? forms.booking.step2.modeLive : forms.booking.step2.modeVideo,
+      location:
+        data.mode === 'live'
+          ? (locations.find((l) => l._id === data.location)?.name ?? forms.booking.step2.anyLocation)
+          : undefined,
+      days: data.days.map((d) => bookingDayLabel[d]),
+      times: data.times.map((t) => bookingTimeLabel[t]),
+      message: data.message,
+      source: meta.source,
+    },
+    await spamReason(meta.honeypot, meta.startedAt)
+  );
 }

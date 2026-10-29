@@ -18,11 +18,27 @@ export const inquiry = defineType({
         list: [
           { value: 'new', title: 'Novo' },
           { value: 'handled', title: 'Obdelano' },
+          { value: 'spam', title: 'Neželeno' },
         ],
         layout: 'radio',
         direction: 'horizontal',
       },
       initialValue: 'new',
+      description: 'Neželena povpraševanja niso bila poslana po e-pošti. Če je katero pravo, ga označi kot Novo.',
+    }),
+    defineField({
+      name: 'spamReason',
+      title: 'Zakaj označeno kot neželeno',
+      type: 'string',
+      options: {
+        list: [
+          { value: 'honeypot', title: 'Izpolnjeno skrito polje' },
+          { value: 'tooFast', title: 'Oddano prehitro' },
+          { value: 'bot', title: 'Zaznan bot (ali brskalnik brez JavaScripta)' },
+        ],
+      },
+      hidden: ({ document }) => !document?.spamReason,
+      ...ro,
     }),
     defineField({
       name: 'kind',
@@ -102,7 +118,7 @@ export const inquiry = defineType({
       date: 'submittedAt',
     },
     prepare: ({ name, kind, status, date }) => ({
-      title: `${status === 'new' ? '● ' : ''}${name ?? '—'}`,
+      title: `${status === 'new' ? '● ' : status === 'spam' ? '⚠ ' : ''}${name ?? '—'}`,
       subtitle: `${kind === 'booking' ? 'Posvet' : 'Sporočilo'} · ${date ? new Date(date).toLocaleString('sl-SI') : ''}`,
     }),
   },

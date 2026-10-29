@@ -1,4 +1,5 @@
 import { EnvelopeIcon } from '@sanity/icons/Envelope';
+import { WarningOutlineIcon } from '@sanity/icons/WarningOutline';
 import type { StructureResolver } from 'sanity/structure';
 
 const pages = [
@@ -26,6 +27,18 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.documentTypeList('inquiry')
             .title('Povpraševanja')
+            .filter('_type == "inquiry" && status != "spam"')
+            .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
+        ),
+      // Caught by the spam traps: kept for review, never e-mailed.
+      S.listItem()
+        .id('inquiries-spam')
+        .title('Neželeno')
+        .icon(WarningOutlineIcon)
+        .child(
+          S.documentTypeList('inquiry')
+            .title('Neželeno')
+            .filter('_type == "inquiry" && status == "spam"')
             .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
         ),
       S.divider(),

@@ -23,38 +23,54 @@ export type InquiryRecord = {
   source?: string;
 };
 
+/** Which spam trap a stored inquiry tripped (shown in the Studio). */
+export type SpamReason = 'honeypot' | 'tooFast' | 'bot';
+
 const writeClient = client.withConfig({ token: serverEnv.SANITY_API_WRITE_TOKEN, perspective: 'raw' });
 const resend = serverEnv.RESEND_API_KEY ? new Resend(serverEnv.RESEND_API_KEY) : null;
 
-/** Labelled rows shown in both e-mails (Slovene labels match the form). */
+const present = (rows: [string, string | undefined][]) => rows.filter((row): row is [string, string] => !!row[1]);
+
+/** Everything the sender entered, for the trainer's notification (Slovene labels match the form). */
 export function inquiryRows(record: InquiryRecord): [string, string][] {
-  const rows: [string, string | undefined][] = [
+  return present([
     ['Ime in priimek', record.name],
     ['E-pošta', record.email],
     ['Telefon', record.phone],
+    ...choiceRows(record),
+    ['Sporočilo', record.message],
+  ]);
+}
+
+/**
+ * Only the choices made from CMS-defined options. The confirmation goes to whatever address was typed in, so it
+ * must never echo free text (name, phone, message): that would let anyone send their own words from our domain.
+ */
+function choiceRows(record: InquiryRecord): [string, string | undefined][] {
+  return [
     ['Zadeva / program', record.subject],
     ['Cilj', record.goal],
     ['Oblika', record.mode],
     ['Lokacija', record.location],
     ['Dnevi', record.days?.join(', ')],
     ['Del dneva', record.times?.join(', ')],
-    ['Sporočilo', record.message],
   ];
-  return rows.filter((row): row is [string, string] => !!row[1]);
 }
 
 /**
- * Persists the inquiry first (so nothing is lost), then e-mails the trainer and the sender.
- * Throws only if the inquiry could not be stored.
+ * Persists the inquiry first (so nothing is lost), then e-mails the trainer and the sender. Inquiries flagged as spam
+ * are stored for review but never e-mailed. Throws only if the inquiry could not be stored.
  */
-export async function deliverInquiry(record: InquiryRecord) {
+export async function deliverInquiry(record: InquiryRecord, spam?: SpamReason) {
   const doc = await writeClient.create({
     _type: 'inquiry',
-    status: 'new',
+    status: spam ? 'spam' : 'new',
+    spamReason: spam,
     submittedAt: new Date().toISOString(),
-    emailStatus: 'pending',
+    emailStatus: spam ? 'skipped' : 'pending',
     ...record,
   });
+  if (spam) return;
 
   const { settings, forms } = await getGlobal(false);
   const rows = inquiryRows(record);
@@ -77,7 +93,7 @@ export async function deliverInquiry(record: InquiryRecord) {
             heading: forms.states.successTitle,
             text: confirmationText,
             nextSteps: isBooking ? forms.booking.success.nextSteps : [],
-            rows,
+            rows: present(choiceRows(record)),
             signature: settings.trainer.name,
             siteName: settings.siteName,
           })
@@ -107,5 +123,10 @@ export async function deliverInquiry(record: InquiryRecord) {
     emailStatus = 'failed';
   }
 
-  await writeClient.patch(doc._id).set({ emailStatus }).commit();
+  // The inquiry is stored and the e-mails are out: a failed status update must not make the sender resubmit.
+  try {
+    await writeClient.patch(doc._id).set({ emailStatus }).commit();
+  } catch (error) {
+    console.error('[inquiry] could not record the e-mail status', error);
+  }
 }
