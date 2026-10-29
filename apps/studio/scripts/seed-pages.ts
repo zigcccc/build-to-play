@@ -665,6 +665,7 @@ export const forms = {
     emailInvalid: 'E-poštni naslov ni pravilen.',
     message: 'Napiši nekaj besed.',
     consent: 'Za pošiljanje potrebujem tvoje soglasje.',
+    goal: 'Izberi, kaj želiš doseči.',
     summary: 'Preveri označena polja.',
   },
   states: {

@@ -8,13 +8,14 @@ import { RadioGroup } from '@base-ui/react/radio-group';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { ArrowLeft, ArrowRight, Check, Loader2, X } from 'lucide-react';
-import { type ReactNode, useEffect, useRef, useState, useTransition } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useRef, useState, useTransition } from 'react';
 import { submitBooking } from '@/actions/inquiry';
-import { ErrorSummary, Field, FieldError, Select, TextArea, TextInput } from '@/components/forms/fields';
+import { ErrorSummary, Field, FieldError, Select, SpamTraps, TextArea, TextInput } from '@/components/forms/fields';
+import { useValidatedForm } from '@/components/forms/use-validated-form';
 import { SocialIcon } from '@/components/icons';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
-import { bookingSchema, type FieldErrors, fieldErrors } from '@/lib/forms/schemas';
+import { bookingSchema, type FieldErrors, SPAM_FIELDS } from '@/lib/forms/schemas';
 import { interpolate } from '@/lib/interpolate';
 import { twoDigit } from '@/lib/number';
 import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
@@ -38,6 +39,11 @@ type Time = (typeof bookingTime.options)[number];
 
 const UNKNOWN = 'unknown';
 const ANY_LOCATION = 'any';
+
+/** Which step holds each field, so a server-side error can send the visitor back to it. */
+const fieldStep: Record<string, Step> = { goal: 1, program: 1, mode: 2, location: 2, days: 2, times: 2 };
+const firstErrorStep = (errors: FieldErrors) =>
+  Math.min(3, ...Object.keys(errors).map((field) => fieldStep[field] ?? 3)) as Step;
 
 const optionClass =
   'flex min-h-14 w-full cursor-pointer items-center gap-3.5 border border-hairline bg-black px-4 py-3 text-left text-base leading-[22px] text-ink hover:border-control data-checked:border-accent data-checked:bg-accent/8';
@@ -75,21 +81,21 @@ export function BookingDialog({
   const [confirmClose, setConfirmClose] = useState(false);
   // "Nadaljuj" sits on the right but stays the safe default focus.
   const stayRef = useRef<HTMLButtonElement>(null);
-  const [errors, setErrors] = useState<FieldErrors>({});
+  const form = useValidatedForm(bookingSchema, copy.errors);
   const [failed, setFailed] = useState(false);
   const [pending, startTransition] = useTransition();
-  const startedAt = useRef(0);
-  const honeypot = useRef<HTMLInputElement>(null);
+  const [startedAt, setStartedAt] = useState(0);
   const body = useRef<HTMLDivElement>(null);
   const b = copy.booking;
 
   // A fresh flow every time it opens (with the program of the page it was opened from).
+  // biome-ignore lint/correctness/useExhaustiveDependencies: form.reset only clears state
   useEffect(() => {
     if (open) {
       setState(initial(initialProgram));
-      setErrors({});
+      form.reset();
       setFailed(false);
-      startedAt.current = Date.now();
+      setStartedAt(Date.now());
     }
   }, [open, initialProgram]);
 
@@ -128,48 +134,33 @@ export function BookingDialog({
     message: state.message,
   });
 
-  const validate = () => {
-    const result = bookingSchema.safeParse(payload());
-    const next = result.success ? {} : fieldErrors(result.error);
-    setErrors(next);
-    return next;
-  };
-
-  const submit = () => {
-    const next = validate();
-    const first = Object.keys(next)[0];
-    if (first) {
-      document.getElementById(`bk-${first}`)?.focus();
-      return;
-    }
+  // Step 3 is a real form, so it shares validation and spam traps with the contact form.
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!form.check(event.currentTarget, payload())) return;
+    const traps = new FormData(event.currentTarget);
     setFailed(false);
     startTransition(async () => {
       const result = await submitBooking(payload(), {
-        honeypot: honeypot.current?.value ?? '',
-        startedAt: startedAt.current,
+        honeypot: String(traps.get(SPAM_FIELDS.honeypot) ?? ''),
+        startedAt: Number(traps.get(SPAM_FIELDS.startedAt)),
         source: window.location.pathname,
       });
       if (result.status === 'success') set('step', 4);
-      else if (result.status === 'invalid') setErrors(result.errors);
-      else setFailed(true);
+      else if (result.status === 'invalid') {
+        form.setErrors(result.errors);
+        set('step', firstErrorStep(result.errors));
+      } else setFailed(true);
     });
   };
 
-  const next = () => {
-    if (state.step === 3) submit();
-    else set('step', (state.step + 1) as Step);
-  };
+  // Live re-validation once a submit has been tried.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: payload derives from state
+  useEffect(() => form.revalidate(payload()), [state]);
 
-  const message = (field: string) => {
-    const key = errors[field];
-    return key ? copy.errors[key] : undefined;
-  };
-
-  // Live re-validation once errors are showing.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run only when the step-3 fields change
-  useEffect(() => {
-    if (Object.keys(errors).length) validate();
-  }, [state.name, state.email, state.consent]);
+  const message = form.message;
+  // Only the errors of the step on screen; a server-side error elsewhere already moved the visitor there.
+  const stepHasErrors = Object.keys(form.errors).some((field) => (fieldStep[field] ?? 3) === state.step);
 
   const when = [
     state.days.length ? state.days.map((d) => bookingDayLabel[d]).join(', ') : b.success.anytime,
@@ -349,9 +340,15 @@ export function BookingDialog({
                 </>
               )}
 
+              {state.step < 3 && stepHasErrors && (
+                <ErrorSummary>
+                  {copy.errors.summary} {message('goal')}
+                </ErrorSummary>
+              )}
+
               {state.step === 3 && (
-                <div aria-busy={pending} className="flex flex-col gap-5">
-                  {Object.keys(errors).length > 0 && <ErrorSummary>{copy.errors.summary}</ErrorSummary>}
+                <form aria-busy={pending} className="flex flex-col gap-5" id="bk-form" noValidate onSubmit={submit}>
+                  {stepHasErrors && <ErrorSummary>{copy.errors.summary}</ErrorSummary>}
                   {failed && <ErrorSummary>{copy.states.failure}</ErrorSummary>}
                   <fieldset className="m-0 flex min-w-0 flex-col gap-5 border-0 p-0" disabled={pending}>
                     <Field error={message('name')} id="bk-name" label={copy.labels.name} required>
@@ -359,6 +356,7 @@ export function BookingDialog({
                         autoComplete="name"
                         error={message('name')}
                         id="bk-name"
+                        name="name"
                         onChange={(e) => set('name', e.target.value)}
                         placeholder={copy.placeholders.name}
                         value={state.name}
@@ -370,6 +368,7 @@ export function BookingDialog({
                           autoComplete="email"
                           error={message('email')}
                           id="bk-email"
+                          name="email"
                           onChange={(e) => set('email', e.target.value)}
                           placeholder={copy.placeholders.email}
                           type="email"
@@ -380,6 +379,7 @@ export function BookingDialog({
                         <TextInput
                           autoComplete="tel"
                           id="bk-phone"
+                          name="phone"
                           onChange={(e) => set('phone', e.target.value)}
                           placeholder={copy.placeholders.phone}
                           type="tel"
@@ -390,6 +390,7 @@ export function BookingDialog({
                     <Field id="bk-message" label={copy.labels.bookingMessage} optionalLabel={copy.labels.optional}>
                       <TextArea
                         id="bk-message"
+                        name="message"
                         onChange={(e) => set('message', e.target.value)}
                         placeholder={copy.placeholders.bookingMessage}
                         rows={3}
@@ -404,6 +405,7 @@ export function BookingDialog({
                           checked={state.consent}
                           className="mt-0.5 size-5 flex-none accent-accent"
                           id="bk-consent"
+                          name="consent"
                           onChange={(e) => set('consent', e.target.checked)}
                           type="checkbox"
                         />
@@ -418,15 +420,8 @@ export function BookingDialog({
                       )}
                     </div>
                   </fieldset>
-                  <input
-                    aria-hidden
-                    autoComplete="off"
-                    className="-left-[9999px] absolute"
-                    name="website"
-                    ref={honeypot}
-                    tabIndex={-1}
-                  />
-                </div>
+                  <SpamTraps startedAt={startedAt} />
+                </form>
               )}
 
               {state.step === 4 && (
@@ -474,8 +469,9 @@ export function BookingDialog({
                 <button
                   className={cn(buttonStyles(), 'flex-1 disabled:bg-hairline disabled:text-muted disabled:opacity-100')}
                   disabled={(state.step === 1 && !state.goal) || pending}
-                  onClick={next}
-                  type="button"
+                  form={state.step === 3 ? 'bk-form' : undefined}
+                  onClick={state.step === 3 ? undefined : () => set('step', (state.step + 1) as Step)}
+                  type={state.step === 3 ? 'submit' : 'button'}
                 >
                   {pending ? (
                     <>

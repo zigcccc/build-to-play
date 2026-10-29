@@ -58,6 +58,7 @@ export const forms = defineType({
         str('emailInvalid', 'Napačna e-pošta'),
         str('message', 'Manjka sporočilo'),
         str('consent', 'Manjka soglasje'),
+        str('goal', 'Manjka cilj (posvet)'),
         str('summary', 'Povzetek napak'),
       ],
       { group: 'states' }

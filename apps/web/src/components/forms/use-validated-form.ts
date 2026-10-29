@@ -40,5 +40,11 @@ export function useValidatedForm(schema: z.ZodType, messages: Record<ErrorKey, s
     return key ? messages[key] : undefined;
   };
 
-  return { errors, setErrors, check, revalidate, message, hasErrors: Object.keys(errors).length > 0 };
+  /** Back to a pristine form (e.g. when a dialog reopens). */
+  const reset = () => {
+    setErrors({});
+    setAttempted(false);
+  };
+
+  return { errors, setErrors, check, revalidate, reset, message, hasErrors: Object.keys(errors).length > 0 };
 }

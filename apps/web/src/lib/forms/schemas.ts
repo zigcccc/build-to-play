@@ -2,7 +2,7 @@ import { bookingDay, bookingMode, bookingTime } from '@b2p/shared';
 import { z } from 'zod';
 
 /** Error keys map to the CMS copy in `forms.errors`, so client and server show the same text. */
-export type ErrorKey = 'name' | 'emailEmpty' | 'emailInvalid' | 'message' | 'consent';
+export type ErrorKey = 'name' | 'emailEmpty' | 'emailInvalid' | 'message' | 'consent' | 'goal';
 
 // Same rule as the design spec: something@something.tld
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -41,7 +41,7 @@ export const homeContactSchema = z.object({
 
 export const bookingSchema = z.object({
   ...contactFields,
-  goal: trimmed.min(1).max(200),
+  goal: trimmed.min(1, 'goal').max(200, 'goal'),
   // The program's slug; the action resolves it against the CMS list.
   program: trimmed.max(100).optional(),
   mode: bookingMode,

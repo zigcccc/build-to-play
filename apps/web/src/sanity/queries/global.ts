@@ -136,6 +136,7 @@ export const globalModel = z.object({
       emailInvalid: z.string(),
       message: z.string(),
       consent: z.string(),
+      goal: z.string(),
       summary: z.string(),
     }),
     states: z.object({
