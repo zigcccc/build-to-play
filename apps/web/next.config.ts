@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
   },
-  logging: { fetches: { fullUrl: true } },
   turbopack: {
     rules: {
       '*.css': {
