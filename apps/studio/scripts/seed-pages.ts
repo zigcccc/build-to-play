@@ -739,6 +739,43 @@ export const forms = {
       discard: 'Zapri',
     },
   },
+  email: {
+    bookingSubject: 'Brezplačen posvet: {oseba}',
+    contactSubject: 'Sporočilo s spletne strani: {oseba}',
+  },
+};
+
+export const aiSummary = {
+  _id: 'aiSummary',
+  _type: 'aiSummary',
+  intro:
+    'Build 2 Play – osebni in športni trener ({ime}). Območje: {obmocje}. Jezik: slovenščina. Prvi posvet je brezplačen.',
+  pages: keyed([
+    { _type: 'pageSummary', page: 'pricing', description: 'vsi paketi in cene, pogoji plačila in odpovedi.' },
+    { _type: 'pageSummary', page: 'about', description: 'trener, pristop, izobrazba in licence.' },
+    { _type: 'pageSummary', page: 'contact', description: 'obrazec, telefon, e-pošta, lokacije in delovni čas.' },
+    { _type: 'pageSummary', page: 'articles', description: 'članki o treningu, prehrani in regeneraciji.' },
+  ]),
+  labels: {
+    programs: 'Programi',
+    priceFrom: 'Cena že od',
+    pages: 'Strani',
+    articles: 'Nasveti',
+    fullLink: 'Celotne informacije (programi, cene, pogosta vprašanja)',
+    forWho: 'Za koga',
+    includes: 'Kaj dobiš',
+    packages: 'Paketi',
+    faqs: 'Pogosta vprašanja',
+    terms: 'Plačilo in pogoji',
+    about: 'O trenerju',
+    contact: 'Kontakt',
+    phone: 'Telefon',
+    email: 'E-pošta',
+    responseTime: 'Odzivni čas',
+    booking: 'Brezplačen posvet',
+    locations: 'Lokacije',
+    hours: 'Treningi po dogovoru',
+  },
 };
 
 export const cookieConsent = {

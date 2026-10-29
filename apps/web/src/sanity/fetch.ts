@@ -41,7 +41,8 @@ const VARIABLES_QUERY = /* groq */ `*[_id == "siteSettings"][0]{
   "trajanje": consultationDuration,
   "interval": testInterval,
   email,
-  "telefon": phone.display
+  "telefon": phone.display,
+  "obmocje": areaServed
 }`;
 
 /** Values for the `{rok}`-style placeholders editors can use in any CMS string. */

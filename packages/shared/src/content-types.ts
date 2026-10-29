@@ -14,6 +14,7 @@ export const singletonType = z.enum([
   'comingSoonPage',
   'forms',
   'cookieConsent',
+  'aiSummary',
 ]);
 export type SingletonType = z.infer<typeof singletonType>;
 

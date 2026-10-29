@@ -41,7 +41,7 @@ Rules:
 - The Sanity webhook POSTs `{_type}` to `/api/revalidate-tag`, which calls `revalidateTag(_type, "max")`.
 - In draft mode (Presentation tool), fetches use `perspective: "drafts"`, stega, and no cache. Metadata fetches pass `stega: false`.
 - Fields required in the Studio must be non-optional in Zod. Optional Studio fields must be `.nullish()` / `.optional()` in Zod.
-- **Everything visible comes from the CMS.** The only hard-coded strings are aria-labels, the day and part-of-day enums, and the © year. CMS strings may contain `{rok} {trajanje} {interval} {email} {telefon} {ime}`, which `sanityFetch` fills from `siteSettings`. Component-level placeholders (`{poslano}`, `{n}`) go through the same `interpolate()` / `interpolateNodes()` in `lib/interpolate.tsx`.
+- **Everything visible comes from the CMS.** The only hard-coded strings are aria-labels, the day and part-of-day enums, and the © year. CMS strings may contain `{rok} {trajanje} {interval} {email} {telefon} {ime} {obmocje}`, which `sanityFetch` fills from `siteSettings`. Component-level placeholders (`{poslano}`, `{n}`) go through the same `interpolate()` / `interpolateNodes()` in `lib/interpolate.tsx`.
 - `sanityFetch`'s `stega` flag means "visible copy": stega in draft mode, and "Build 2 Play" kept on one line with non-breaking spaces. Machine-read output (metadata, OG, llms, e-mails, sitemap) fetches with `stega: false` and gets plain text. Page JSON-LD, built from visible copy, is cleaned in `<JsonLd>`.
 - Singletons use the Studio's `document.singletons` registry. The document ID equals the type name.
 - Inquiries (form submissions) are written by server actions with the write token. Never render them or cache them.

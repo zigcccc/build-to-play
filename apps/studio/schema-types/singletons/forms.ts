@@ -7,7 +7,13 @@ export const forms = defineType({
   title: 'Obrazci',
   type: 'document',
   icon: ComposeIcon,
-  groups: groups(['fields', 'Polja'], ['states', 'Stanja'], ['contact', 'Kontakt'], ['booking', 'Posvet']),
+  groups: groups(
+    ['fields', 'Polja'],
+    ['states', 'Stanja'],
+    ['contact', 'Kontakt'],
+    ['booking', 'Posvet'],
+    ['email', 'E-pošta']
+  ),
   fields: [
     section(
       'labels',
@@ -139,6 +145,19 @@ export const forms = defineType({
         ]),
       ],
       { group: 'booking' }
+    ),
+    section(
+      'email',
+      'Obvestila po e-pošti',
+      [
+        str('bookingSubject', 'Zadeva obvestila: posvet', { description: '{oseba} je ime pošiljatelja.' }),
+        str('contactSubject', 'Zadeva obvestila: sporočilo', { description: '{oseba} je ime pošiljatelja.' }),
+      ],
+      {
+        group: 'email',
+        description:
+          'Zadevi e-pošte, ki jo prejmeš ob novem povpraševanju. Vrstice v e-pošti uporabijo oznake polj iz obrazcev.',
+      }
     ),
   ],
   preview: { prepare: () => ({ title: 'Obrazci' }) },

@@ -103,4 +103,4 @@ export const groups = (...items: [name: string, title: string][]): FieldGroupDef
   items.map(([name, title], i) => ({ name, title, default: i === 0 }));
 
 export const VARIABLES_HINT =
-  'Lahko uporabiš spremenljivke {ime}, {rok}, {trajanje}, {interval}, {email}, {telefon} – {ime} je ime lastnika (Osebe), ostale vrednosti se vzamejo iz Nastavitev strani.';
+  'Lahko uporabiš spremenljivke {ime}, {rok}, {trajanje}, {interval}, {email}, {telefon}, {obmocje} – {ime} je ime lastnika (Nastavitve strani → Lastnik), ostale vrednosti se vzamejo iz Nastavitev strani.';

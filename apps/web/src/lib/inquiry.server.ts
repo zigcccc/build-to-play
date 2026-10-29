@@ -7,7 +7,7 @@ import { InquiryNotification } from '@/emails/inquiry-notification';
 import { serverEnv } from '@/env/server';
 import { interpolate } from '@/lib/interpolate';
 import { client } from '@/sanity/client';
-import { getGlobal } from '@/sanity/queries/global';
+import { type FormsCopy, getGlobal } from '@/sanity/queries/global';
 
 export type InquiryRecord = {
   kind: InquiryKind;
@@ -30,16 +30,18 @@ export type SpamReason = 'honeypot' | 'tooFast' | 'bot';
 const writeClient = client.withConfig({ token: serverEnv.SANITY_API_WRITE_TOKEN, perspective: 'raw' });
 const resend = serverEnv.RESEND_API_KEY ? new Resend(serverEnv.RESEND_API_KEY) : null;
 
-const present = (rows: [string, string | undefined][]) => rows.filter((row): row is [string, string] => !!row[1]);
+type Row = [label: string, value: string | undefined];
 
-/** Everything the sender entered, for the trainer's notification (Slovene labels match the form). */
-export function inquiryRows(record: InquiryRecord): [string, string][] {
+const present = (rows: Row[]) => rows.filter((row): row is [string, string] => !!row[1]);
+
+/** Everything the sender entered, for the trainer's notification; labels are the form's own. */
+function inquiryRows(record: InquiryRecord, forms: FormsCopy): [string, string][] {
   return present([
-    ['Ime in priimek', record.name],
-    ['E-pošta', record.email],
-    ['Telefon', record.phone],
-    ...choiceRows(record),
-    ['Sporočilo', record.message],
+    [forms.labels.name, record.name],
+    [forms.labels.email, record.email],
+    [forms.labels.phone, record.phone],
+    ...choiceRows(record, forms),
+    [forms.labels.message, record.message],
   ]);
 }
 
@@ -47,14 +49,15 @@ export function inquiryRows(record: InquiryRecord): [string, string][] {
  * Only the choices made from CMS-defined options. The confirmation goes to whatever address was typed in, so it
  * must never echo free text (name, phone, message): that would let anyone send their own words from our domain.
  */
-function choiceRows(record: InquiryRecord): [string, string | undefined][] {
+function choiceRows(record: InquiryRecord, forms: FormsCopy): Row[] {
+  const { success, step2 } = forms.booking;
   return [
-    ['Zadeva / program', record.subject],
-    ['Cilj', record.goal],
-    ['Oblika', record.mode],
-    ['Lokacija', record.location],
-    ['Dnevi', record.days?.join(', ')],
-    ['Del dneva', record.times?.join(', ')],
+    [record.kind === 'booking' ? forms.labels.program : forms.labels.subject, record.subject],
+    [success.goalLabel, record.goal],
+    [success.modeLabel, record.mode],
+    [step2.locationLabel, record.location],
+    [step2.daysLabel, record.days?.join(', ')],
+    [step2.timesLabel, record.times?.join(', ')],
   ];
 }
 
@@ -74,9 +77,11 @@ export async function deliverInquiry(record: InquiryRecord, spam?: SpamReason) {
   if (spam) return;
 
   const { settings, forms } = await getGlobal(false);
-  const rows = inquiryRows(record);
+  const rows = inquiryRows(record, forms);
   const isBooking = record.kind === 'booking';
-  const subject = isBooking ? `Brezplačen posvet: ${record.name}` : `Sporočilo s spletne strani: ${record.name}`;
+  const subject = interpolate(isBooking ? forms.email.bookingSubject : forms.email.contactSubject, {
+    oseba: record.name,
+  });
   const confirmationText = isBooking
     ? forms.booking.success.text
     : interpolate(forms.states.successText, { poslano: record.email });
@@ -94,7 +99,7 @@ export async function deliverInquiry(record: InquiryRecord, spam?: SpamReason) {
             heading: forms.states.successTitle,
             text: confirmationText,
             nextSteps: isBooking ? forms.booking.success.nextSteps : [],
-            rows: present(choiceRows(record)),
+            rows: present(choiceRows(record, forms)),
             signature: settings.trainer.name,
             siteName: settings.siteName,
           })

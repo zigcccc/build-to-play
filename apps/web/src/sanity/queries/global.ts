@@ -189,6 +189,7 @@ export const globalModel = z.object({
       }),
       closeConfirm: z.object({ title: z.string(), text: z.string(), stay: z.string(), discard: z.string() }),
     }),
+    email: z.object({ bookingSubject: z.string(), contactSubject: z.string() }),
   }),
   articlesEnabled: z.boolean(),
   cookies: z.object({
