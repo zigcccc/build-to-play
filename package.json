@@ -1,32 +1,24 @@
 {
 	"name": "build-to-play",
 	"private": true,
-	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc -b && vite build",
+		"dev": "turbo run dev",
+		"build": "turbo run build",
+		"typecheck": "turbo run typecheck",
 		"lint": "biome check .",
-		"typecheck": "tsc -b",
-		"preview": "vite preview",
+		"format": "biome check --write .",
 		"prepare": "husky"
-	},
-	"dependencies": {
-		"@tailwindcss/vite": "^4.3.3",
-		"react": "^19.3.1",
-		"react-dom": "^19.3.1",
-		"tailwindcss": "^4.3.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.6.4",
 		"@types/node": "^26.6.6",
-		"@types/react": "^19.3.0",
-		"@types/react-dom": "^19.3.0",
-		"@vitejs/plugin-react": "^6.1.2",
-		"globals": "^17.13.0",
 		"husky": "^9.1.7",
-		"typescript": "~7.0.2",
-		"vite": "^8.3.5"
+		"turbo": "^2.11.10",
+		"typescript": "~7.0.2"
+	},
+	"engines": {
+		"node": ">=24"
 	},
 	"packageManager": "pnpm@12.16.1+sha512.091d1dee7927575661b25dab3c2ae31cafc1c54d6b71ed6a6600cf0c1cb10434a447eae14015f1b23e2e6bedeed79df94a932e2164d2832280dce3fb32f656d1"
 }

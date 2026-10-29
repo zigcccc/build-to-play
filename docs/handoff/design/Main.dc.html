@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<title>Build 2 Play — domača stran</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#040506}
+a{color:#b39a72}a:hover{color:#bea987}
+.b2p-nav-links{display:flex}
+.b2p-nav-cta{display:inline-flex}
+.b2p-burger{display:none}
+.b2p-mbar{display:none}
+@media (max-width: 900px){.b2p-nav-links{display:none}.b2p-nav-cta{display:none}.b2p-burger{display:inline-flex}.b2p-mbar{display:flex}}
+.b2p-ph{background-color:#161616;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,0.04) 0 1px,transparent 1px 14px)}
+@keyframes b2p-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.b2p-marquee{animation:b2p-marquee 45s linear infinite}
+@media (prefers-reduced-motion: reduce){.b2p-marquee{animation:none}}
+.b2p-btn-gold:hover{background:#bea987 !important}
+.b2p-btn-line:hover{border-color:#ffffff !important}
+.b2p-link-row:hover .b2p-arrow{transform:translateX(4px)}
+.b2p-arrow{transition:transform .2s ease}
+input::placeholder,textarea::placeholder{color:#8f8c86}
+:focus-visible{outline:2px solid #b39a72;outline-offset:2px}
+.b2p-glass{background:rgba(4,5,6,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1)}
+.b2p-glass-btn{transition:background .2s ease,border-color .2s ease}
+.b2p-glass-btn:hover{background:rgba(4,5,6,0.8) !important;border-color:rgba(255,255,255,0.3) !important}
+.b2p-navlink{transition:background .15s ease}
+.b2p-navlink:hover{background:rgba(255,255,255,0.08)}
+@media (max-width: 600px){.b2p-cta-row>a{flex:1 1 100%}}
+</style>
+</helmet>
+<div style="background: #040506; color: #ffffff; font-family: Inter, 'Helvetica Neue', Arial, system-ui, sans-serif; font-size: 16px; line-height: 24px; -webkit-font-smoothing: antialiased; position: relative">
+
+<dc-import name="Header" active="domov" hint-size="100%,0px"></dc-import>
+
+<main>
+<section aria-labelledby="hero-title" style="position: relative; min-height: 720px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; border-bottom: 1px solid #2b2a28">
+<img src="/_blob/a8ba7fc4a25f1599de4274060a07a099" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 35%; transform: scaleX(-1)">
+<div aria-hidden="true" style="position: absolute; right: -4%; top: 50%; transform: translateY(-50%); font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(520px, 62vw, 980px); line-height: 0.8; color: transparent; -webkit-text-stroke: 1.5px rgba(179,154,114,0.35); user-select: none; pointer-events: none">2</div>
+<div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,5,6,0.75) 0%, rgba(4,5,6,0.25) 55%, rgba(4,5,6,0) 100%), linear-gradient(180deg, rgba(4,5,6,0.35) 0%, rgba(4,5,6,0.3) 40%, #040506 96%)"></div>
+<div style="position: relative; width: 100%; max-width: 1280px; margin: 0 auto; padding: 140px clamp(20px, 5vw, 64px) 40px; box-sizing: border-box">
+<p class="b2p-glass" style="display: inline-flex; align-items: center; gap: 10px; margin: 0 0 24px; padding: 8px 14px 8px 12px; color: #ffffff; font-size: 13px; line-height: 18px; font-weight: 500"><span style="flex: none; width: 8px; height: 8px; background: #b39a72"></span>Osebni in športni trener</p>
+<h1 id="hero-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(64px, 10vw, 152px); line-height: 0.88; letter-spacing: 0.005em; text-transform: uppercase">Zgradi telo.<br><span style="color: #b39a72">Igraj</span> bolje.</h1>
+<p style="margin: 28px 0 0; max-width: 560px; font-size: 18px; line-height: 28px; color: #ffffff; text-wrap: pretty">Treningi z jasnim načrtom in merljivim napredkom — za športnike, ki hočejo več na igrišču, in za vse, ki hočejo telo, na katerega se lahko zanesejo.</p>
+<div class="b2p-cta-row" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px">
+<a href="Posvet.dc.html" class="b2p-btn-gold" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 28px; background: #b39a72; color: #040506; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Brezplačen uvodni posvet<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="#programi" class="b2p-glass b2p-glass-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 28px; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; box-sizing: border-box">Programi in cenik</a>
+</div>
+<dl style="margin: 64px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); border-top: 1px solid #2b2a28">
+<div style="padding: 20px 24px 0 0">
+<dt style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 30px; line-height: 34px; text-transform: uppercase">[X]+ let</dt>
+<dd style="margin: 4px 0 0; color: #8f8c86; font-size: 14px; line-height: 20px">izkušenj v treningu [dopolni]</dd>
+</div>
+<div style="padding: 20px 24px 0 0">
+<dt style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 30px; line-height: 34px; text-transform: uppercase">[Licenca]</dt>
+<dd style="margin: 4px 0 0; color: #8f8c86; font-size: 14px; line-height: 20px">[izobrazba ali certifikat]</dd>
+</div>
+<div style="padding: 20px 24px 0 0">
+<dt style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 30px; line-height: 34px; text-transform: uppercase">[Mesto] + online</dt>
+<dd style="margin: 4px 0 0; color: #8f8c86; font-size: 14px; line-height: 20px">treningi v živo in na daljavo</dd>
+</div>
+</dl>
+</div>
+</section>
+
+<div aria-hidden="true" style="overflow: hidden; border-bottom: 1px solid #2b2a28; padding-block: 18px">
+<div class="b2p-marquee" style="display: flex; width: max-content; align-items: center; gap: 40px; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 28px; line-height: 32px; text-transform: uppercase; white-space: nowrap; color: #ffffff">
+<span>Fitnes in osebno trenerstvo</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Športno trenerstvo</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Online trenerstvo</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Brezplačen uvodni posvet</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Fitnes in osebno trenerstvo</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Športno trenerstvo</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Online trenerstvo</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+<span>Brezplačen uvodni posvet</span><span style="width: 8px; height: 8px; background: #b39a72"></span>
+</div>
+</div>
+
+<section id="o-meni" aria-labelledby="o-meni-title" style="padding-block: clamp(72px, 10vw, 136px)">
+<div style="max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 64px); box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(40px, 6vw, 96px); align-items: center">
+<figure style="margin: 0; position: relative">
+<div class="b2p-ph" style="aspect-ratio: 4 / 5; width: 100%; display: flex; align-items: center; justify-content: center; color: #8f8c86; font-size: 12px; line-height: 16px; gap: 8px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+<span>FOTO: portret trenerja — pokončno 4:5</span>
+</div>
+<figcaption style="position: absolute; left: 0; bottom: 0; display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: #040506; border-top: 1px solid #2b2a28; border-right: 1px solid #2b2a28">
+<span style="width: 10px; height: 10px; background: #b39a72"></span>
+<span style="display: flex; flex-direction: column">
+<span style="font-weight: 600; font-size: 15px; line-height: 20px">[Ime Priimek]</span>
+<span style="color: #8f8c86; font-size: 13px; line-height: 18px">Trener · Build 2 Play</span>
+</span>
+</figcaption>
+</figure>
+<div style="display: flex; flex-direction: column; gap: 24px">
+<p style="margin: 0; color: #b39a72; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">O meni</p>
+<h2 id="o-meni-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 76px); line-height: 0.95; letter-spacing: 0.005em; text-transform: uppercase; text-wrap: balance">Trening z namenom, ne na pamet.</h2>
+<p style="margin: 0; color: #ffffff; font-size: 18px; line-height: 28px; text-wrap: pretty">Sem [Ime], [kratek opis: športno ozadje, izobrazba, s kom najraje delam]. Build 2 Play sem ustvaril za ljudi, ki želijo trenirati pametno — ne samo trdo.</p>
+<p style="margin: 0; color: #8f8c86; font-size: 16px; line-height: 26px; text-wrap: pretty">Vsak program začneva z oceno tvojega izhodišča: kako se giblješ, kje si močan in kaj te omejuje. Nato zgradiva načrt, ki mu lahko slediš, in ga sproti prilagajava tvojemu napredku.</p>
+<ol style="list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column">
+<li style="display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding-block: 18px; border-top: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">01</span>
+<span><strong style="display: block; font-weight: 600; font-size: 16px; line-height: 24px">Ocena izhodišča</strong><span style="color: #8f8c86; font-size: 14px; line-height: 20px">Gibanje, moč, kondicija in tvoji cilji.</span></span>
+</li>
+<li style="display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding-block: 18px; border-top: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">02</span>
+<span><strong style="display: block; font-weight: 600; font-size: 16px; line-height: 24px">Načrt po meri</strong><span style="color: #8f8c86; font-size: 14px; line-height: 20px">Program, ki ustreza tvojemu urniku in športu.</span></span>
+</li>
+<li style="display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding-block: 18px; border-top: 1px solid #2b2a28; border-bottom: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">03</span>
+<span><strong style="display: block; font-weight: 600; font-size: 16px; line-height: 24px">Merljiv napredek</strong><span style="color: #8f8c86; font-size: 14px; line-height: 20px">Redna testiranja, da veš, kje si.</span></span>
+</li>
+</ol>
+<a href="OMeni.dc.html" class="b2p-link-row" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #b39a72; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Več o meni<svg class="b2p-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</div>
+</div>
+</section>
+
+<section id="programi" aria-labelledby="programi-title" style="padding-block: clamp(72px, 10vw, 136px); border-top: 1px solid #2b2a28">
+<div style="max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 64px); box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 48px; margin-bottom: clamp(40px, 5vw, 64px)">
+<div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px">
+<p style="margin: 0; color: #b39a72; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Programi in cenik</p>
+<h2 id="programi-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 76px); line-height: 0.95; letter-spacing: 0.005em; text-transform: uppercase; text-wrap: balance">Izberi svojo pot.</h2>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; max-width: 400px">
+<p style="margin: 0; color: #8f8c86; font-size: 16px; line-height: 24px">Trije programi, en pristop: najprej te spoznam, potem trenirava. Ne veš, kaj izbrati? Za to je uvodni posvet.</p>
+<a href="Cenik.dc.html" class="b2p-link-row" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #b39a72; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Celoten cenik<svg class="b2p-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 1px; background: #2b2a28; border: 1px solid #2b2a28">
+
+<article style="background: #040506; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">01</span>
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"></path><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"></path><path d="m21.5 21.5-1.4-1.4"></path><path d="M3.9 3.9 2.5 2.5"></path><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"></path></svg>
+</div>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 36px; line-height: 36px; text-transform: uppercase">Fitnes in osebno trenerstvo</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 16px; line-height: 24px">Za vse, ki želijo več moči, boljšo kondicijo in telo, ki zdrži vsakdan. Treningi ena na ena ali v paru, po tvoji meri.</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Treningi 1 na 1 ali v paru</li>
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Program po tvoji meri</li>
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Redno merjenje napredka</li>
+</ul>
+<div style="margin-top: auto; padding-top: 24px; border-top: 1px solid #2b2a28; display: flex; flex-direction: column; gap: 20px">
+<div>
+<span style="display: block; color: #8f8c86; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Že od</span>
+<span style="display: flex; align-items: baseline; gap: 8px; margin-top: 6px"><span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 52px; line-height: 52px">[Cena] €</span><span style="color: #8f8c86; font-size: 14px; line-height: 20px">/ trening</span></span>
+</div>
+<a href="#" class="b2p-btn-line" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 20px; border: 1px solid #6b6862; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; box-sizing: border-box">Več o programu<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</div>
+</article>
+
+<article style="background: #040506; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">02</span>
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+</div>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 36px; line-height: 36px; text-transform: uppercase">Športno trenerstvo</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 16px; line-height: 24px">Za športnike in ekipe, ki želijo biti hitrejši, močnejši in manj poškodovani. Priprava, prilagojena tvojemu športu in sezoni.</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Testiranje gibalnih sposobnosti</li>
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Načrt glede na sezono in tekme</li>
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Individualno ali za ekipe</li>
+</ul>
+<div style="margin-top: auto; padding-top: 24px; border-top: 1px solid #2b2a28; display: flex; flex-direction: column; gap: 20px">
+<div>
+<span style="display: block; color: #8f8c86; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Že od</span>
+<span style="display: flex; align-items: baseline; gap: 8px; margin-top: 6px"><span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 52px; line-height: 52px">[Cena] €</span><span style="color: #8f8c86; font-size: 14px; line-height: 20px">/ mesec</span></span>
+</div>
+<a href="#" class="b2p-btn-line" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 20px; border: 1px solid #6b6862; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; box-sizing: border-box">Več o programu<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</div>
+</article>
+
+<article style="background: #040506; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">03</span>
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>
+</div>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 36px; line-height: 36px; text-transform: uppercase">Online trenerstvo</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 16px; line-height: 24px">Za vse, ki trenirajo sami — doma, v fitnesu ali na poti. Program, video navodila in redni pregledi, kjerkoli si.</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Program z video navodili</li>
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Tedenski pregled in prilagoditve</li>
+<li style="display: flex; gap: 12px; font-size: 15px; line-height: 22px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>Podpora prek sporočil</li>
+</ul>
+<div style="margin-top: auto; padding-top: 24px; border-top: 1px solid #2b2a28; display: flex; flex-direction: column; gap: 20px">
+<div>
+<span style="display: block; color: #8f8c86; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Že od</span>
+<span style="display: flex; align-items: baseline; gap: 8px; margin-top: 6px"><span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 52px; line-height: 52px">[Cena] €</span><span style="color: #8f8c86; font-size: 14px; line-height: 20px">/ mesec</span></span>
+</div>
+<a href="#" class="b2p-btn-line" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 20px; border: 1px solid #6b6862; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; box-sizing: border-box">Več o programu<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</div>
+</article>
+
+</div>
+</div>
+</section>
+
+<section aria-labelledby="posvet-title" style="background: #161616; border-block: 1px solid #2b2a28; padding-block: clamp(72px, 10vw, 136px)">
+<div style="max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 64px); box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr)); gap: clamp(40px, 6vw, 96px); align-items: start">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<p style="margin: 0; color: #b39a72; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Uvodni posvet</p>
+<h2 id="posvet-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(56px, 8vw, 112px); line-height: 0.9; letter-spacing: 0.005em; text-transform: uppercase; text-wrap: balance">Prvi korak je <span style="color: #b39a72">brezplačen</span>.</h2>
+<p style="margin: 0; max-width: 480px; color: #8f8c86; font-size: 18px; line-height: 28px">Brez obveznosti in brez prodajnega pritiska. Pogovoriva se o tvojih ciljih in skupaj ugotoviva, kateri program ima smisel zate.</p>
+<div class="b2p-cta-row" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px">
+<a href="Posvet.dc.html" class="b2p-btn-gold" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 28px; background: #b39a72; color: #040506; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Rezerviraj posvet<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="tel:+386" class="b2p-btn-line" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 24px; border: 1px solid #6b6862; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; box-sizing: border-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Pokliči</a>
+</div>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<li style="display: grid; grid-template-columns: 72px 1fr; gap: 8px; padding-block: 28px; border-top: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 44px; line-height: 44px; color: #b39a72">01</span>
+<span><strong style="display: block; font-weight: 600; font-size: 20px; line-height: 28px">Pošlji povpraševanje</strong><span style="display: block; margin-top: 4px; color: #8f8c86; font-size: 16px; line-height: 24px">Izpolni kratek obrazec ali me pokliči. Odgovorim v [ROK].</span></span>
+</li>
+<li style="display: grid; grid-template-columns: 72px 1fr; gap: 8px; padding-block: 28px; border-top: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 44px; line-height: 44px; color: #b39a72">02</span>
+<span><strong style="display: block; font-weight: 600; font-size: 20px; line-height: 28px">Brezplačen posvet</strong><span style="display: block; margin-top: 4px; color: #8f8c86; font-size: 16px; line-height: 24px">[TRAJANJE] pogovora o tvojih ciljih, izkušnjah in morebitnih omejitvah — v živo ali na daljavo.</span></span>
+</li>
+<li style="display: grid; grid-template-columns: 72px 1fr; gap: 8px; padding-block: 28px; border-block: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 44px; line-height: 44px; color: #b39a72">03</span>
+<span><strong style="display: block; font-weight: 600; font-size: 20px; line-height: 28px">Načrt in prvi trening</strong><span style="display: block; margin-top: 4px; color: #8f8c86; font-size: 16px; line-height: 24px">Dobiš predlog programa. Če ti ustreza, začneva.</span></span>
+</li>
+</ol>
+</div>
+</section>
+
+<section id="rezultati" aria-labelledby="rezultati-title" style="padding-block: clamp(72px, 10vw, 136px)">
+<div style="max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 64px); box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 48px; margin-bottom: clamp(40px, 5vw, 64px)">
+<div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px">
+<p style="margin: 0; color: #b39a72; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Rezultati</p>
+<h2 id="rezultati-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 76px); line-height: 0.95; letter-spacing: 0.005em; text-transform: uppercase; text-wrap: balance">Napredek, ki ga izmeriš.</h2>
+</div>
+<p style="margin: 0; max-width: 400px; color: #8f8c86; font-size: 16px; line-height: 24px">Vsak program se začne s testiranjem, ki ga ponavljamo vsakih [X] tednov. Napredek tako ni občutek, ampak številka.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(40px, 6vw, 96px); align-items: center">
+
+<div style="display: flex; flex-direction: column; gap: 28px">
+<div role="tablist" aria-label="Program" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; background: #161616; border: 1px solid #2b2a28">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<sc-if value="{{t.selected}}" hint-placeholder-val="{{ false }}">
+<button type="button" role="tab" aria-selected="true" onClick="{{t.pick}}" style="min-height: 44px; padding: 0 8px; background: #b39a72; color: #040506; border: 0; border-radius: 0; font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer">{{t.name}}</button>
+</sc-if>
+<sc-if value="{{t.unselected}}" hint-placeholder-val="{{ true }}">
+<button type="button" role="tab" aria-selected="false" onClick="{{t.pick}}" style="min-height: 44px; padding: 0 8px; background: transparent; color: #ffffff; border: 0; border-radius: 0; font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer">{{t.name}}</button>
+</sc-if>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 18px; line-height: 28px; text-wrap: pretty">{{active.desc}}</p>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<li style="display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding-block: 18px; border-top: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">01</span>
+<span><strong style="display: block; font-weight: 600; font-size: 16px; line-height: 24px">Začetno testiranje</strong><span style="color: #8f8c86; font-size: 14px; line-height: 20px">Izhodišče, s katerim primerjamo vse nadaljnje meritve.</span></span>
+</li>
+<li style="display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding-block: 18px; border-top: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">02</span>
+<span><strong style="display: block; font-weight: 600; font-size: 16px; line-height: 24px">Ponovni test vsakih [X] tednov</strong><span style="color: #8f8c86; font-size: 14px; line-height: 20px">Isti testi, isti pogoji, primerljivi rezultati.</span></span>
+</li>
+<li style="display: grid; grid-template-columns: 56px 1fr; gap: 8px; padding-block: 18px; border-top: 1px solid #2b2a28; border-bottom: 1px solid #2b2a28">
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 22px; line-height: 24px; color: #b39a72">03</span>
+<span><strong style="display: block; font-weight: 600; font-size: 16px; line-height: 24px">Tvoje poročilo</strong><span style="color: #8f8c86; font-size: 14px; line-height: 20px">Po vsakem testu dobiš pregled napredka in prilagojen načrt.</span></span>
+</li>
+</ol>
+</div>
+
+<div style="position: relative">
+<div aria-hidden="true" style="position: absolute; inset: 14% 10%; background: #b39a72; opacity: 0.22; filter: blur(80px)"></div>
+<figure class="b2p-glass" style="position: relative; margin: 0; padding: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<span style="color: #8f8c86; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Primer poročila</span>
+<span style="padding: 4px 12px; border: 1px solid rgba(255,255,255,0.22); border-radius: 999px; font-size: 12px; line-height: 16px; font-weight: 500">{{active.name}}</span>
+</div>
+<p style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 32px; line-height: 34px; text-transform: uppercase">Začetek → 12. teden</p>
+<div>
+<svg viewBox="0 0 320 120" preserveAspectRatio="none" role="img" aria-label="Graf napredka od začetka do 12. tedna" style="display: block; width: 100%; height: 140px">
+<line x1="0" x2="320" y1="10" y2="10" stroke="rgba(255,255,255,0.08)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+<line x1="0" x2="320" y1="60" y2="60" stroke="rgba(255,255,255,0.08)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+<line x1="0" x2="320" y1="110" y2="110" stroke="rgba(255,255,255,0.16)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+<path d="{{chart.area}}" fill="rgba(179,154,114,0.16)"></path>
+<polyline points="{{chart.line}}" fill="none" stroke="#b39a72" stroke-width="2.5" stroke-linejoin="miter" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+<div style="display: flex; justify-content: space-between; margin-top: 8px; color: #8f8c86; font-size: 12px; line-height: 16px">
+<span>Začetek</span><span>4. teden</span><span>8. teden</span><span>12. teden</span>
+</div>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<sc-for list="{{active.metrics}}" as="m" hint-placeholder-count="3">
+<li style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; border-top: 1px solid rgba(255,255,255,0.1)">
+<span style="display: flex; flex-direction: column; min-width: 0">
+<span style="color: #8f8c86; font-size: 13px; line-height: 18px">{{m.label}}</span>
+<span style="font-weight: 600; font-size: 17px; line-height: 24px">{{m.from}} → {{m.to}}</span>
+</span>
+<span style="flex: none; padding: 4px 10px; background: rgba(179,154,114,0.14); color: #b39a72; font-weight: 600; font-size: 14px; line-height: 20px">{{m.delta}}</span>
+</li>
+</sc-for>
+</ul>
+<figcaption style="color: #8f8c86; font-size: 12px; line-height: 16px">Ilustrativni primer. V poročilu so tvoje dejanske meritve.</figcaption>
+</figure>
+</div>
+
+</div>
+<figure style="margin: clamp(64px, 8vw, 112px) 0 0; padding-top: clamp(40px, 5vw, 64px); border-top: 1px solid #2b2a28; display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: flex-start">
+<svg style="flex: none" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.25" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+<div style="flex: 1 1 520px; min-width: 0; max-width: 880px">
+<blockquote style="margin: 0; font-weight: 500; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.35; text-wrap: pretty">„[Mnenje stranke: dva do trije stavki o tem, kako je potekal trening in kaj se je spremenilo.]“</blockquote>
+<figcaption style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: 28px">
+<span style="font-weight: 600; font-size: 15px; line-height: 20px">[Ime P.]</span>
+<span style="color: #8f8c86; font-size: 14px; line-height: 20px">[Program] · [kraj]</span>
+<a href="#" class="b2p-link-row" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-left: auto; color: #b39a72; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Več mnenj<svg class="b2p-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</figcaption>
+</div>
+</figure>
+</div>
+</section>
+
+<section id="lokacije" aria-labelledby="lokacije-title" style="padding-block: clamp(72px, 10vw, 136px); border-top: 1px solid #2b2a28">
+<div style="max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 64px); box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr)); gap: clamp(40px, 6vw, 96px); align-items: start">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<p style="margin: 0; color: #b39a72; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Lokacije</p>
+<h2 id="lokacije-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 76px); line-height: 0.95; letter-spacing: 0.005em; text-transform: uppercase">Kje se dobiva.</h2>
+<ul style="list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column">
+<li style="display: flex; gap: 20px; padding-block: 24px; border-top: 1px solid #2b2a28">
+<span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #2b2a28"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<h3 style="margin: 0; font-weight: 600; font-size: 18px; line-height: 24px">[Ime lokacije 1]</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 15px; line-height: 22px">[Ulica in hišna številka], [poštna št.] [Mesto]</p>
+<p style="margin: 4px 0 0; color: #ffffff; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase">Osebno · Športno</p>
+</div>
+<a href="#" aria-label="Navodila za pot do lokacije 1" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #6b6862; color: #ffffff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+</li>
+<li style="display: flex; gap: 20px; padding-block: 24px; border-top: 1px solid #2b2a28">
+<span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #2b2a28"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<h3 style="margin: 0; font-weight: 600; font-size: 18px; line-height: 24px">[Ime lokacije 2]</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 15px; line-height: 22px">[Ulica in hišna številka], [poštna št.] [Mesto]</p>
+<p style="margin: 4px 0 0; color: #ffffff; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase">Športno · Ekipe</p>
+</div>
+<a href="#" aria-label="Navodila za pot do lokacije 2" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #6b6862; color: #ffffff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+</li>
+<li style="display: flex; gap: 20px; padding-block: 24px; border-block: 1px solid #2b2a28">
+<span style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #2b2a28"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<h3 style="margin: 0; font-weight: 600; font-size: 18px; line-height: 24px">Online — kjerkoli</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 15px; line-height: 22px">Program, video navodila in pregledi prek [aplikacija / platforma].</p>
+<p style="margin: 4px 0 0; color: #ffffff; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase">Online</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="b2p-ph" style="aspect-ratio: 4 / 3; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; color: #8f8c86; font-size: 12px; line-height: 16px; border: 1px solid #2b2a28; box-sizing: border-box">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+<span>ZEMLJEVID — temni slog, oznake lokacij v zlati</span>
+</div>
+</div>
+</section>
+
+<section id="kontakt" aria-labelledby="kontakt-title" style="padding-block: clamp(72px, 10vw, 136px); border-top: 1px solid #2b2a28">
+<div style="max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 64px); box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: clamp(40px, 6vw, 96px); align-items: start">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<p style="margin: 0; color: #b39a72; font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase">Kontakt</p>
+<h2 id="kontakt-title" style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: clamp(72px, 11vw, 160px); line-height: 0.85; letter-spacing: 0.005em; text-transform: uppercase">Začniva.</h2>
+<p style="margin: 0; max-width: 460px; color: #8f8c86; font-size: 18px; line-height: 28px">Napiši nekaj besed o sebi in o tem, kaj želiš doseči. Odgovorim v [ROK] in skupaj dogovoriva termin brezplačnega posveta.</p>
+<ul style="list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column">
+<li style="border-top: 1px solid #2b2a28"><a href="tel:+386" style="display: flex; align-items: center; gap: 16px; min-height: 64px; color: #ffffff; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg><span style="width: 96px; color: #8f8c86; font-size: 14px">Telefon</span><span style="font-weight: 500">[+386 XX XXX XXX]</span></a></li>
+<li style="border-top: 1px solid #2b2a28"><a href="mailto:" style="display: flex; align-items: center; gap: 16px; min-height: 64px; color: #ffffff; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg><span style="width: 96px; color: #8f8c86; font-size: 14px">E-pošta</span><span style="font-weight: 500">[info@domena.si]</span></a></li>
+<li style="border-top: 1px solid #2b2a28"><a href="#" style="display: flex; align-items: center; gap: 16px; min-height: 64px; color: #ffffff; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg><span style="width: 96px; color: #8f8c86; font-size: 14px">Instagram</span><span style="font-weight: 500">[@uporabnik]</span></a></li>
+<li style="border-block: 1px solid #2b2a28"><a href="#" style="display: flex; align-items: center; gap: 16px; min-height: 64px; color: #ffffff; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg><span style="width: 96px; color: #8f8c86; font-size: 14px">Facebook</span><span style="font-weight: 500">[Build 2 Play]</span></a></li>
+</ul>
+</div>
+
+<div style="background: #161616; border: 1px solid #2b2a28; padding: clamp(24px, 4vw, 44px)">
+<sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 20px">
+<div>
+<h3 style="margin: 0; font-weight: 600; font-size: 22px; line-height: 28px">Pošlji povpraševanje</h3>
+<p style="margin: 6px 0 0; color: #8f8c86; font-size: 14px; line-height: 20px">Polja z * so obvezna.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 20px 16px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-ime" style="font-size: 14px; line-height: 20px; font-weight: 500">Ime in priimek *</label>
+<input id="f-ime" name="ime" type="text" autocomplete="name" required="" placeholder="Janez Novak" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 14px; background: #040506; color: #ffffff; border: 1px solid #6b6862; border-radius: 0; font-family: inherit; font-size: 16px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-email" style="font-size: 14px; line-height: 20px; font-weight: 500">E-pošta *</label>
+<input id="f-email" name="email" type="email" autocomplete="email" required="" placeholder="janez@primer.si" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 14px; background: #040506; color: #ffffff; border: 1px solid #6b6862; border-radius: 0; font-family: inherit; font-size: 16px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-tel" style="font-size: 14px; line-height: 20px; font-weight: 500">Telefon</label>
+<input id="f-tel" name="telefon" type="tel" autocomplete="tel" placeholder="041 123 456" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 14px; background: #040506; color: #ffffff; border: 1px solid #6b6862; border-radius: 0; font-family: inherit; font-size: 16px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-program" style="font-size: 14px; line-height: 20px; font-weight: 500">Program</label>
+<button id="f-program" type="button" aria-haspopup="listbox" aria-expanded="false" style="display: flex; align-items: center; justify-content: space-between; width: 100%; box-sizing: border-box; height: 48px; padding: 0 14px; background: #040506; color: #8f8c86; border: 1px solid #6b6862; border-radius: 0; font-family: inherit; font-size: 16px; text-align: left; cursor: pointer">Izberi program<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-sporocilo" style="font-size: 14px; line-height: 20px; font-weight: 500">Kaj želiš doseči?</label>
+<textarea id="f-sporocilo" name="sporocilo" rows="4" placeholder="Npr. želim se pripraviti na novo sezono, imam 2 treninga na teden …" style="width: 100%; box-sizing: border-box; min-height: 120px; padding: 12px 14px; background: #040506; color: #ffffff; border: 1px solid #6b6862; border-radius: 0; font-family: inherit; font-size: 16px; line-height: 24px; resize: vertical"></textarea>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<input id="f-soglasje" name="soglasje" type="checkbox" required="" style="flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: #b39a72">
+<label for="f-soglasje" style="color: #8f8c86; font-size: 14px; line-height: 22px">Strinjam se z obdelavo osebnih podatkov v skladu s <a href="#">politiko zasebnosti</a>. *</label>
+</div>
+<button type="submit" class="b2p-btn-gold" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 56px; padding: 0 24px; background: #b39a72; color: #040506; border: 0; border-radius: 0; font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer">Pošlji povpraševanje<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg></button>
+</form>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding-block: 24px">
+<span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #b39a72; color: #040506"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 44px; line-height: 44px; text-transform: uppercase">Hvala, prejel sem.</h3>
+<p style="margin: 0; color: #8f8c86; font-size: 16px; line-height: 24px">Odgovorim v [ROK]. Medtem me lahko spremljaš na Instagramu.</p>
+<button type="button" onClick="{{reset}}" style="min-height: 44px; padding: 0; background: transparent; border: 0; color: #b39a72; font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer">Pošlji novo sporočilo</button>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+</main>
+
+<dc-import name="Footer" hint-size="100%,620px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":7720}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const open = !!s.menuOpen;
+const sent = !!s.sent;
+const programs = [
+{ id: 'fit', name: 'Fitnes', desc: 'Moč, vzdržljivost in telesna sestava. Merimo, kar šteje v vsakdanu, in ti pokažemo, kam se premikaš.', points: [0, 18, 30, 46, 55, 68, 74, 82], metrics: [
+{ label: 'Počep (1 ponovitev)', from: '60 kg', to: '85 kg', delta: '+42 %' },
+{ label: 'Plank', from: '0:45', to: '2:10', delta: '+189 %' },
+{ label: 'Srčni utrip v mirovanju', from: '72', to: '61 ud./min', delta: '−15 %' }
+] },
+{ id: 'sport', name: 'Šport', desc: 'Eksplozivnost, hitrost in agilnost. Testi so izbrani glede na tvoj šport in fazo sezone.', points: [0, 10, 22, 28, 40, 52, 58, 66], metrics: [
+{ label: 'Skok z mesta (CMJ)', from: '42 cm', to: '49 cm', delta: '+17 %' },
+{ label: 'Šprint 10 m', from: '1,92 s', to: '1,78 s', delta: '−7 %' },
+{ label: 'Agilnost (T-test)', from: '10,8 s', to: '9,9 s', delta: '−8 %' }
+] },
+{ id: 'online', name: 'Online', desc: 'Doslednost in napredek na daljavo. Podatki iz tvojih treningov in tedenskih pregledov.', points: [0, 14, 20, 34, 42, 56, 70, 78], metrics: [
+{ label: 'Opravljeni treningi', from: '0', to: '22 / 24', delta: '92 %' },
+{ label: 'Sklece v enem nizu', from: '12', to: '30', delta: '+150 %' },
+{ label: 'Koraki na dan', from: '5.400', to: '9.100', delta: '+69 %' }
+] }
+];
+const active = programs.find((p) => p.id === s.tab) || programs[0];
+const step = 320 / (active.points.length - 1);
+const coords = active.points.map((v, i) => (i * step).toFixed(1) + ',' + (110 - v).toFixed(1));
+const chart = { line: coords.join(' '), area: 'M0,110 L' + coords.join(' L') + ' L320,110 Z' };
+const tabs = programs.map((p) => ({ name: p.name, selected: p.id === active.id, unselected: p.id !== active.id, pick: () => this.setState({ tab: p.id }) }));
+return {
+tabs: tabs,
+active: active,
+chart: chart,
+menuOpen: open,
+menuClosed: !open,
+menuLabel: open ? 'Zapri meni' : 'Odpri meni',
+menuExpanded: open ? 'true' : 'false',
+toggleMenu: () => this.setState({ menuOpen: !open }),
+closeMenu: () => this.setState({ menuOpen: false }),
+sent: sent,
+notSent: !sent,
+submit: (e) => { if (e && e.preventDefault) { e.preventDefault(); } this.setState({ sent: true }); },
+reset: () => this.setState({ sent: false })
+};
+}
+}
+</script>
+</body>
+</html>

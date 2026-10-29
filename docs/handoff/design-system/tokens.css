@@ -1,0 +1,50 @@
+/* Build 2 Play — generated from design-system/tokens.json. Dark is the default theme. */
+:root, [data-theme="dark"] {
+  --gold-500: #b39a72;
+  --gold-700: #76664a;
+  --black: #040506;
+  --white: #ffffff;
+  --bone: #ebe9e6;
+  --gray-900: #161616;
+  --surface-100: #040506;
+  --surface-200: #161616;
+  --ink: #ffffff;
+  --ink-muted: #8f8c86;
+  --accent: #b39a72;
+  --hairline: #2b2a28;
+  --red-300: #ff8a8a;
+  --red-500: #e5484d;
+  --red-700: #b42318;
+  --danger: #ff8a8a;
+  --danger-border: #e5484d;
+  --danger-surface: #241315;
+}
+[data-theme="light"] {
+  --surface-100: #ebe9e6;
+  --surface-200: #ffffff;
+  --ink: #040506;
+  --ink-muted: #5e5b56;
+  --accent: #76664a;
+  --hairline: #c9c5be;
+  --danger: #b42318;
+  --danger-border: #b42318;
+  --danger-surface: #fbeaea;
+}
+:root {
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
+  --text-display-size: 64px; --text-display-line: 64px; --text-display-weight: 700; --text-display-tracking: 0.005em;
+  --text-h1-size: 44px; --text-h1-line: 48px; --text-h1-weight: 700; --text-h1-tracking: 0.005em;
+  --text-h2-size: 30px; --text-h2-line: 34px; --text-h2-weight: 600;
+  --text-h3-size: 18px; --text-h3-line: 24px; --text-h3-weight: 600;
+  --text-body-size: 16px; --text-body-line: 24px; --text-body-weight: 400;
+  --text-small-size: 14px; --text-small-line: 20px; --text-small-weight: 400;
+  --text-label-size: 12px; --text-label-line: 16px; --text-label-weight: 500; --text-label-tracking: 0.25em;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-12: 48px;
+  --radius-0: 0;
+  --radius-sm: 4px;
+  --radius-pill: 999px;
+}

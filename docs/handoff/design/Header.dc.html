@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<title>Glava</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#040506}
+.b2h-glass{background:rgba(4,5,6,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1)}
+.b2h-solid{background:rgba(4,5,6,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1)}
+.b2h-links{display:flex}
+.b2h-cta{display:inline-flex}
+.b2h-burger{display:none}
+@media (max-width:900px){.b2h-links{display:none}.b2h-gold.b2h-cta{display:none}.b2h-burger{display:inline-flex}.b2h-drop{display:none}}
+.b2h-link{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;color:#fff;background:transparent;border:0;text-decoration:none;font-family:inherit;font-size:15px;font-weight:400;letter-spacing:.01em;text-transform:lowercase;cursor:pointer;transition:background .15s ease}
+.b2h-link:hover{background:rgba(255,255,255,.08);color:#fff}
+.b2h-link[aria-current="page"],.b2h-link[aria-expanded="true"]{color:#b39a72;text-decoration:underline;text-decoration-color:#b39a72;text-underline-offset:6px}
+.b2h-gold{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;background:#b39a72;color:#040506;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.b2h-gold:hover{background:#bea987;color:#040506}
+.b2h-prog{display:flex;flex-direction:column;gap:12px;padding:20px;color:#fff;text-decoration:none;border:1px solid transparent;transition:border-color .15s ease,background .15s ease}
+.b2h-prog:hover{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#fff}
+.b2h-mlink{display:flex;align-items:center;justify-content:space-between;min-height:60px;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;text-decoration:none;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;font-size:30px;text-transform:uppercase}
+.b2h-msub{display:flex;align-items:center;gap:12px;min-height:48px;padding-left:16px;border-bottom:1px solid rgba(255,255,255,.06);color:#fff;text-decoration:none;font-size:16px}
+:focus-visible{outline:2px solid #b39a72;outline-offset:2px}
+</style>
+</helmet>
+<header style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; font-family: Inter, 'Helvetica Neue', Arial, system-ui, sans-serif; color: #ffffff">
+<div style="max-width: 1328px; margin: 0 auto; padding: 12px clamp(12px, 3vw, 40px) 0; box-sizing: border-box; position: relative">
+<div class="b2h-glass" style="display: flex; flex-direction: column">
+<div style="height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 10px 0 20px">
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 44px"><img src="/_blob/19a2174686e7d4a5c509876d423eb7ef" alt="Build 2 Play — domov" style="display: block; height: 32px; width: auto"></a>
+<nav aria-label="Glavna navigacija" class="b2h-links" style="align-items: center; gap: 4px">
+<a href="OMeni.dc.html" class="b2h-link" aria-current="{{cur.omeni}}">o meni</a>
+<button type="button" class="b2h-link" aria-expanded="{{dropExpanded}}" aria-controls="b2h-programi" onClick="{{toggleDrop}}">programi<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a href="Cenik.dc.html" class="b2h-link" aria-current="{{cur.cenik}}">cenik</a>
+<a href="Nasveti.dc.html" class="b2h-link" aria-current="{{cur.nasveti}}">nasveti</a>
+<a href="Kontakt.dc.html" class="b2h-link" aria-current="{{cur.kontakt}}">kontakt</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 8px">
+<a href="Posvet.dc.html" class="b2h-gold b2h-cta">Brezplačen posvet</a>
+<button type="button" class="b2h-burger" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" onClick="{{toggleMenu}}" style="width: 44px; height: 44px; align-items: center; justify-content: center; padding: 0; background: transparent; color: #ffffff; border: 1px solid rgba(255,255,255,0.22); border-radius: 0; cursor: pointer">
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+</sc-if>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+</sc-if>
+</button>
+</div>
+</div>
+
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Mobilna navigacija" style="border-top: 1px solid rgba(255,255,255,0.12); padding: 4px 20px 20px; display: flex; flex-direction: column; background: rgba(4,5,6,0.6)">
+<a href="Main.dc.html" class="b2h-mlink">Domov<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="OMeni.dc.html" class="b2h-mlink">O meni<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<span class="b2h-mlink" style="border-bottom: 0">Programi</span>
+<a href="Program.dc.html" class="b2h-msub"><span style="color: #b39a72; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600">01</span>Fitnes in osebno trenerstvo</a>
+<a href="Program-Sport.dc.html" class="b2h-msub"><span style="color: #b39a72; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600">02</span>Športno trenerstvo</a>
+<a href="Program-Online.dc.html" class="b2h-msub" style="border-bottom: 1px solid rgba(255,255,255,0.1)"><span style="color: #b39a72; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600">03</span>Online trenerstvo</a>
+<a href="Cenik.dc.html" class="b2h-mlink">Cenik<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="Nasveti.dc.html" class="b2h-mlink">Nasveti<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="Kontakt.dc.html" class="b2h-mlink">Kontakt<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b39a72" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="Posvet.dc.html" class="b2h-gold" style="min-height: 52px; margin-top: 24px; font-size: 13px">Brezplačen uvodni posvet</a>
+<div style="display: flex; gap: 8px; margin-top: 16px">
+<a href="#" aria-label="Instagram" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #6b6862; color: #ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
+<a href="#" aria-label="Facebook" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #6b6862; color: #ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+</div>
+</nav>
+</sc-if>
+</div>
+
+<sc-if value="{{dropOpen}}" hint-placeholder-val="{{ false }}">
+<div id="b2h-programi" class="b2h-solid b2h-drop" style="margin-top: 8px; padding: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 0.8fr); gap: 4px">
+<a href="Program.dc.html" class="b2h-prog">
+<span style="display: flex; justify-content: space-between; align-items: center"><span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 20px; color: #b39a72">01</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"></path><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"></path><path d="m21.5 21.5-1.4-1.4"></path><path d="M3.9 3.9 2.5 2.5"></path><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"></path></svg></span>
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 26px; line-height: 26px; text-transform: uppercase">Fitnes in osebno trenerstvo</span>
+<span style="color: #8f8c86; font-size: 14px; line-height: 20px">Moč, kondicija in telo, ki zdrži vsakdan.</span>
+</a>
+<a href="Program-Sport.dc.html" class="b2h-prog">
+<span style="display: flex; justify-content: space-between; align-items: center"><span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 20px; color: #b39a72">02</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg></span>
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 26px; line-height: 26px; text-transform: uppercase">Športno trenerstvo</span>
+<span style="color: #8f8c86; font-size: 14px; line-height: 20px">Hitrost, moč in manj poškodb v sezoni.</span>
+</a>
+<a href="Program-Online.dc.html" class="b2h-prog">
+<span style="display: flex; justify-content: space-between; align-items: center"><span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 600; font-size: 20px; color: #b39a72">03</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg></span>
+<span style="font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 26px; line-height: 26px; text-transform: uppercase">Online trenerstvo</span>
+<span style="color: #8f8c86; font-size: 14px; line-height: 20px">Program in podpora, kjerkoli si.</span>
+</a>
+<div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; padding: 20px; background: #161616">
+<span style="color: #8f8c86; font-size: 14px; line-height: 20px">Ne veš, kaj izbrati? Na brezplačnem posvetu skupaj ugotoviva.</span>
+<span style="display: flex; flex-direction: column; gap: 4px">
+<a href="Cenik.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; color: #b39a72; text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Celoten cenik<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+<a href="Posvet.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; color: #b39a72; text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase">Brezplačen posvet<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+</span>
+</div>
+</div>
+</sc-if>
+</div>
+</header>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["domov","o-meni","programi","cenik","nasveti","kontakt"],"default":"domov"},"dropInitiallyOpen":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":560}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const active = this.props.active ?? 'domov';
+const open = !!s.menuOpen;
+const drop = s.drop ?? !!this.props.dropInitiallyOpen;
+const c = (id) => (active === id ? 'page' : 'false');
+return {
+cur: { omeni: c('o-meni'), cenik: c('cenik'), nasveti: c('nasveti'), kontakt: c('kontakt') },
+dropOpen: drop,
+dropExpanded: drop || active === 'programi' ? 'true' : 'false',
+toggleDrop: () => this.setState({ drop: !drop }),
+menuOpen: open,
+menuClosed: !open,
+menuLabel: open ? 'Zapri meni' : 'Odpri meni',
+menuExpanded: open ? 'true' : 'false',
+toggleMenu: () => this.setState({ menuOpen: !open })
+};
+}
+}
+</script>
+</body>
+</html>

@@ -12,7 +12,9 @@
 			"!**/pnpm-lock.yaml",
 			"!**/pnpm-workspace.yaml",
 			"!**/skills-lock.json",
-			"!.agents/skills"
+			"!.agents/skills",
+			"!docs/handoff",
+			"!**/sanity.types.ts"
 		]
 	},
 	"formatter": {
@@ -43,6 +45,11 @@
 				"organizeImports": "on",
 				"useSortedAttributes": "on"
 			}
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	}
 }
