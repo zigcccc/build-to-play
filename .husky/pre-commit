@@ -1,0 +1,10 @@
+set -e
+
+if git status --porcelain | grep -q '^[MARC][MD]'; then
+  echo "pre-commit: some staged files also have unstaged changes; stage or stash them first" >&2
+  exit 1
+fi
+
+pnpm exec biome check --staged --write --error-on-warnings --files-ignore-unknown=true --no-errors-on-unmatched
+
+git update-index --again
