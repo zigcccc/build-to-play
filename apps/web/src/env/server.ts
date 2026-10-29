@@ -8,5 +8,6 @@ export const serverEnv = z
     SANITY_REVALIDATE_SECRET: z.string().min(16),
     RESEND_API_KEY: z.string().optional(),
     EMAIL_FROM: z.string().default('Build 2 Play <posvet@buildtoplay.si>'),
+    VERCEL_ENV: z.enum(['production', 'preview', 'development']).optional(),
   })
   .parse(process.env);
