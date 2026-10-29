@@ -8,7 +8,9 @@ const variants = cva(
       variant: {
         gold: 'bg-accent text-black hover:bg-accent-hover hover:text-black',
         line: 'border border-control bg-transparent text-ink hover:border-ink hover:text-ink',
-        glass: 'glass text-ink hover:border-white/30 hover:bg-black/80 hover:text-ink',
+        // Not the `glass` utility: its 10 % border vanishes on photos, so the button reads shorter than its gold sibling.
+        glass:
+          'border border-white/28 bg-black/60 text-ink backdrop-blur-[16px] hover:border-white/50 hover:bg-black/80 hover:text-ink',
         text: 'min-h-11 px-0 text-accent hover:text-accent-hover',
       },
       size: {
