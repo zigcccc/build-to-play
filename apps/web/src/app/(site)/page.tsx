@@ -22,12 +22,12 @@ import { getHome } from '@/sanity/queries/home';
 export async function generateMetadata(): Promise<Metadata> {
   const [home, { settings }] = await Promise.all([getHome(false), getGlobal(false)]);
   return {
-    ...buildMetadata({
+    ...(await buildMetadata({
       seo: home.seo,
       title: settings.siteName,
       description: settings.description,
       path: '/',
-    }),
+    })),
     // The home page uses the bare title, not the "%s | Build 2 Play" template.
     title: { absolute: plain(home.seo?.title ?? settings.seo?.title ?? settings.siteName) },
   };

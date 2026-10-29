@@ -35,6 +35,7 @@ export async function generateMetadata({ params }: PageProps<'/programi/[slug]'>
     title: program.name,
     description: program.lead,
     path: routes.program(slug),
+    ogImageFile: true,
   });
 }
 

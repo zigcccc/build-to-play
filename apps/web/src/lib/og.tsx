@@ -21,8 +21,8 @@ const fonts = () =>
     }))
   );
 
-/** Brand share card: black ground, outlined gold "2", eyebrow + uppercase title. */
-export async function renderOg({ eyebrow, title }: { eyebrow: string; title: string }) {
+/** Brand share card: black ground, outlined gold "2", eyebrow + uppercase title + tagline. */
+export async function renderOg({ eyebrow, title, tagline }: { eyebrow: string; title: string; tagline: string }) {
   return new ImageResponse(
     <div
       style={{
@@ -68,7 +68,7 @@ export async function renderOg({ eyebrow, title }: { eyebrow: string; title: str
         {plain(title)}
       </div>
       <div style={{ display: 'flex', marginTop: 40, fontSize: 28, letterSpacing: 8, color: '#8f8c86' }}>
-        BUILD<span style={{ color: '#b39a72' }}>2</span>PLAY · TRAIN. BUILD. PERFORM.
+        BUILD<span style={{ color: '#b39a72' }}>2</span>PLAY · {plain(tagline).toUpperCase()}
       </div>
     </div>,
     { ...ogSize, fonts: await fonts() }

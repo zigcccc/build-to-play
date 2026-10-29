@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     type: 'article',
     publishedTime: article.publishedAt,
     modifiedTime: article.updatedAt ?? article.publishedAt,
+    ogImageFile: true,
   });
 }
 
