@@ -3,10 +3,12 @@ import { Barlow_Condensed, Inter } from 'next/font/google';
 import { Suspense } from 'react';
 import { BookingProvider } from '@/components/booking/booking-context';
 import { ConsentProvider } from '@/components/consent/consent-context';
+import { JsonLd } from '@/components/json-ld';
 import { DraftTools } from '@/components/layout/draft-tools';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
 import { siteUrl } from '@/env/client';
+import { siteGraph } from '@/lib/json-ld';
 import { getGlobal } from '@/sanity/queries/global';
 import './globals.css';
 
@@ -37,11 +39,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
-  const { forms, cookies, programs, locations, settings } = await getGlobal();
+  const global = await getGlobal();
+  const { forms, cookies, programs, locations, settings } = global;
 
   return (
     <html className={`${inter.variable} ${barlow.variable}`} lang="sl">
       <body>
+        <JsonLd data={siteGraph(global)} />
         <ConsentProvider copy={cookies}>
           <BookingProvider
             copy={forms}
