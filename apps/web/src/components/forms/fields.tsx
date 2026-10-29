@@ -78,12 +78,19 @@ type SelectProps = {
   options: { value: string; label: string }[];
   disabled?: boolean;
   defaultValue?: string;
+  onValueChange?: (value: string) => void;
 };
 
 /** Styled Base UI select; submits its value through a hidden input named `name`. */
-export function Select({ id, name, placeholder, options, disabled, defaultValue }: SelectProps) {
+export function Select({ id, name, placeholder, options, disabled, defaultValue, onValueChange }: SelectProps) {
   return (
-    <BaseSelect.Root defaultValue={defaultValue ?? null} disabled={disabled} items={options} name={name}>
+    <BaseSelect.Root
+      defaultValue={defaultValue ?? null}
+      disabled={disabled}
+      items={options}
+      name={name}
+      onValueChange={(value) => onValueChange?.(String(value))}
+    >
       <BaseSelect.Trigger
         className={cn(
           inputClass,

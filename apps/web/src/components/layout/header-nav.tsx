@@ -150,7 +150,7 @@ export function HeaderNav({ nav, programs, programsMenu, cta, mobile, socials, l
           className="max-h-[calc(100dvh-92px)] overflow-y-auto border-white/12 border-t nav:hidden"
           hiddenUntilFound
         >
-          <nav aria-label="Mobilna navigacija" className="flex flex-col bg-black/60 px-5 pt-1 pb-5">
+          <nav aria-label="Mobilna navigacija" className="flex flex-col bg-black/92 px-5 pt-1 pb-5">
             <MobileLink href={routes.home} label={mobile.homeLabel} />
             {nav.map((item) =>
               item.target === 'programs' ? (

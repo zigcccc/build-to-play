@@ -26,6 +26,8 @@ type Props = {
   programs: BookingProgram[];
   locations: Pick<LocationValue, '_id' | 'name'>[];
   socials: { instagram?: string };
+  /** Server-rendered consent label (contains the privacy-policy link). */
+  consent: ReactNode;
 };
 
 export function BookingProvider({ children, ...dialogProps }: Props) {
@@ -36,10 +38,11 @@ export function BookingProvider({ children, ...dialogProps }: Props) {
 
   const open = (program?: ProgramKey) => setState({ open: true, program, mounted: true });
 
-  // Deep link: any URL with ?posvet=1 opens the flow.
+  // Deep link: any URL with ?posvet=1 opens the flow (once the page has finished hydrating).
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('posvet') === '1') setState({ open: true, mounted: true });
+    if (new URLSearchParams(window.location.search).get('posvet') !== '1') return;
+    const id = requestIdleCallback(() => setState({ open: true, mounted: true }), { timeout: 1500 });
+    return () => cancelIdleCallback(id);
   }, []);
 
   return (

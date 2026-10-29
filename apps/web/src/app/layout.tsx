@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/json-ld';
 import { DraftTools } from '@/components/layout/draft-tools';
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
+import { InlineText } from '@/components/portable-text';
 import { siteUrl } from '@/env/client';
 import { siteGraph } from '@/lib/json-ld';
 import { plain } from '@/lib/metadata';
@@ -50,6 +51,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
         <JsonLd data={siteGraph(global)} />
         <ConsentProvider copy={cookies}>
           <BookingProvider
+            consent={<InlineText value={forms.labels.consent} />}
             copy={forms}
             locations={locations.map(({ _id, name }) => ({ _id, name }))}
             programs={programs.map((p) => ({ key: p.key, label: p.shortLabel }))}
