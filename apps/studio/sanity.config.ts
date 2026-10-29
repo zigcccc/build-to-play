@@ -4,6 +4,7 @@ import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
+import { Logo } from './logo';
 import { resolve } from './presentation';
 import { schemaTypes } from './schema-types';
 import { structure } from './structure';
@@ -13,6 +14,7 @@ const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL ?? 'http://localhost:30
 export default defineConfig({
   name: 'default',
   title: 'Build 2 Play',
+  icon: Logo,
   projectId: 'qhuqrj1j',
   dataset: 'production',
   plugins: [
