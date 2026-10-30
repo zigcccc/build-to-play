@@ -1,4 +1,5 @@
 import 'server-only';
+import type { PageKey } from '@b2p/shared';
 import { socialLabel } from '@/components/icons';
 import { siteUrl } from '@/env/client';
 import { plain } from '@/lib/metadata';
@@ -11,6 +12,36 @@ import { getLlmsData } from '@/sanity/queries/seo';
 
 const abs = (path: string) => `${siteUrl}${path}`;
 
+// Section headings of a machine-read file: fixed, not CMS copy.
+const t = {
+  programs: 'Programi',
+  priceFrom: 'Cena že od',
+  pages: 'Strani',
+  articles: 'Nasveti',
+  fullLink: 'Celotne informacije (programi, cene, pogosta vprašanja)',
+  forWho: 'Za koga',
+  includes: 'Kaj dobiš',
+  packages: 'Paketi',
+  faqs: 'Pogosta vprašanja',
+  terms: 'Plačilo in pogoji',
+  about: 'O trenerju',
+  contact: 'Kontakt',
+  phone: 'Telefon',
+  email: 'E-pošta',
+  responseTime: 'Odzivni čas',
+  booking: 'Brezplačen posvet',
+  locations: 'Lokacije',
+  hours: 'Delovni čas',
+};
+
+// The pages listed under "Strani", in this order, with the singleton that holds each one's SEO description.
+const listedPages: [PageKey, string][] = [
+  ['pricing', 'pricingPage'],
+  ['about', 'aboutPage'],
+  ['contact', 'contactPage'],
+  ['articles', 'articlesPage'],
+];
+
 /**
  * llms.txt (https://llmstxt.org): a plain-markdown map of the site for AI assistants.
  * The "full" variant inlines programs, prices, FAQs and contact details so an answer
@@ -18,11 +49,14 @@ const abs = (path: string) => `${siteUrl}${path}`;
  */
 export async function buildLlmsTxt(full: boolean) {
   const [{ settings, layout, locations, articlesEnabled }, data] = await Promise.all([getGlobal(false), getLlmsData()]);
-  const t = data.copy.labels;
   const name = plain(settings.siteName);
   const lines: string[] = [`# ${name}`, '', `> ${plain(settings.description)}`, ''];
 
-  lines.push(plain(data.copy.intro), '');
+  const { trainer } = settings;
+  lines.push(
+    `${name} – ${plain(trainer.jobTitle).toLowerCase()} (${plain(trainer.name)}). Območje: ${plain(settings.areaServed)}. Jezik: slovenščina.`,
+    ''
+  );
 
   lines.push(`## ${t.programs}`, '');
   for (const p of data.programs) {
@@ -33,9 +67,11 @@ export async function buildLlmsTxt(full: boolean) {
   lines.push('');
 
   lines.push(`## ${t.pages}`, '');
-  for (const { page, description } of data.copy.pages) {
+  for (const [page, docId] of listedPages) {
     if (page === 'articles' && !articlesEnabled) continue;
-    lines.push(`- [${pageName(layout, page)}](${abs(pageRoute(page))}): ${plain(description)}`);
+    const description = data.pages.find((p) => p._id === docId)?.description;
+    const link = `[${pageName(layout, page)}](${abs(pageRoute(page))})`;
+    lines.push(description ? `- ${link}: ${plain(description)}` : `- ${link}`);
   }
   lines.push('');
 

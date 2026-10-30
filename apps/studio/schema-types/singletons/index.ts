@@ -1,5 +1,4 @@
 import { aboutPage } from './about-page';
-import { aiSummary } from './ai-summary';
 import { articlesPage } from './articles-page';
 import { comingSoonPage } from './coming-soon-page';
 import { contactPage } from './contact-page';
@@ -25,5 +24,4 @@ export const singletonTypes = [
   notFoundPage,
   comingSoonPage,
   forms,
-  aiSummary,
 ];

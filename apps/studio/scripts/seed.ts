@@ -9,7 +9,6 @@ import { getCliClient } from 'sanity/cli';
 import { articles, categories } from './seed-articles';
 import {
   aboutPage,
-  aiSummary,
   articlesPage,
   comingSoonPage,
   contactPage,
@@ -79,7 +78,6 @@ async function main() {
     notFoundPage,
     comingSoonPage,
     forms,
-    aiSummary,
   ].filter(wanted);
 
   const tx = client.transaction();

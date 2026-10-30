@@ -13,7 +13,6 @@ export const singletonType = z.enum([
   'notFoundPage',
   'comingSoonPage',
   'forms',
-  'aiSummary',
 ]);
 export type SingletonType = z.infer<typeof singletonType>;
 

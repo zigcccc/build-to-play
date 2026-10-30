@@ -1,30 +1,8 @@
-import { pageKey } from '@b2p/shared';
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import { sanityFetch } from '../fetch';
 import { FAQ, FAQ_TAGS, PACKAGE } from '../fragments';
-import { cmsEnum, faqModel, packageModel } from '../models';
-
-const llmsLabel = z.enum([
-  'programs',
-  'priceFrom',
-  'pages',
-  'articles',
-  'fullLink',
-  'forWho',
-  'includes',
-  'packages',
-  'faqs',
-  'terms',
-  'about',
-  'contact',
-  'phone',
-  'email',
-  'responseTime',
-  'booking',
-  'locations',
-  'hours',
-]);
+import { faqModel, packageModel } from '../models';
 
 const SITEMAP_QUERY = defineQuery(`{
   "pages": *[_id in ["homePage", "aboutPage", "pricingPage", "articlesPage", "contactPage", "privacyPage"] && seo.noIndex != true]{ _id, _updatedAt },
@@ -69,13 +47,14 @@ const LLMS_QUERY = defineQuery(`{
     title, "slug": slug.current, excerpt, "category": category->title, publishedAt
   },
   "about": *[_id == "aboutPage"][0]{ "lead": hero.lead, "approach": approach.items[]{ title, text }, "credentials": credentials.items[]{ year, title, institution } },
-  "copy": *[_id == "aiSummary"][0]{ intro, pages[]{ page, description }, labels }
+  // What each page offers, in the words its SEO description already uses.
+  "pages": *[_id in ["pricingPage", "aboutPage", "contactPage", "articlesPage"]]{ _id, "description": seo.description }
 }`);
 
 export const getLlmsData = () =>
   sanityFetch({
     query: LLMS_QUERY,
-    tags: ['program', 'pricingPage', 'article', 'category', 'aboutPage', 'aiSummary', ...FAQ_TAGS],
+    tags: ['program', 'pricingPage', 'article', 'category', 'aboutPage', 'contactPage', 'articlesPage', ...FAQ_TAGS],
     model: z.object({
       programs: z.array(
         z.object({
@@ -105,11 +84,7 @@ export const getLlmsData = () =>
         approach: z.array(z.object({ title: z.string(), text: z.string() })),
         credentials: z.array(z.object({ year: z.string(), title: z.string(), institution: z.string() })),
       }),
-      copy: z.object({
-        intro: z.string(),
-        pages: z.array(z.object({ page: cmsEnum(pageKey), description: z.string() })),
-        labels: z.record(llmsLabel, z.string()),
-      }),
+      pages: z.array(z.object({ _id: z.string(), description: z.string().nullish() })),
     }),
     stega: false,
   });
