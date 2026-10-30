@@ -26,14 +26,14 @@ pnpm dev                                           # web + studio
 
 - **Root Directory:** `apps/web`. Framework: Next.js.
 - **Ignored Build Step:** turn on "Skip deployments when there are no changes to the root directory or its dependencies".
-- **Domains:** `buildtoplay.si` (primary), with `www.buildtoplay.si` set to redirect to the apex.
+- **Domains:** `www.buildtoplay.si` (primary), with `buildtoplay.si` redirecting to it (Vercel's default, which it recommends).
 - **Environment variables:**
 
   | Variable | Value |
   |---|---|
   | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `qhuqrj1j` |
   | `NEXT_PUBLIC_SANITY_DATASET` | `production` |
-  | `NEXT_PUBLIC_SITE_URL` | `https://buildtoplay.si` |
+  | `NEXT_PUBLIC_SITE_URL` | `https://www.buildtoplay.si` |
   | `NEXT_PUBLIC_SANITY_STUDIO_URL` | `https://studio.buildtoplay.si` |
   | `SANITY_API_READ_TOKEN` | read token |
   | `SANITY_API_WRITE_TOKEN` | write token |
@@ -47,7 +47,7 @@ pnpm dev                                           # web + studio
 
 - **Root Directory:** `apps/studio`. `apps/studio/vercel.json` already sets the build (`sanity build` → `dist`) and the SPA rewrite.
 - **Domain:** `studio.buildtoplay.si`.
-- **Env:** `SANITY_STUDIO_PREVIEW_URL=https://buildtoplay.si`.
+- **Env:** `SANITY_STUDIO_PREVIEW_URL=https://www.buildtoplay.si`.
 - **Ignored Build Step:** the same "skip unaffected" setting as the web project.
 - The CORS origins (`https://buildtoplay.si`, `https://www.buildtoplay.si`, `https://studio.buildtoplay.si`, and `http://localhost:3000` with credentials) are already added to the Sanity project.
 
@@ -57,7 +57,7 @@ manage.sanity.io → API → Webhooks → **Create webhook**:
 
 | Setting | Value |
 |---|---|
-| URL | `https://buildtoplay.si/api/revalidate-tag` |
+| URL | `https://www.buildtoplay.si/api/revalidate-tag` (the primary domain, so the request isn't redirected) |
 | Dataset | `production` |
 | Trigger on | create, update, delete |
 | Filter | `!(_type in ["inquiry", "sanity.imageAsset", "sanity.fileAsset"])` |
