@@ -1,6 +1,5 @@
-import { iconName } from '@b2p/shared';
 import { defineField, defineType } from 'sanity';
-import { str, txt } from '../fields';
+import { iconField, str, txt } from '../fields';
 
 export const titledText = defineType({
   name: 'titledText',
@@ -13,17 +12,7 @@ export const iconItem = defineType({
   name: 'iconItem',
   title: 'Ikona, naslov in besedilo',
   type: 'object',
-  fields: [
-    defineField({
-      name: 'icon',
-      title: 'Ikona',
-      type: 'string',
-      options: { list: [...iconName.options] },
-      validation: (r) => r.required(),
-    }),
-    str('title', 'Naslov'),
-    txt('text', 'Besedilo'),
-  ],
+  fields: [iconField(), str('title', 'Naslov'), txt('text', 'Besedilo')],
 });
 
 export const stat = defineType({

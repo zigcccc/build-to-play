@@ -1,7 +1,6 @@
-import { iconName } from '@b2p/shared';
 import { RocketIcon } from '@sanity/icons/Rocket';
 import { defineField, defineType } from 'sanity';
-import { groups, list, refs, section, seoField, str, strList, txt, typed } from '../fields';
+import { groups, iconField, list, refs, section, seoField, str, strList, txt, typed } from '../fields';
 
 export const program = defineType({
   name: 'program',
@@ -35,14 +34,7 @@ export const program = defineType({
       group: 'basics',
       description: 'Npr. »Fitnes in osebno«.',
     }),
-    defineField({
-      name: 'icon',
-      title: 'Ikona',
-      type: 'string',
-      group: 'basics',
-      options: { list: [...iconName.options] },
-      validation: (r) => r.required(),
-    }),
+    iconField({ group: 'basics' }),
     str('tagline', 'Kratek opis v meniju', { group: 'basics' }),
     txt('cardDescription', 'Opis na kartici (domača stran)', {
       group: 'basics',

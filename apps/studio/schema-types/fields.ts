@@ -1,4 +1,6 @@
+import { iconName } from '@b2p/shared';
 import { defineArrayMember, defineField, type FieldDefinition, type FieldGroupDefinition } from 'sanity';
+import { IconInput } from '../components/icon-input';
 
 type FieldOptions = {
   description?: string;
@@ -94,6 +96,18 @@ export const section = (name: string, title: string, fields: FieldDefinition[], 
     description: o.description,
     group: o.group,
     options: { collapsible: true, collapsed: false },
+  });
+
+/** An icon from the shared set, picked from a grid of the icons themselves. */
+export const iconField = (o: FieldOptions = {}) =>
+  defineField({
+    name: 'icon',
+    title: 'Ikona',
+    type: 'string',
+    group: o.group,
+    options: { list: [...iconName.options] },
+    components: { input: IconInput },
+    validation: (r) => r.required(),
   });
 
 /** Every singleton page gets a trailing SEO group. */
