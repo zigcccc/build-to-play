@@ -24,8 +24,8 @@ async function geocode(query: string) {
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
 /**
- * Places the location's pin without typing coordinates: search for the address (prefilled from the address fields,
- * editable), then drag the pin or click the map if it isn't exactly on the entrance.
+ * Places the location's pin without typing coordinates: search for an address (empty search = the address fields,
+ * shown as the placeholder), then drag the pin or click the map if it isn't exactly on the entrance.
  */
 export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
   const street = useFormValue(['street']) as string | undefined;
@@ -35,14 +35,10 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
   const map = useRef<maplibregl.Map | null>(null);
   const marker = useRef<maplibregl.Marker | null>(null);
   const address = [street, [postalCode, city].filter(Boolean).join(' ')].filter(Boolean).join(', ');
-  const [query, setQuery] = useState(address);
-  const [edited, setEdited] = useState(false);
+  // The search text is only an aid, never stored. Left empty, it searches the address fields.
+  const [query, setQuery] = useState('');
   const [status, setStatus] = useState<'idle' | 'searching' | 'notFound'>('idle');
-
-  // Follow the address fields until the editor types their own search.
-  useEffect(() => {
-    if (!edited) setQuery(address);
-  }, [address, edited]);
+  const search = query.trim() || address;
 
   const hasPin = value?.lat !== undefined && value?.lng !== undefined;
 
@@ -105,9 +101,9 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
   }, [hasPin, value?.lat, value?.lng, readOnly, place]);
 
   const find = async () => {
-    if (!query.trim()) return;
+    if (!search) return;
     setStatus('searching');
-    const hit = await geocode(query.trim()).catch(() => null);
+    const hit = await geocode(search).catch(() => null);
     if (!hit) {
       setStatus('notFound');
       return;
@@ -119,7 +115,7 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
 
   const hint =
     status === 'notFound'
-      ? `Za »${query.trim()}« ni zadetka. Zapiši naslov drugače ali klikni na zemljevid, kjer je lokacija.`
+      ? `Za »${search}« ni zadetka. Zapiši naslov drugače ali klikni na zemljevid, kjer je lokacija.`
       : hasPin
         ? 'Če oznaka ni točno na mestu, jo povleci ali klikni na pravo mesto na zemljevidu.'
         : 'Poišči naslov ali klikni na zemljevid, kjer je lokacija.';
@@ -132,7 +128,6 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
             aria-label="Naslov za iskanje na zemljevidu"
             disabled={readOnly}
             onChange={(event) => {
-              setEdited(true);
               setStatus('idle');
               setQuery(event.currentTarget.value);
             }}
@@ -141,12 +136,12 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
               event.preventDefault();
               find();
             }}
-            placeholder="Npr. Slovenska cesta 55, 1000 Ljubljana"
+            placeholder={address || 'Npr. Slovenska cesta 55, 1000 Ljubljana'}
             value={query}
           />
         </div>
         <Button
-          disabled={readOnly || !query.trim() || status === 'searching'}
+          disabled={readOnly || !search || status === 'searching'}
           loading={status === 'searching'}
           onClick={find}
           text="Poišči"
