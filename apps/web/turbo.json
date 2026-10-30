@@ -1,0 +1,10 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      // The build bakes in Sanity content, which Turborepo can't hash: a replayed build would serve stale pages.
+      "cache": false
+    }
+  }
+}
