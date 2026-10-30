@@ -2,9 +2,8 @@ import type { ReactNode } from 'react';
 import { BookingProvider } from '@/components/booking/booking-context';
 import { ConsentProvider } from '@/components/consent/consent-context';
 import { JsonLd } from '@/components/json-ld';
-import { InlineText } from '@/components/portable-text';
 import { siteGraph } from '@/lib/json-ld';
-import { getGlobal } from '@/sanity/queries/global';
+import { formVars, getGlobal } from '@/sanity/queries/global';
 import { Footer } from './footer';
 import { Header } from './header';
 
@@ -21,11 +20,11 @@ export async function SiteShell({ children }: { children: ReactNode }) {
       <JsonLd data={siteGraph(global)} />
       <ConsentProvider>
         <BookingProvider
-          consent={<InlineText value={forms.labels.consent} />}
-          copy={forms}
+          goals={forms.goals}
           locations={locations.map(({ _id, name }) => ({ _id, name }))}
           programs={programs.map((p) => ({ key: p.slug, label: p.shortLabel }))}
           socials={{ instagram: settings.socials.find((s) => s.platform === 'instagram')?.url }}
+          vars={formVars(settings)}
         >
           <Header />
           {children}

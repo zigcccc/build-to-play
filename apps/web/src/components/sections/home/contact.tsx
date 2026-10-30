@@ -1,8 +1,7 @@
 import { Mail, Phone } from 'lucide-react';
 import { ContactForm } from '@/components/forms/contact-form';
 import { SocialIcon, socialLabel } from '@/components/icons';
-import { InlineText } from '@/components/portable-text';
-import type { GlobalData } from '@/sanity/queries/global';
+import { formVars, type GlobalData } from '@/sanity/queries/global';
 import type { HomeData } from '@/sanity/queries/home';
 
 type Props = { data: HomeData['contact']; global: GlobalData };
@@ -64,12 +63,11 @@ export function HomeContact({ data, global }: Props) {
         </div>
         <div className="card p-[clamp(24px,4vw,44px)]">
           <ContactForm
-            consent={<InlineText value={forms.labels.consent} />}
-            copy={forms}
-            email={settings.email}
             heading={data.formHeading}
             programs={programs.map((p) => ({ key: p.slug, label: p.name }))}
+            subjects={forms.subjects}
             variant="home"
+            vars={formVars(settings)}
           />
         </div>
       </div>

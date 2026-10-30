@@ -1,26 +1,28 @@
 'use client';
 
 import { Check, Loader2, Send } from 'lucide-react';
-import { type FormEvent, type ReactNode, startTransition, useActionState, useEffect, useRef, useState } from 'react';
+import { type FormEvent, startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import { type FormState, submitContact } from '@/actions/inquiry';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { contactSchema, homeContactSchema } from '@/lib/forms/schemas';
-import { interpolate, markUp } from '@/lib/interpolate';
-import type { FormsCopy } from '@/sanity/queries/global';
+import { markUp } from '@/lib/interpolate';
+import { ConsentLabel, type FormVars, formsCopy } from './copy';
 import { ErrorSummary, Field, FieldError, Select, SpamTraps, TextArea, TextInput } from './fields';
 import { useValidatedForm } from './use-validated-form';
 
 export type ContactFormProps = {
   variant: 'home' | 'contact';
   heading: string;
-  copy: FormsCopy;
+  vars: FormVars;
+  /** The CMS options for the contact page's "Zadeva". */
+  subjects: string[];
   programs: { key: string; label: string }[];
-  email: string;
-  consent: ReactNode;
 };
 
-export function ContactForm({ variant, heading, copy, programs, email, consent }: ContactFormProps) {
+export function ContactForm({ variant, heading, vars, subjects, programs }: ContactFormProps) {
+  const copy = formsCopy(vars);
+  const { email } = vars;
   const isHome = variant === 'home';
   const [state, formAction, pending] = useActionState(submitContact.bind(null, variant), {
     status: 'idle',
@@ -53,7 +55,7 @@ export function ContactForm({ variant, heading, copy, programs, email, consent }
   const p = copy.placeholders;
 
   if (state.status === 'success' && !dismissed) {
-    const text = interpolate(isHome ? copy.states.successTextHome : copy.states.successText, { poslano: state.email });
+    const text = isHome ? copy.states.successTextHome : copy.states.successText(state.email);
     return (
       <div className="flex flex-col items-start gap-4 py-6" role="status">
         <span className="inline-flex size-14 items-center justify-center bg-accent text-black">
@@ -144,12 +146,12 @@ export function ContactForm({ variant, heading, copy, programs, email, consent }
           ) : (
             <Field id={id('subject')} label={t.subject}>
               <Select
-                defaultValue={copy.contact.subjects[0]}
+                defaultValue={subjects[0]}
                 disabled={pending}
                 id={id('subject')}
                 name="subject"
-                options={copy.contact.subjects.map((s) => ({ value: s, label: s }))}
-                placeholder={copy.contact.subjects[0] ?? ''}
+                options={subjects.map((s) => ({ value: s, label: s }))}
+                placeholder={subjects[0] ?? ''}
               />
             </Field>
           )}
@@ -181,7 +183,7 @@ export function ContactForm({ variant, heading, copy, programs, email, consent }
               type="checkbox"
             />
             <label className="text-muted text-sm leading-[22px]" htmlFor={id('consent')}>
-              {consent} *
+              <ConsentLabel /> *
             </label>
           </div>
           {form.message('consent') && (

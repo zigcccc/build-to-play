@@ -3,6 +3,7 @@
 import { bookingDayLabel, bookingTimeLabel } from '@b2p/shared';
 import { checkBotId } from 'botid/server';
 import { stegaClean } from 'next-sanity';
+import { formsCopy } from '@/components/forms/copy';
 import {
   bookingSchema,
   contactSchema,
@@ -13,7 +14,7 @@ import {
   SPAM_FIELDS,
 } from '@/lib/forms/schemas';
 import { deliverInquiry, type InquiryRecord, type SpamReason } from '@/lib/inquiry.server';
-import { getGlobal } from '@/sanity/queries/global';
+import { formVars, getGlobal } from '@/sanity/queries/global';
 
 export type FormState =
   | { status: 'idle' }
@@ -59,11 +60,12 @@ export async function submitContact(
   if (!parsed.success) return { status: 'invalid', errors: fieldErrors(parsed.error) };
 
   const data = parsed.data;
-  const { forms, programs } = await getGlobal(false);
+  const { forms, programs, settings } = await getGlobal(false);
+  const copy = formsCopy(formVars(settings));
   const subject =
     'subject' in data
-      ? pick(data.subject, forms.contact.subjects)
-      : pick(data.program, [...programs.map((p) => p.name), forms.contact.programUnknown]);
+      ? pick(data.subject, forms.subjects)
+      : pick(data.program, [...programs.map((p) => p.name), copy.contact.programUnknown]);
   return store(
     {
       kind: 'contact',
@@ -83,20 +85,19 @@ export async function submitBooking(input: unknown, meta: { honeypot: string; st
   if (!parsed.success) return { status: 'invalid', errors: fieldErrors(parsed.error) } as FormState;
 
   const data = parsed.data;
-  const { forms, programs, locations } = await getGlobal(false);
+  const { forms, programs, locations, settings } = await getGlobal(false);
+  const { step2 } = formsCopy(formVars(settings)).booking;
   return store(
     {
       kind: 'booking',
       name: data.name,
       email: data.email,
       phone: data.phone,
-      goal: pick(data.goal, forms.booking.step1.goals),
+      goal: pick(data.goal, forms.goals),
       subject: programs.find((p) => p.slug === data.program)?.name,
-      mode: data.mode === 'live' ? forms.booking.step2.modeLive : forms.booking.step2.modeVideo,
+      mode: data.mode === 'live' ? step2.modeLive : step2.modeVideo,
       location:
-        data.mode === 'live'
-          ? (locations.find((l) => l._id === data.location)?.name ?? forms.booking.step2.anyLocation)
-          : undefined,
+        data.mode === 'live' ? (locations.find((l) => l._id === data.location)?.name ?? step2.anyLocation) : undefined,
       days: data.days.map((d) => bookingDayLabel[d]),
       times: data.times.map((t) => bookingTimeLabel[t]),
       message: data.message,

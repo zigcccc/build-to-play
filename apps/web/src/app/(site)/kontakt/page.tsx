@@ -12,7 +12,7 @@ import { pageName } from '@/lib/nav-label';
 import { toPlainText } from '@/lib/portable-text';
 import { routes } from '@/lib/routes';
 import { getContactPage } from '@/sanity/queries/contact';
-import { getGlobal } from '@/sanity/queries/global';
+import { formVars, getGlobal } from '@/sanity/queries/global';
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getContactPage(false);
@@ -58,12 +58,11 @@ export default async function ContactPage() {
         <div className="wrap flex flex-wrap items-start gap-x-[clamp(40px,6vw,96px)] gap-y-12">
           <div className="card min-w-0 flex-[999_1_520px] p-[clamp(24px,4vw,44px)]">
             <ContactForm
-              consent={<InlineText value={forms.labels.consent} />}
-              copy={forms}
-              email={settings.email}
               heading={page.formHeading}
               programs={programs.map((p) => ({ key: p.slug, label: p.name }))}
+              subjects={forms.subjects}
               variant="contact"
+              vars={formVars(settings)}
             />
           </div>
 

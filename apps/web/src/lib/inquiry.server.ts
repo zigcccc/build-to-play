@@ -2,12 +2,12 @@ import 'server-only';
 import type { InquiryKind } from '@b2p/shared';
 import { render } from '@react-email/render';
 import { Resend } from 'resend';
+import { type FormsCopy, formsCopy } from '@/components/forms/copy';
 import { InquiryConfirmation } from '@/emails/inquiry-confirmation';
 import { InquiryNotification } from '@/emails/inquiry-notification';
 import { serverEnv } from '@/env/server';
-import { interpolate } from '@/lib/interpolate';
 import { client } from '@/sanity/client';
-import { type FormsCopy, getGlobal } from '@/sanity/queries/global';
+import { formVars, getGlobal } from '@/sanity/queries/global';
 
 export type InquiryRecord = {
   kind: InquiryKind;
@@ -76,15 +76,12 @@ export async function deliverInquiry(record: InquiryRecord, spam?: SpamReason) {
   });
   if (spam) return;
 
-  const { settings, forms } = await getGlobal(false);
+  const { settings } = await getGlobal(false);
+  const forms = formsCopy(formVars(settings));
   const rows = inquiryRows(record, forms);
   const isBooking = record.kind === 'booking';
-  const subject = interpolate(isBooking ? forms.email.bookingSubject : forms.email.contactSubject, {
-    oseba: record.name,
-  });
-  const confirmationText = isBooking
-    ? forms.booking.success.text
-    : interpolate(forms.states.successText, { poslano: record.email });
+  const subject = (isBooking ? forms.email.bookingSubject : forms.email.contactSubject)(record.name);
+  const confirmationText = isBooking ? forms.booking.success.text : forms.states.successText(record.email);
 
   let emailStatus = 'sent';
   try {

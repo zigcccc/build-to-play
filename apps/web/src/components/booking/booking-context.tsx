@@ -2,7 +2,8 @@
 
 import dynamic from 'next/dynamic';
 import { createContext, type ReactNode, use, useEffect, useState } from 'react';
-import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
+import type { FormVars } from '@/components/forms/copy';
+import type { LocationValue } from '@/sanity/queries/global';
 
 // The flow is only downloaded once someone actually opens it.
 const BookingDialog = dynamic(() => import('./booking-dialog').then((m) => m.BookingDialog));
@@ -21,12 +22,11 @@ export const useBooking = () => {
 
 type Props = {
   children: ReactNode;
-  copy: FormsCopy;
+  vars: FormVars;
+  goals: string[];
   programs: BookingProgram[];
   locations: Pick<LocationValue, '_id' | 'name'>[];
   socials: { instagram?: string };
-  /** Server-rendered consent label (contains the privacy-policy link). */
-  consent: ReactNode;
 };
 
 export function BookingProvider({ children, ...dialogProps }: Props) {

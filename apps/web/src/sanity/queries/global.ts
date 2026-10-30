@@ -1,18 +1,11 @@
 import { pageKey, socialPlatform } from '@b2p/shared';
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
+import type { FormVars } from '@/components/forms/copy';
 import { twoDigit } from '@/lib/number';
 import { sanityFetch } from '../fetch';
-import { IMAGE, LINK, LINK_TAGS, PORTABLE_TEXT, PORTABLE_TEXT_TAGS, PROGRAM_CARD, SEO } from '../fragments';
-import {
-  cmsEnum,
-  imageModel,
-  labeledValueModel,
-  linkModel,
-  portableTextModel,
-  programCardModel,
-  seoModel,
-} from '../models';
+import { IMAGE, LINK, LINK_TAGS, PROGRAM_CARD, SEO } from '../fragments';
+import { cmsEnum, imageModel, labeledValueModel, linkModel, programCardModel, seoModel } from '../models';
 
 const GLOBAL_QUERY = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{
@@ -27,7 +20,7 @@ const GLOBAL_QUERY = defineQuery(`{
   },
   "programs": *[_type == "program" && defined(slug.current)] | order(order asc)${PROGRAM_CARD},
   "locations": *[_type == "location"] | order(order asc){ _id, name, street, postalCode, city, tags, geo, mapsUrl },
-  "forms": *[_id == "forms"][0]{ ..., labels{ ..., consent${PORTABLE_TEXT} } },
+  "forms": *[_id == "forms"][0]{ subjects, goals },
   "articlesEnabled": coalesce(*[_id == "articlesPage"][0].enabled, false)
 }`);
 
@@ -104,113 +97,26 @@ export const globalModel = z.object({
       mapsUrl: z.string().nullish(),
     })
   ),
-  forms: z.object({
-    labels: z.object({
-      name: z.string(),
-      email: z.string(),
-      phone: z.string(),
-      subject: z.string(),
-      program: z.string(),
-      message: z.string(),
-      goal: z.string(),
-      bookingMessage: z.string(),
-      optional: z.string(),
-      requiredNote: z.string(),
-      consent: portableTextModel,
-    }),
-    placeholders: z.object({
-      name: z.string(),
-      email: z.string(),
-      phone: z.string(),
-      program: z.string(),
-      message: z.string(),
-      goal: z.string(),
-      bookingMessage: z.string(),
-    }),
-    errors: z.object({
-      name: z.string(),
-      emailEmpty: z.string(),
-      emailInvalid: z.string(),
-      message: z.string(),
-      consent: z.string(),
-      goal: z.string(),
-      summary: z.string(),
-    }),
-    states: z.object({
-      sending: z.string(),
-      successTitle: z.string(),
-      successText: z.string(),
-      successTextHome: z.string(),
-      sendAnother: z.string(),
-      failure: z.string(),
-      retry: z.string(),
-    }),
-    contact: z.object({
-      submit: z.string(),
-      submitHome: z.string(),
-      subjects: z.array(z.string()),
-      programUnknown: z.string(),
-    }),
-    booking: z.object({
-      title: z.string(),
-      stepLabel: z.string(),
-      next: z.string(),
-      submit: z.string(),
-      step1: z.object({
-        title: z.string(),
-        subtitle: z.string(),
-        goals: z.array(z.string()),
-        programLabel: z.string(),
-      }),
-      step2: z.object({
-        title: z.string(),
-        subtitle: z.string(),
-        modeLabel: z.string(),
-        modeLive: z.string(),
-        modeVideo: z.string(),
-        locationLabel: z.string(),
-        anyLocation: z.string(),
-        daysLabel: z.string(),
-        timesLabel: z.string(),
-      }),
-      step3: z.object({ title: z.string(), subtitle: z.string() }),
-      success: z.object({
-        title: z.string(),
-        text: z.string(),
-        goalLabel: z.string(),
-        modeLabel: z.string(),
-        whenLabel: z.string(),
-        anytime: z.string(),
-        nextHeading: z.string(),
-        nextSteps: z.array(z.string()),
-        close: z.string(),
-      }),
-      closeConfirm: z.object({ title: z.string(), text: z.string(), stay: z.string(), discard: z.string() }),
-    }),
-    email: z.object({ bookingSubject: z.string(), contactSubject: z.string() }),
-  }),
+  // The options visitors pick from; the rest of the form wording is in components/forms/copy.tsx.
+  forms: z.object({ subjects: z.array(z.string()), goals: z.array(z.string()) }),
   articlesEnabled: z.boolean(),
 });
 
 export type GlobalData = z.infer<typeof globalModel>;
-export type FormsCopy = GlobalData['forms'];
 export type LocationValue = GlobalData['locations'][number];
+
+/** The settings the fixed form wording mentions. */
+export const formVars = (settings: GlobalData['settings']): FormVars => ({
+  rok: settings.responseTime,
+  trajanje: settings.consultationDuration,
+  email: settings.email,
+});
 
 /** Site chrome + settings used on every page. */
 export const getGlobal = (stega = true) =>
   sanityFetch({
     query: GLOBAL_QUERY,
-    tags: [
-      'siteSettings',
-      'layout',
-      'program',
-      'location',
-      'forms',
-      'person',
-      'articlesPage',
-      ...LINK_TAGS,
-      ...PORTABLE_TEXT_TAGS,
-    ],
+    tags: ['siteSettings', 'layout', 'program', 'location', 'forms', 'person', 'articlesPage', ...LINK_TAGS],
     model: globalModel,
     stega,
   });

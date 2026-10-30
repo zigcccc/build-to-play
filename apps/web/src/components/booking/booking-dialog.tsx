@@ -8,28 +8,28 @@ import { RadioGroup } from '@base-ui/react/radio-group';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { ArrowLeft, ArrowRight, Check, Loader2, X } from 'lucide-react';
-import { type FormEvent, type ReactNode, useEffect, useRef, useState, useTransition } from 'react';
+import { type FormEvent, useEffect, useRef, useState, useTransition } from 'react';
 import { submitBooking } from '@/actions/inquiry';
+import { ConsentLabel, type FormVars, formsCopy } from '@/components/forms/copy';
 import { ErrorSummary, Field, FieldError, Select, SpamTraps, TextArea, TextInput } from '@/components/forms/fields';
 import { useValidatedForm } from '@/components/forms/use-validated-form';
 import { SocialIcon } from '@/components/icons';
 import { buttonStyles } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { bookingSchema, type FieldErrors, SPAM_FIELDS } from '@/lib/forms/schemas';
-import { interpolate } from '@/lib/interpolate';
 import { twoDigit } from '@/lib/number';
-import type { FormsCopy, LocationValue } from '@/sanity/queries/global';
+import type { LocationValue } from '@/sanity/queries/global';
 import type { BookingProgram } from './booking-context';
 
 export type BookingDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialProgram?: string;
-  copy: FormsCopy;
+  vars: FormVars;
+  goals: string[];
   programs: BookingProgram[];
   locations: Pick<LocationValue, '_id' | 'name'>[];
   socials: { instagram?: string };
-  consent: ReactNode;
 };
 
 type Step = 1 | 2 | 3 | 4;
@@ -71,12 +71,13 @@ export function BookingDialog({
   open,
   onOpenChange,
   initialProgram,
-  copy,
+  vars,
+  goals,
   programs,
   locations,
   socials,
-  consent,
 }: BookingDialogProps) {
+  const copy = formsCopy(vars);
   const [state, setState] = useState(() => initial(initialProgram));
   const [confirmClose, setConfirmClose] = useState(false);
   // "Nadaljuj" sits on the right but stays the safe default focus.
@@ -192,7 +193,7 @@ export function BookingDialog({
               {state.step < 4 ? (
                 <div className="flex flex-1 flex-col gap-2.5">
                   <span className="text-[13px] text-muted">
-                    {b.title} · {interpolate(b.stepLabel, { n: String(state.step), total: '3' })}
+                    {b.title} · {b.stepLabel(state.step, 3)}
                   </span>
                   <div aria-hidden className="grid max-w-60 grid-cols-3 gap-1">
                     {[1, 2, 3].map((n) => (
@@ -234,7 +235,7 @@ export function BookingDialog({
                     onValueChange={(v) => set('goal', String(v))}
                     value={state.goal}
                   >
-                    {b.step1.goals.map((goal) => (
+                    {goals.map((goal) => (
                       <Radio.Root className={optionClass} key={goal} value={goal}>
                         <span aria-hidden className={dotClass} />
                         {goal}
@@ -410,7 +411,7 @@ export function BookingDialog({
                           type="checkbox"
                         />
                         <label className="text-muted text-sm leading-[22px]" htmlFor="bk-consent">
-                          {consent} *
+                          <ConsentLabel /> *
                         </label>
                       </div>
                       {message('consent') && (

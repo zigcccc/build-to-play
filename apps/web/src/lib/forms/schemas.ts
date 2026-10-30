@@ -1,7 +1,7 @@
 import { bookingDay, bookingMode, bookingTime } from '@b2p/shared';
 import { z } from 'zod';
 
-/** Error keys map to the CMS copy in `forms.errors`, so client and server show the same text. */
+/** Error keys map to `errors` in components/forms/copy.tsx, so client and server show the same text. */
 export type ErrorKey = 'name' | 'emailEmpty' | 'emailInvalid' | 'message' | 'consent' | 'goal';
 
 // Same rule as the design spec: something@something.tld
