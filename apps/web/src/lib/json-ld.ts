@@ -95,7 +95,7 @@ export function siteGraph({ settings, locations }: Pick<GlobalData, 'settings' |
           l.geo?.lat && l.geo.lng
             ? { '@type': 'GeoCoordinates', latitude: l.geo.lat, longitude: l.geo.lng }
             : undefined,
-        hasMap: l.mapsUrl ?? undefined,
+        hasMap: l.mapsUrl,
       })
     )
   );

@@ -1,5 +1,6 @@
 import { PinIcon } from '@sanity/icons/Pin';
 import { defineField, defineType } from 'sanity';
+import { GeoInput } from '../../components/geo-input';
 import { str, strList } from '../fields';
 
 export const location = defineType({
@@ -18,27 +19,18 @@ export const location = defineType({
     }),
     defineField({
       name: 'geo',
-      title: 'Koordinate',
+      title: 'Oznaka na zemljevidu',
       type: 'object',
-      description: 'Za oznako na zemljevidu. V Google Maps desni klik na lokacijo → kopiraj koordinate.',
+      description: 'Povezava »navodila za pot« se ustvari samodejno iz naslova.',
       fields: [
-        defineField({
-          name: 'lat',
-          title: 'Zemljepisna širina',
-          type: 'number',
-        }),
-        defineField({
-          name: 'lng',
-          title: 'Zemljepisna dolžina',
-          type: 'number',
-        }),
+        defineField({ name: 'lat', title: 'Zemljepisna širina', type: 'number' }),
+        defineField({ name: 'lng', title: 'Zemljepisna dolžina', type: 'number' }),
       ],
-    }),
-    defineField({
-      name: 'mapsUrl',
-      title: 'Povezava »navodila za pot«',
-      type: 'url',
-      description: 'Google Maps povezava do lokacije.',
+      components: { input: GeoInput },
+      validation: (r) =>
+        r.custom((geo?: { lat?: number; lng?: number }) =>
+          geo?.lat !== undefined && geo?.lng !== undefined ? true : 'Postavi oznako na zemljevid.'
+        ),
     }),
     defineField({
       name: 'order',

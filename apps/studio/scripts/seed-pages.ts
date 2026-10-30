@@ -46,7 +46,6 @@ export const locations = [
     city: '[Mesto]',
     tags: ['Osebno', 'Športno'],
     geo: { lat: 46.0569, lng: 14.5058 },
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=46.0569,14.5058',
     order: 1,
   },
   {
@@ -58,7 +57,6 @@ export const locations = [
     city: '[Mesto]',
     tags: ['Športno', 'Ekipe'],
     geo: { lat: 46.0711, lng: 14.5122 },
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=46.0711,14.5122',
     order: 2,
   },
 ];

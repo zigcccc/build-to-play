@@ -25,17 +25,15 @@ export function LocationsList({ locations, directionsLabel, online }: Props) {
               <p className="mt-1 font-medium text-xs uppercase tracking-[0.2em]">{l.tags.join(' · ')}</p>
             )}
           </div>
-          {l.mapsUrl && (
-            <a
-              aria-label={`${directionsLabel}: ${l.name}`}
-              className="inline-flex size-11 flex-none items-center justify-center border border-control text-ink hover:border-ink"
-              href={l.mapsUrl}
-              rel="noopener"
-              target="_blank"
-            >
-              <Navigation aria-hidden size={18} />
-            </a>
-          )}
+          <a
+            aria-label={`${directionsLabel}: ${l.name}`}
+            className="inline-flex size-11 flex-none items-center justify-center border border-control text-ink hover:border-ink"
+            href={l.mapsUrl}
+            rel="noopener"
+            target="_blank"
+          >
+            <Navigation aria-hidden size={18} />
+          </a>
         </li>
       ))}
       {online && (

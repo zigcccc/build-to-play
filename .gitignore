@@ -27,6 +27,7 @@ next-env.d.ts
 .DS_Store
 *.sw?
 apps/web/public/vendor
+apps/studio/static/vendor
 
 # Design handoff: local reference only (see CLAUDE.md)
 docs/

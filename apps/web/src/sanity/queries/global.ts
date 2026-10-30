@@ -2,6 +2,7 @@ import { pageKey, socialPlatform } from '@b2p/shared';
 import { defineQuery } from 'next-sanity';
 import { z } from 'zod';
 import type { FormVars } from '@/components/forms/copy';
+import { directionsUrl } from '@/lib/maps';
 import { twoDigit } from '@/lib/number';
 import { sanityFetch } from '../fetch';
 import { IMAGE, LINK, LINK_TAGS, PROGRAM_CARD, SEO } from '../fragments';
@@ -19,7 +20,7 @@ const GLOBAL_QUERY = defineQuery(`{
     footer{ ..., brandLinks[]${LINK} }
   },
   "programs": *[_type == "program" && defined(slug.current)] | order(order asc)${PROGRAM_CARD},
-  "locations": *[_type == "location"] | order(order asc){ _id, name, street, postalCode, city, tags, geo, mapsUrl },
+  "locations": *[_type == "location"] | order(order asc){ _id, name, street, postalCode, city, tags, geo },
   "forms": *[_id == "forms"][0]{ subjects, goals },
   "articlesEnabled": coalesce(*[_id == "articlesPage"][0].enabled, false)
 }`);
@@ -86,16 +87,17 @@ export const globalModel = z.object({
   // Numbered by position, so gaps or ties in `order` never show as "10" or a second "02".
   programs: z.array(programCardModel).transform((list) => list.map((p, i) => ({ ...p, number: twoDigit(i + 1) }))),
   locations: z.array(
-    z.object({
-      _id: z.string(),
-      name: z.string(),
-      street: z.string(),
-      postalCode: z.string(),
-      city: z.string(),
-      tags: z.array(z.string()).nullish(),
-      geo: z.object({ lat: z.number().nullish(), lng: z.number().nullish() }).nullish(),
-      mapsUrl: z.string().nullish(),
-    })
+    z
+      .object({
+        _id: z.string(),
+        name: z.string(),
+        street: z.string(),
+        postalCode: z.string(),
+        city: z.string(),
+        tags: z.array(z.string()).nullish(),
+        geo: z.object({ lat: z.number().nullish(), lng: z.number().nullish() }).nullish(),
+      })
+      .transform((l) => ({ ...l, mapsUrl: directionsUrl(l) }))
   ),
   // The options visitors pick from; the rest of the form wording is in components/forms/copy.tsx.
   forms: z.object({ subjects: z.array(z.string()), goals: z.array(z.string()) }),

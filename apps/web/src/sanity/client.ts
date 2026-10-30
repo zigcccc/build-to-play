@@ -2,7 +2,7 @@ import { createClient } from 'next-sanity';
 import { clientEnv } from '@/env/client';
 
 const LOGIC_KEYS =
-  /^(platform|kind|page|target|key|icon|anchor|current|slug|programSlug|articleSlug|url|mapsUrl|href|e164|email|marks|style|listItem|points|price|amount|featured)$/i;
+  /^(platform|kind|page|target|key|icon|anchor|current|slug|programSlug|articleSlug|url|href|e164|email|marks|style|listItem|points|price|amount|featured)$/i;
 
 export const apiVersion = '2026-10-29';
 

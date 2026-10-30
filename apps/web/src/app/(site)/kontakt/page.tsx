@@ -124,17 +124,15 @@ export default async function ContactPage() {
                         {l.street}, {l.city}
                       </address>
                     </span>
-                    {l.mapsUrl && (
-                      <a
-                        aria-label={`${layout.labels.directions}: ${l.name}`}
-                        className="inline-flex size-11 flex-none items-center justify-center border border-control text-ink hover:border-ink"
-                        href={l.mapsUrl}
-                        rel="noopener"
-                        target="_blank"
-                      >
-                        <Navigation aria-hidden size={18} />
-                      </a>
-                    )}
+                    <a
+                      aria-label={`${layout.labels.directions}: ${l.name}`}
+                      className="inline-flex size-11 flex-none items-center justify-center border border-control text-ink hover:border-ink"
+                      href={l.mapsUrl}
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      <Navigation aria-hidden size={18} />
+                    </a>
                   </li>
                 ))}
               </ul>

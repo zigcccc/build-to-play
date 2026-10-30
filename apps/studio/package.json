@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "sanity dev",
-    "build": "sanity build",
+    "dev": "node scripts/copy-maplibre-worker.mjs && sanity dev",
+    "build": "node scripts/copy-maplibre-worker.mjs && sanity build",
     "typecheck": "tsc --noEmit",
     "schema:deploy": "sanity schemas deploy",
     "seed": "sanity exec scripts/seed.ts --with-user-token"
