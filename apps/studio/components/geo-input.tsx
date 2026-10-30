@@ -1,4 +1,4 @@
-import { Button, Card, Text } from '@sanity/ui';
+import { Button, Card, Text, TextInput } from '@sanity/ui';
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -12,15 +12,8 @@ const SLOVENIA: [number, number] = [14.82, 46.12];
 const GOLD = '#b39a72';
 
 /** OpenStreetMap's geocoder; fine for an editor clicking a button now and then (max 1 request/s). */
-async function geocode(street: string, postalCode: string, city: string) {
-  const params = new URLSearchParams({
-    format: 'jsonv2',
-    limit: '1',
-    countrycodes: 'si',
-    street,
-    postalcode: postalCode,
-    city,
-  });
+async function geocode(query: string) {
+  const params = new URLSearchParams({ format: 'jsonv2', limit: '1', countrycodes: 'si', q: query });
   const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
   if (!response.ok) return null;
   const [hit] = (await response.json()) as { lat: string; lon: string }[];
@@ -30,8 +23,8 @@ async function geocode(street: string, postalCode: string, city: string) {
 const round = (n: number) => Math.round(n * 1e6) / 1e6;
 
 /**
- * Places the location's pin without typing coordinates: find it from the address, then drag the pin (or click the
- * map) if it isn't exactly on the entrance.
+ * Places the location's pin without typing coordinates: search for the address (prefilled from the address fields,
+ * editable), then drag the pin or click the map if it isn't exactly on the entrance.
  */
 export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
   const street = useFormValue(['street']) as string | undefined;
@@ -40,7 +33,15 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const marker = useRef<maplibregl.Marker | null>(null);
+  const address = [street, [postalCode, city].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+  const [query, setQuery] = useState(address);
+  const [edited, setEdited] = useState(false);
   const [status, setStatus] = useState<'idle' | 'searching' | 'notFound'>('idle');
+
+  // Follow the address fields until the editor types their own search.
+  useEffect(() => {
+    if (!edited) setQuery(address);
+  }, [address, edited]);
 
   const hasPin = value?.lat !== undefined && value?.lng !== undefined;
 
@@ -102,12 +103,10 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
     }
   }, [hasPin, value?.lat, value?.lng, readOnly, place]);
 
-  const addressComplete = Boolean(street && postalCode && city);
-
   const find = async () => {
-    if (!street || !postalCode || !city) return;
+    if (!query.trim()) return;
     setStatus('searching');
-    const hit = await geocode(street, postalCode, city).catch(() => null);
+    const hit = await geocode(query.trim()).catch(() => null);
     if (!hit) {
       setStatus('notFound');
       return;
@@ -119,27 +118,43 @@ export function GeoInput({ value, onChange, readOnly }: ObjectInputProps<Geo>) {
 
   const hint =
     status === 'notFound'
-      ? 'Naslova ni bilo mogoče najti. Preveri ulico, poštno številko in kraj ali klikni na zemljevid, kjer je lokacija.'
-      : !addressComplete && !hasPin
-        ? 'Najprej vpiši ulico, poštno številko in kraj.'
-        : hasPin
-          ? 'Če oznaka ni točno na mestu, jo povleci ali klikni na pravo mesto na zemljevidu.'
-          : 'Poišči lokacijo po naslovu ali klikni na zemljevid.';
+      ? `Za »${query.trim()}« ni zadetka. Zapiši naslov drugače ali klikni na zemljevid, kjer je lokacija.`
+      : hasPin
+        ? 'Če oznaka ni točno na mestu, jo povleci ali klikni na pravo mesto na zemljevidu.'
+        : 'Poišči naslov ali klikni na zemljevid, kjer je lokacija.';
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ flex: 1 }}>
+          <TextInput
+            aria-label="Naslov za iskanje na zemljevidu"
+            disabled={readOnly}
+            onChange={(event) => {
+              setEdited(true);
+              setStatus('idle');
+              setQuery(event.currentTarget.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter') return;
+              event.preventDefault();
+              find();
+            }}
+            placeholder="Npr. Slovenska cesta 55, 1000 Ljubljana"
+            value={query}
+          />
+        </div>
         <Button
-          disabled={readOnly || !addressComplete || status === 'searching'}
+          disabled={readOnly || !query.trim() || status === 'searching'}
           loading={status === 'searching'}
-          mode="ghost"
           onClick={find}
-          text={hasPin ? 'Ponovno poišči po naslovu' : 'Poišči po naslovu'}
+          text="Poišči"
+          tone="primary"
         />
-        <Text muted size={1}>
-          {hint}
-        </Text>
       </div>
+      <Text muted size={1}>
+        {hint}
+      </Text>
       <Card border radius={2} style={{ overflow: 'hidden' }}>
         <div ref={container} style={{ height: 320, width: '100%' }} />
       </Card>
