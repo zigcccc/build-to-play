@@ -6,8 +6,9 @@ import { type ObjectInputProps, set, useFormValue } from 'sanity';
 
 type Geo = { lat?: number; lng?: number };
 
-// The same dark OpenFreeMap tiles the website's map uses. Free, no API key.
-const STYLE = 'https://tiles.openfreemap.org/styles/dark';
+// OpenFreeMap's full-colour style: here the editor has to read streets and buildings, not match the site's look.
+// Free, no API key (same tile source as the website's dark map).
+const STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 const SLOVENIA: [number, number] = [14.82, 46.12];
 const GOLD = '#b39a72';
 
