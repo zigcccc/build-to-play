@@ -7,7 +7,6 @@ import { forms } from './forms';
 import { homePage } from './home-page';
 import { layout } from './layout';
 import { notFoundPage } from './not-found-page';
-import { cookieConsent } from './piskotki';
 import { pricingPage } from './pricing-page';
 import { privacyPage } from './privacy-page';
 import { programPage } from './program-page';
@@ -26,6 +25,5 @@ export const singletonTypes = [
   notFoundPage,
   comingSoonPage,
   forms,
-  cookieConsent,
   aiSummary,
 ];

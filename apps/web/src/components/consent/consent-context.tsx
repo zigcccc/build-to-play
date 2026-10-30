@@ -4,7 +4,6 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import dynamic from 'next/dynamic';
 import { createContext, type ReactNode, use, useEffect, useState } from 'react';
-import type { ConsentCopy } from '@/sanity/queries/global';
 
 const ConsentUi = dynamic(() => import('./consent-ui').then((m) => m.ConsentUi));
 
@@ -44,7 +43,7 @@ function readConsent(): Consent | null {
   }
 }
 
-export function ConsentProvider({ children, copy }: { children: ReactNode; copy: ConsentCopy }) {
+export function ConsentProvider({ children }: { children: ReactNode }) {
   const [consent, setConsent] = useState<Consent | null>(null);
   const [view, setView] = useState<'hidden' | 'banner' | 'settings'>('hidden');
   // Once shown, the UI stays mounted so closing portals can finish their exit cleanly.
@@ -71,7 +70,7 @@ export function ConsentProvider({ children, copy }: { children: ReactNode; copy:
   return (
     <ConsentContext value={{ consent, save, openSettings: () => setView('settings') }}>
       {children}
-      {uiMounted && <ConsentUi consent={consent} copy={copy} onSave={save} onViewChange={setView} view={view} />}
+      {uiMounted && <ConsentUi consent={consent} onSave={save} onViewChange={setView} view={view} />}
       {consent?.analytics && (
         <>
           <Analytics />

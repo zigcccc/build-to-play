@@ -13,7 +13,7 @@ const pages = [
   'notFoundPage',
   'comingSoonPage',
 ];
-const settings = ['siteSettings', 'layout', 'forms', 'cookieConsent', 'aiSummary'];
+const settings = ['siteSettings', 'layout', 'forms', 'aiSummary'];
 
 export const structure: StructureResolver = (S) =>
   S.list()

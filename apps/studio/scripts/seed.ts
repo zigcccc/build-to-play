@@ -13,7 +13,6 @@ import {
   articlesPage,
   comingSoonPage,
   contactPage,
-  cookieConsent,
   forms,
   homePage,
   layout,
@@ -80,7 +79,6 @@ async function main() {
     notFoundPage,
     comingSoonPage,
     forms,
-    cookieConsent,
     aiSummary,
   ].filter(wanted);
 

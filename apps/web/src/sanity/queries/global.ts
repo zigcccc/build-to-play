@@ -28,11 +28,8 @@ const GLOBAL_QUERY = defineQuery(`{
   "programs": *[_type == "program" && defined(slug.current)] | order(order asc)${PROGRAM_CARD},
   "locations": *[_type == "location"] | order(order asc){ _id, name, street, postalCode, city, tags, geo, mapsUrl },
   "forms": *[_id == "forms"][0]{ ..., labels{ ..., consent${PORTABLE_TEXT} } },
-  "cookies": *[_id == "cookieConsent"][0],
   "articlesEnabled": coalesce(*[_id == "articlesPage"][0].enabled, false)
 }`);
-
-const titleText = z.object({ title: z.string(), text: z.string() });
 
 export const globalModel = z.object({
   settings: z.object({
@@ -193,18 +190,10 @@ export const globalModel = z.object({
     email: z.object({ bookingSubject: z.string(), contactSubject: z.string() }),
   }),
   articlesEnabled: z.boolean(),
-  cookies: z.object({
-    banner: z.object({ title: z.string(), text: z.string(), moreLabel: z.string() }),
-    buttons: z.object({ settings: z.string(), rejectAll: z.string(), acceptAll: z.string(), save: z.string() }),
-    dialog: z.object({ title: z.string(), intro: z.string() }),
-    necessary: titleText,
-    analytics: titleText,
-  }),
 });
 
 export type GlobalData = z.infer<typeof globalModel>;
 export type FormsCopy = GlobalData['forms'];
-export type ConsentCopy = GlobalData['cookies'];
 export type LocationValue = GlobalData['locations'][number];
 
 /** Site chrome + settings used on every page. */
@@ -217,7 +206,6 @@ export const getGlobal = (stega = true) =>
       'program',
       'location',
       'forms',
-      'cookieConsent',
       'person',
       'articlesPage',
       ...LINK_TAGS,

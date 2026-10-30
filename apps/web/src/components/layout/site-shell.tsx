@@ -14,12 +14,12 @@ import { Header } from './header';
  */
 export async function SiteShell({ children }: { children: ReactNode }) {
   const global = await getGlobal();
-  const { forms, cookies, programs, locations, settings } = global;
+  const { forms, programs, locations, settings } = global;
 
   return (
     <>
       <JsonLd data={siteGraph(global)} />
-      <ConsentProvider copy={cookies}>
+      <ConsentProvider>
         <BookingProvider
           consent={<InlineText value={forms.labels.consent} />}
           copy={forms}
