@@ -63,7 +63,7 @@ Rules:
   - One H1 and semantic HTML.
   - New routes must be added to `sitemap.ts` and `llms.txt`.
 - **Code style:** Biome with 2 spaces, single quotes and 120 columns. Project skills live in `.claude/skills/`: `cms-field-end-to-end`, `verify-against-design` and `sanity-seed`.
-- **Env** is parsed with Zod in `src/env/{server,client}.ts`. Never read `process.env` elsewhere.
+- **Env** is parsed with Zod in `src/env/{server,client}.ts`. Never read `process.env` elsewhere. A new variable must also be listed under `env` in `turbo.json`: Vercel builds through Turborepo, which hides unlisted variables from the build (the runtime still sees them).
 - **Where we deliberately differ from the handoff:** Base UI instead of shadcn, and a standalone Studio (not embedded at `/studio`).
 
 ## Deployment (Vercel, two projects, one repo)
