@@ -48,7 +48,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
       select: { title: 'title', slug: 'slug.current' },
       resolve: (doc) => ({
         locations: [
-          { title: doc?.title ?? 'Članek', href: routes.article(doc?.slug) },
+          { title: doc?.title ?? 'Nasvet', href: routes.article(doc?.slug) },
           { title: 'Nasveti', href: routes.articles },
         ],
       }),

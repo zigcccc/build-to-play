@@ -15,7 +15,7 @@ export const person = defineType({
     }),
     typed('avatar', 'Fotografija', 'altImage', { optional: true }),
     txt('bio', 'Kratka predstavitev', {
-      description: 'En stavek, prikazan pod članki.',
+      description: 'En stavek, prikazan pod nasveti.',
     }),
     strList('knowsAbout', 'Področja znanja', {
       optional: true,

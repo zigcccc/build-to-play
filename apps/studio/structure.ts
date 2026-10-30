@@ -56,7 +56,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('location').title('Lokacije'),
       S.documentTypeListItem('testimonial').title('Mnenja strank'),
       S.divider(),
-      S.documentTypeListItem('article').title('Članki'),
+      S.documentTypeListItem('article').title('Nasveti'),
       S.documentTypeListItem('category').title('Kategorije'),
       S.documentTypeListItem('person').title('Osebe'),
       S.divider(),

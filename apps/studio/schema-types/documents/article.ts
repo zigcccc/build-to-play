@@ -4,7 +4,7 @@ import { groups, refs, seoField, str, txt, typed } from '../fields';
 
 export const article = defineType({
   name: 'article',
-  title: 'Članek',
+  title: 'Nasvet',
   type: 'document',
   icon: DocumentTextIcon,
   groups: groups(['content', 'Vsebina'], ['meta', 'Podatki'], ['seo', 'SEO']),
@@ -58,10 +58,10 @@ export const article = defineType({
       group: 'meta',
       validation: (r) => r.required(),
     }),
-    refs('related', 'Sorodni članki', ['article'], {
+    refs('related', 'Sorodni nasveti', ['article'], {
       group: 'meta',
       optional: true,
-      description: 'Do 3. Če je prazno, se samodejno izberejo članki iz iste kategorije.',
+      description: 'Do 3. Če je prazno, se samodejno izberejo nasveti iz iste kategorije.',
     }),
     seoField(),
   ],

@@ -5,7 +5,7 @@ import { defineField, defineType } from 'sanity';
 const kindTitles: Record<(typeof linkKind.options)[number], string> = {
   page: 'Stran',
   program: 'Program',
-  article: 'Članek',
+  article: 'Nasvet',
   external: 'Zunanja povezava',
   booking: 'Odpri obrazec za brezplačen posvet',
   cookieSettings: 'Odpri nastavitve piškotkov',
@@ -68,7 +68,7 @@ export const linkFields = [
   }),
   defineField({
     name: 'article',
-    title: 'Članek',
+    title: 'Nasvet',
     type: 'reference',
     to: [{ type: 'article' }],
     hidden: ({ parent }) => parent?.kind !== 'article',

@@ -7,39 +7,39 @@ export const articlesPage = defineType({
   title: 'Nasveti',
   type: 'document',
   icon: DocumentsIcon,
-  groups: groups(['list', 'Seznam'], ['article', 'Članek'], ['seo', 'SEO']),
+  groups: groups(['list', 'Seznam'], ['article', 'Stran nasveta'], ['seo', 'SEO']),
   fields: [
     defineField({
       name: 'enabled',
-      title: 'Nasveti so vklopljeni',
+      title: 'Prikaži nasvete na strani',
       type: 'boolean',
       initialValue: false,
       group: 'list',
       description:
-        'Ko je izklopljeno, strani z nasveti in članki ne obstajajo (404), povezave nanje pa izginejo iz menija, noge, zemljevida strani in llms.txt.',
+        'Ko je izklopljeno, strani z nasveti ne obstajajo (404), povezave nanje pa izginejo iz menija, noge, zemljevida strani in llms.txt.',
     }),
     section('hero', 'Uvod', [str('eyebrow', 'Nadnaslov'), str('heading', 'Naslov'), txt('lead', 'Uvod')], {
       group: 'list',
     }),
     section(
       'list',
-      'Seznam člankov',
+      'Seznam nasvetov',
       [
         str('allLabel', 'Filter »vse«'),
-        str('featuredLabel', 'Oznaka izpostavljenega članka'),
+        str('featuredLabel', 'Oznaka izpostavljenega nasveta'),
         str('readingTime', 'Čas branja', { description: 'Npr. »min branja«' }),
         str('readingTimeShort', 'Čas branja – kratko', {
           description: 'Npr. »min«',
         }),
-        str('loadMore', 'Gumb za več člankov'),
-        str('emptyText', 'Ni člankov'),
+        str('loadMore', 'Gumb za več nasvetov'),
+        str('emptyText', 'Ni nasvetov'),
         str('emptyCta', 'Gumb pri praznem seznamu'),
       ],
       { group: 'list' }
     ),
     section(
       'article',
-      'Stran članka',
+      'Stran nasveta',
       [
         str('tocLabel', 'Kazalo'),
         str('shareLabel', 'Deli'),
@@ -48,7 +48,7 @@ export const articlesPage = defineType({
         str('authorLabel', 'Avtor'),
         str('authorLink', 'Povezava na O meni'),
         str('updatedLabel', 'Posodobljeno'),
-        str('relatedHeading', 'Sorodni članki – naslov'),
+        str('relatedHeading', 'Sorodni nasveti – naslov'),
         str('allArticles', 'Povezava na vse nasvete'),
       ],
       { group: 'article' }
