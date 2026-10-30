@@ -5,7 +5,7 @@ description: Add or change CMS-editable content in Build 2 Play end to end (Stud
 
 # Adding CMS content end to end
 
-Everything visible on the site comes from Sanity. A change is not done until **all** of these steps are complete.
+Page copy comes from Sanity (fixed UI wording such as form labels or the cookie banner lives in code; see CLAUDE.md). A change is not done until **all** of these steps are complete.
 
 1. **Studio schema** (`apps/studio/schema-types/`)
    - Use the helpers in `schema-types/fields.ts` (`str`, `txt`, `list`, `typed`, `section`...). Fields are **required by default**; pass `{ optional: true }` only if the UI can hide the element when it is empty.
@@ -22,4 +22,4 @@ Everything visible on the site comes from Sanity. A change is not done until **a
 5. **Seed** (`apps/studio/scripts/seed-*.ts`)
    - Add the design copy, keeping `[placeholders]` as they are.
    - Run `pnpm --filter @b2p/studio seed -- --only=<docId>`, then `pnpm --filter @b2p/studio exec sanity documents validate -y`.
-6. **SEO**: if the change adds a route, add it to `app/sitemap.ts` and `app/llms.txt/route.ts`.
+6. **SEO**: if the change adds a route, add it to `app/sitemap.ts` and `lib/llms/build.ts`.

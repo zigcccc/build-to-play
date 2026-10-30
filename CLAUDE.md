@@ -41,7 +41,8 @@ Rules:
 - The Sanity webhook POSTs `{_type}` to `/api/revalidate-tag`, which calls `revalidateTag(_type, "max")`.
 - In draft mode (Presentation tool), fetches use `perspective: "drafts"`, stega, and no cache. Metadata fetches pass `stega: false`.
 - Fields required in the Studio must be non-optional in Zod. Optional Studio fields must be `.nullish()` / `.optional()` in Zod.
-- **Everything visible comes from the CMS.** The only hard-coded strings are aria-labels, the day and part-of-day enums, and the © year. CMS strings may contain `{rok} {trajanje} {interval} {email} {telefon} {ime} {obmocje}`, which `sanityFetch` fills from `siteSettings`. Component-level placeholders (`{poslano}`, `{n}`) go through the same `interpolate()` / `interpolateNodes()` in `lib/interpolate.tsx`.
+- **Page copy comes from the CMS; the wording of how the site works lives in code.** The CMS holds what the trainer would change: page sections, programs, prices, FAQs, articles, settings, and the options visitors pick (contact subjects, booking goals). Fixed UI wording stays in code: form labels, errors and states (`components/forms/copy.tsx`), the cookie banner (`components/consent/copy.ts`), llms.txt headings, aria-labels, the day and part-of-day enums, and the © year. Before adding a CMS field, ask whether a non-technical editor would ever change it. Never make an editor type a placeholder that a component fills in.
+- CMS strings may contain `{rok} {trajanje} {interval} {email} {telefon} {ime} {obmocje}`, which `sanityFetch` fills from `siteSettings`. Code-side wording gets the same values through plain template strings (see `formVars()`).
 - `sanityFetch`'s `stega` flag means "visible copy": stega in draft mode, and "Build 2 Play" kept on one line with non-breaking spaces. Machine-read output (metadata, OG, llms, e-mails, sitemap) fetches with `stega: false` and gets plain text. Page JSON-LD, built from visible copy, is cleaned in `<JsonLd>`.
 - Singletons use the Studio's `document.singletons` registry. The document ID equals the type name.
 - Inquiries (form submissions) are written by server actions with the write token. Never render them or cache them.
@@ -61,7 +62,7 @@ Rules:
   - `buildMetadata()` (canonical, OG, `sl_SI`).
   - JSON-LD via `lib/json-ld.ts`: a single `@graph` that references `/#business` and `/#trainer`, plus a BreadcrumbList.
   - One H1 and semantic HTML.
-  - New routes must be added to `sitemap.ts` and `llms.txt`.
+  - New routes must be added to `sitemap.ts` and `lib/llms/build.ts`.
 - **Code style:** Biome with 2 spaces, single quotes and 120 columns. Project skills live in `.claude/skills/`: `cms-field-end-to-end`, `verify-against-design` and `sanity-seed`.
 - **Env** is parsed with Zod in `src/env/{server,client}.ts`. Never read `process.env` elsewhere. A new variable must also be listed under `env` in `turbo.json`: Vercel builds through Turborepo, which hides unlisted variables from the build (the runtime still sees them).
 - **Where we deliberately differ from the handoff:** Base UI instead of shadcn, and a standalone Studio (not embedded at `/studio`).
